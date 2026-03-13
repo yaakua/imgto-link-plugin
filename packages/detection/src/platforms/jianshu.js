@@ -6,7 +6,7 @@ import { convertAvatarToBase64 } from '../utils.js'
  */
 export async function detectJianshuUser() {
     try {
-        console.log('[COSE] Jianshu Detection: Starting')
+        console.log('[Imgto.link Publisher] Jianshu Detection: Starting')
         const response = await fetch('https://www.jianshu.com/settings/basic.json', {
             method: 'GET',
             credentials: 'include',
@@ -27,7 +27,7 @@ export async function detectJianshuUser() {
 
         return { loggedIn: true, username, avatar }
     } catch (e) {
-        console.error('[COSE] Jianshu Detection Error:', e)
+        console.error('[Imgto.link Publisher] Jianshu Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

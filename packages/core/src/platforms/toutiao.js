@@ -48,9 +48,9 @@ function fillToutiaoContentInPage(title, body) {
       titleInput.dispatchEvent(new InputEvent('input', { bubbles: true, data: title, inputType: 'insertText' }))
       titleInput.dispatchEvent(new Event('change', { bubbles: true }))
       titleInput.dispatchEvent(new Event('blur', { bubbles: true }))
-      console.log('[COSE] 头条标题填充成功:', title)
+      console.log('[Imgto.link Publisher] 头条标题填充成功:', title)
     } else {
-      console.log('[COSE] 头条未找到标题输入框')
+      console.log('[Imgto.link Publisher] 头条未找到标题输入框')
     }
 
     // 等待编辑器加载
@@ -89,10 +89,10 @@ function fillToutiaoContentInPage(title, body) {
       editor.dispatchEvent(new InputEvent('input', { bubbles: true }))
       editor.dispatchEvent(new Event('change', { bubbles: true }))
 
-      console.log('[COSE] 头条内容填充成功')
+      console.log('[Imgto.link Publisher] 头条内容填充成功')
       return { success: true }
     } else {
-      console.log('[COSE] 头条未找到编辑器')
+      console.log('[Imgto.link Publisher] 头条未找到编辑器')
       return { success: false, error: '未找到编辑器' }
     }
   }

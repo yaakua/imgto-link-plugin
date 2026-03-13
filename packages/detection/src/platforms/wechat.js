@@ -17,7 +17,7 @@ export async function detectWechatUser() {
             const maxAge = 1 * 60 * 60 * 1000 // 1 hour
 
             if (cacheAge < maxAge) {
-                console.log(`[COSE] wechat 从缓存读取:`, cachedUser.username)
+                console.log(`[Imgto.link Publisher] wechat 从缓存读取:`, cachedUser.username)
                 return {
                     loggedIn: true,
                     username: cachedUser.username || '',
@@ -59,7 +59,7 @@ export async function detectWechatUser() {
                     }
                 }
             } catch (e) {
-                console.log(`[COSE] wechat 页面脚本执行失败:`, e.message)
+                console.log(`[Imgto.link Publisher] wechat 页面脚本执行失败:`, e.message)
             }
         }
 
@@ -93,12 +93,12 @@ export async function detectWechatUser() {
                 return { loggedIn: true, username, avatar }
             }
         } catch (e) {
-            console.log(`[COSE] wechat fetch 失败:`, e.message)
+            console.log(`[Imgto.link Publisher] wechat fetch 失败:`, e.message)
         }
 
         return { loggedIn: false }
     } catch (e) {
-        console.log(`[COSE] wechat 检测失败:`, e.message)
+        console.log(`[Imgto.link Publisher] wechat 检测失败:`, e.message)
         return { loggedIn: false }
     }
 }

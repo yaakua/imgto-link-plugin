@@ -28,4 +28,4 @@
 ## Before submitting
 - Verify manifest permissions and host matches
 - Verify screenshots reflect the current UI and branding
-- Verify README / privacy policy do not mention the old COSE brand in user-facing headings
+- Verify README / privacy policy do not mention any retired pre-release brand in user-facing headings

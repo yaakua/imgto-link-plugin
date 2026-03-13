@@ -7,7 +7,7 @@ import { convertAvatarToBase64 } from '../utils.js'
  */
 export async function detectSegmentFaultUser() {
     try {
-        console.log('[COSE] SegmentFault Detection: Starting')
+        console.log('[Imgto.link Publisher] SegmentFault Detection: Starting')
         const response = await fetch('https://segmentfault.com/', {
             method: 'GET',
             credentials: 'include',
@@ -18,7 +18,7 @@ export async function detectSegmentFaultUser() {
         // Extract __NEXT_DATA__ JSON
         const nextDataMatch = html.match(/<script\s+id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/)
         if (!nextDataMatch) {
-            console.log('[COSE] SegmentFault: No __NEXT_DATA__ found')
+            console.log('[Imgto.link Publisher] SegmentFault: No __NEXT_DATA__ found')
             return { loggedIn: false }
         }
 
@@ -27,7 +27,7 @@ export async function detectSegmentFaultUser() {
         const sessionInfo = nextData?.props?.pageProps?.initialState?.global?.sessionInfo
 
         if (!sessionUser?.user?.id && !sessionInfo?.login) {
-            console.log('[COSE] SegmentFault: Not logged in')
+            console.log('[Imgto.link Publisher] SegmentFault: Not logged in')
             return { loggedIn: false }
         }
 
@@ -41,7 +41,7 @@ export async function detectSegmentFaultUser() {
 
         return { loggedIn: true, username, avatar }
     } catch (e) {
-        console.error('[COSE] SegmentFault Detection Error:', e)
+        console.error('[Imgto.link Publisher] SegmentFault Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

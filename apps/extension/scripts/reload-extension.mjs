@@ -35,7 +35,7 @@ async function reloadExtension() {
 
         await new Promise((resolve) => {
             ws.on('open', () => {
-                // 在 extensions 页面中找到 COSE 扩展并点击刷新按钮
+                // 在 extensions 页面中找到 Imgto.link Publisher 扩展并点击刷新按钮
                 ws.send(JSON.stringify({
                     id: 1,
                     method: 'Runtime.evaluate',
@@ -55,7 +55,7 @@ async function reloadExtension() {
                 
                 for (const item of items) {
                   const name = item.shadowRoot.querySelector('#name')?.textContent || '';
-                  if (name.includes('COSE') || name.includes('多平台')) {
+                  if (name.includes('Imgto.link Publisher') || name.includes('多平台')) {
                     // 找到刷新按钮并点击
                     const reloadBtn = item.shadowRoot.querySelector('#dev-reload-button');
                     if (reloadBtn) {
@@ -82,7 +82,7 @@ async function reloadExtension() {
                     } else if (result === 'no-reload-btn') {
                         console.log(`[reload ${ts()}] ⚠ 未找到刷新按钮，请开启 Developer mode`)
                     } else if (result === 'not-found') {
-                        console.log(`[reload ${ts()}] ⚠ 未找到 COSE 扩展`)
+                        console.log(`[reload ${ts()}] ⚠ 未找到 Imgto.link Publisher 扩展`)
                     } else {
                         console.log(`[reload ${ts()}] ⚠ 刷新失败:`, result)
                     }

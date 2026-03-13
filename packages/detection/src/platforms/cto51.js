@@ -7,7 +7,7 @@ import { convertAvatarToBase64 } from '../utils.js'
  */
 export async function detectCTO51User() {
     try {
-        console.log('[COSE] 51CTO Detection: Starting (offscreen)')
+        console.log('[Imgto.link Publisher] 51CTO Detection: Starting (offscreen)')
 
         if (typeof globalThis.__coseDetectCto51 === 'function') {
             const result = await globalThis.__coseDetectCto51()
@@ -16,20 +16,20 @@ export async function detectCTO51User() {
                 if (avatar && avatar.startsWith('http') && avatar.includes('51cto.com')) {
                     avatar = await convertAvatarToBase64(avatar, 'https://home.51cto.com/')
                 }
-                console.log('[COSE] 51CTO: Logged in:', result.username)
+                console.log('[Imgto.link Publisher] 51CTO: Logged in:', result.username)
                 return { loggedIn: true, username: result.username || '', avatar }
             }
             // Pass through debug info if present
             if (result && result._debug) {
-                console.log('[COSE] 51CTO: Not logged in, debug:', JSON.stringify(result._debug))
+                console.log('[Imgto.link Publisher] 51CTO: Not logged in, debug:', JSON.stringify(result._debug))
                 return { loggedIn: false, _debug: result._debug }
             }
         }
 
-        console.log('[COSE] 51CTO: Not logged in')
+        console.log('[Imgto.link Publisher] 51CTO: Not logged in')
         return { loggedIn: false }
     } catch (e) {
-        console.error('[COSE] 51CTO Detection Error:', e)
+        console.error('[Imgto.link Publisher] 51CTO Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

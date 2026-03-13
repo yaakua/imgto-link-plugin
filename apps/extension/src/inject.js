@@ -58,7 +58,7 @@
         if (error) {
           // 检查是否是扩展上下文失效的错误
           if (error.includes && error.includes('Extension context invalidated')) {
-            console.warn('[COSE] 扩展已重新加载，请刷新页面')
+            console.warn('[Imgto.link Publisher] 扩展已重新加载，请刷新页面')
             pending.reject(new Error('扩展已重新加载，请刷新页面'))
           } else {
             pending.reject(new Error(error))
@@ -67,7 +67,7 @@
           pending.resolve(result)
         }
       } catch (e) {
-        console.warn('[COSE] 扩展上下文已失效，请刷新页面')
+        console.warn('[Imgto.link Publisher] 扩展上下文已失效，请刷新页面')
         pending.reject(new Error('扩展上下文已失效，请刷新页面'))
       }
     }
@@ -209,7 +209,7 @@
       // 发送渐进式检测请求
       sendMessage('CHECK_PLATFORM_STATUS_PROGRESSIVE', { platforms: PLATFORMS })
         .catch(error => {
-          console.error('[COSE] 渐进式检测启动失败:', error)
+          console.error('[Imgto.link Publisher] 渐进式检测启动失败:', error)
           // 如果启动失败，调用完成回调
           if (typeof onComplete === 'function') {
             onComplete()
@@ -273,12 +273,12 @@
                 if (item.types.includes('text/html')) {
                   const blob = await item.getType('text/html')
                   clipboardHtmlContent = await blob.text()
-                  console.log('[COSE] 已读取剪贴板 HTML 内容，长度:', clipboardHtmlContent.length)
+                  console.log('[Imgto.link Publisher] 已读取剪贴板 HTML 内容，长度:', clipboardHtmlContent.length)
                   break
                 }
               }
             } catch (e) {
-              console.log('[COSE] 读取剪贴板失败:', e.message)
+              console.log('[Imgto.link Publisher] 读取剪贴板失败:', e.message)
             }
           }
         }
@@ -328,17 +328,11 @@
   }
 
   window.$imgtoLinkPublisher = publisherBridge
-  window.$cose = publisherBridge
 
   // 通知页面插件已加载
   console.log('[Imgto.link Publisher] Bridge loaded')
   window.dispatchEvent(
     new CustomEvent('imgtolink-publisher-ready', {
-      detail: { version: BRIDGE_VERSION },
-    })
-  )
-  window.dispatchEvent(
-    new CustomEvent('cose-ready', {
       detail: { version: BRIDGE_VERSION },
     })
   )

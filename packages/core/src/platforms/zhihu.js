@@ -54,7 +54,7 @@ function fillZhihuContent(title, markdown) {
         }
         titleInput.dispatchEvent(new Event('input', { bubbles: true }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[COSE] 知乎标题填充成功')
+        console.log('[Imgto.link Publisher] 知乎标题填充成功')
       }
     }
 
@@ -65,7 +65,7 @@ function fillZhihuContent(title, markdown) {
 
     if (importBtn) {
       importBtn.click()
-      console.log('[COSE] 已点击导入按钮')
+      console.log('[Imgto.link Publisher] 已点击导入按钮')
 
       // 等待子菜单中的"导入文档"按钮出现（使用 MutationObserver）
       const importDocBtn = await waitForElement(() => 
@@ -75,7 +75,7 @@ function fillZhihuContent(title, markdown) {
 
       if (importDocBtn) {
         importDocBtn.click()
-        console.log('[COSE] 已点击导入文档按钮')
+        console.log('[Imgto.link Publisher] 已点击导入文档按钮')
 
         // 等待文件输入框出现（使用 MutationObserver）
         const fileInput = await window.waitFor('input[type="file"][accept*=".md"]')
@@ -93,7 +93,7 @@ function fillZhihuContent(title, markdown) {
           // 触发 input 和 change 事件
           fileInput.dispatchEvent(new Event('input', { bubbles: true }))
           fileInput.dispatchEvent(new Event('change', { bubbles: true }))
-          console.log('[COSE] 已上传 md 文件:', fileName)
+          console.log('[Imgto.link Publisher] 已上传 md 文件:', fileName)
 
           // 同时触发拖放事件作为备用方案
           const dropZone = document.querySelector('[class*="Modal"]') || document.body
@@ -103,7 +103,7 @@ function fillZhihuContent(title, markdown) {
             dataTransfer: dt
           })
           dropZone.dispatchEvent(dropEvent)
-          console.log('[COSE] 已触发拖放事件')
+          console.log('[Imgto.link Publisher] 已触发拖放事件')
 
           // 等待导入完成（监听编辑器 DOM 稳定后再填充标题）
           // 导入过程会产生多次 DOM 变更并清空标题，需等所有变更结束
@@ -122,15 +122,15 @@ function fillZhihuContent(title, markdown) {
 
           return { success: true, method: 'import-document' }
         } else {
-          console.log('[COSE] 未找到文件输入框')
+          console.log('[Imgto.link Publisher] 未找到文件输入框')
           return { success: false, error: 'File input not found' }
         }
       } else {
-        console.log('[COSE] 未找到导入文档按钮')
+        console.log('[Imgto.link Publisher] 未找到导入文档按钮')
         return { success: false, error: 'Import document button not found' }
       }
     } else {
-      console.log('[COSE] 未找到导入按钮')
+      console.log('[Imgto.link Publisher] 未找到导入按钮')
       return { success: false, error: 'Import button not found' }
     }
   }

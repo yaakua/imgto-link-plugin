@@ -59,9 +59,9 @@
   ],
   "action": {
     "default_icon": {
-      "16": "icons/cose_16.png",
-      "48": "icons/cose_48.png",
-      "128": "icons/cose_128.png"
+      "16": "icons/imgtolink_publisher_16.png",
+      "48": "icons/imgtolink_publisher_48.png",
+      "128": "icons/imgtolink_publisher_128.png"
     },
     "default_title": "Imgto.link Publisher"
   },
@@ -89,9 +89,9 @@
     }
   ],
   "icons": {
-    "16": "icons/cose_16.png",
-    "48": "icons/cose_48.png",
-    "128": "icons/cose_128.png"
+    "16": "icons/imgtolink_publisher_16.png",
+    "48": "icons/imgtolink_publisher_48.png",
+    "128": "icons/imgtolink_publisher_128.png"
   },
   "web_accessible_resources": [
     {

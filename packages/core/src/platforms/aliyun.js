@@ -13,7 +13,7 @@ const AliyunPlatform = {
 async function fillAliyunContent(content) {
   const { title, markdown } = content
   
-  console.log('[COSE] 阿里云开发者社区：开始填充内容')
+  console.log('[Imgto.link Publisher] 阿里云开发者社区：开始填充内容')
   
   // 等待页面加载
   await new Promise(resolve => setTimeout(resolve, 2000))
@@ -25,7 +25,7 @@ async function fillAliyunContent(content) {
     titleInput.value = title
     titleInput.dispatchEvent(new Event('input', { bubbles: true }))
     titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-    console.log('[COSE] 阿里云开发者社区：标题已填充')
+    console.log('[Imgto.link Publisher] 阿里云开发者社区：标题已填充')
   }
   
   // 等待一下再填充正文
@@ -42,10 +42,10 @@ async function fillAliyunContent(content) {
     contentTextarea.value = markdown
     contentTextarea.dispatchEvent(new Event('input', { bubbles: true }))
     contentTextarea.dispatchEvent(new Event('change', { bubbles: true }))
-    console.log('[COSE] 阿里云开发者社区：正文已填充')
+    console.log('[Imgto.link Publisher] 阿里云开发者社区：正文已填充')
   }
   
-  console.log('[COSE] 阿里云开发者社区：内容填充完成')
+  console.log('[Imgto.link Publisher] 阿里云开发者社区：内容填充完成')
 }
 
 // 导出

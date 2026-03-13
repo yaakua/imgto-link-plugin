@@ -56,7 +56,7 @@ const PLATFORM_DETECTORS = {
 }
 
 export async function detectUser(platformId) {
-    console.log(`[COSE] Detection: Checking ${platformId}`)
+    console.log(`[Imgto.link Publisher] Detection: Checking ${platformId}`)
 
     // 1. Platform-specific Detectors
     if (PLATFORM_DETECTORS[platformId]) {

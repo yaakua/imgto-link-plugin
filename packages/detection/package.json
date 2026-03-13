@@ -1,7 +1,7 @@
 {
     "name": "@cose/detection",
     "version": "1.0.0",
-    "description": "Platform login detection for COSE",
+    "description": "Platform login detection for Imgto.link Publisher",
     "main": "index.js",
     "type": "module",
     "exports": {

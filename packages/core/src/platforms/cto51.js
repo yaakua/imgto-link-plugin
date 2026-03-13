@@ -20,7 +20,7 @@ async function fillCTO51Content(content, waitFor, setInputValue) {
     const titleInput = await waitFor('#title, input[placeholder*="标题"]')
     if (titleInput) {
         setInputValue(titleInput, title)
-        console.log('[COSE] 51CTO 标题填充成功')
+        console.log('[Imgto.link Publisher] 51CTO 标题填充成功')
     }
 
     // 2. 等待编辑器加载
@@ -47,22 +47,22 @@ async function fillCTO51Content(content, waitFor, setInputValue) {
         if (window.editor) {
             try {
                 window.editor.setMarkdown(contentToFill)
-                console.log('[COSE] 51CTO 通过 window.editor 设置成功')
+                console.log('[Imgto.link Publisher] 51CTO 通过 window.editor 设置成功')
                 return
             } catch (e) {
-                console.log('[COSE] 51CTO window.editor 调用失败', e)
+                console.log('[Imgto.link Publisher] 51CTO window.editor 调用失败', e)
             }
         }
 
-        console.log('[COSE] 51CTO textarea 填充尝试完成')
+        console.log('[Imgto.link Publisher] 51CTO textarea 填充尝试完成')
     } else {
-        console.log('[COSE] 51CTO 未找到编辑器元素，尝试降级 contenteditable')
+        console.log('[Imgto.link Publisher] 51CTO 未找到编辑器元素，尝试降级 contenteditable')
 
         // 可能是富文本模式的 contenteditable
         const contentEditable = document.querySelector('[contenteditable="true"]')
         if (contentEditable) {
             contentEditable.innerHTML = contentToFill.replace(/\n/g, '<br>')
-            console.log('[COSE] 51CTO contenteditable 填充成功')
+            console.log('[Imgto.link Publisher] 51CTO contenteditable 填充成功')
         }
     }
 }

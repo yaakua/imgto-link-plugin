@@ -7,7 +7,7 @@ import { convertAvatarToBase64 } from '../utils.js'
  */
 export async function detectCnblogsUser() {
     try {
-        console.log('[COSE] Cnblogs Detection: Starting (offscreen)')
+        console.log('[Imgto.link Publisher] Cnblogs Detection: Starting (offscreen)')
 
         if (typeof globalThis.__coseDetectCnblogs === 'function') {
             const result = await globalThis.__coseDetectCnblogs()
@@ -16,15 +16,15 @@ export async function detectCnblogsUser() {
                 if (avatar && avatar.includes('cnblogs.com')) {
                     avatar = await convertAvatarToBase64(avatar, 'https://www.cnblogs.com/')
                 }
-                console.log('[COSE] Cnblogs: Logged in:', result.username)
+                console.log('[Imgto.link Publisher] Cnblogs: Logged in:', result.username)
                 return { loggedIn: true, username: result.username || '', avatar }
             }
         }
 
-        console.log('[COSE] Cnblogs: Not logged in')
+        console.log('[Imgto.link Publisher] Cnblogs: Not logged in')
         return { loggedIn: false }
     } catch (e) {
-        console.error('[COSE] Cnblogs Detection Error:', e)
+        console.error('[Imgto.link Publisher] Cnblogs Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

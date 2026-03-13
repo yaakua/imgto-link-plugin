@@ -39,7 +39,7 @@ function fillWechatContent(title, htmlBody) {
         }
         titleInput.dispatchEvent(new Event('input', { bubbles: true }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[COSE] 微信标题已填充:', title)
+        console.log('[Imgto.link Publisher] 微信标题已填充:', title)
       }
 
       // 稍等一下让标题生效
@@ -66,7 +66,7 @@ function fillWechatContent(title, htmlBody) {
         })
 
         editor.dispatchEvent(pasteEvent)
-        console.log('[COSE] 微信内容已通过 paste 事件注入')
+        console.log('[Imgto.link Publisher] 微信内容已通过 paste 事件注入')
 
         // 等待内容渲染
         await new Promise(r => setTimeout(r, 500))
@@ -75,7 +75,7 @@ function fillWechatContent(title, htmlBody) {
         const wordCount = editor.textContent?.length || 0
         if (wordCount === 0) {
           // 备用方案：直接设置 innerHTML
-          console.log('[COSE] paste 事件未生效，尝试备用方案')
+          console.log('[Imgto.link Publisher] paste 事件未生效，尝试备用方案')
           editor.innerHTML = htmlBody
           editor.dispatchEvent(new Event('input', { bubbles: true }))
         }
@@ -102,7 +102,7 @@ function saveWechatDraft() {
     .find(b => b.textContent.includes('保存为草稿'))
   if (saveDraftBtn) {
     saveDraftBtn.click()
-    console.log('[COSE] 已点击保存为草稿')
+    console.log('[Imgto.link Publisher] 已点击保存为草稿')
     return { success: true }
   }
   return { success: false, error: '未找到保存按钮' }
@@ -119,14 +119,14 @@ async function syncWechatContent(tab, content, helpers) {
   const { chrome, waitForTab } = helpers
 
   // 步骤1：等待首页加载完成
-  console.log('[COSE] 微信公众号等待页面加载')
+  console.log('[Imgto.link Publisher] 微信公众号等待页面加载')
   await waitForTab(tab.id)
   
   // 注入公共工具函数（waitFor, setInputValue）
   await injectUtils(chrome, tab.id)
   
   // 步骤2：使用 MutationObserver 监听获取 token
-  console.log('[COSE] 开始检测 token...')
+  console.log('[Imgto.link Publisher] 开始检测 token...')
   const [tokenResult] = await chrome.scripting.executeScript({
     target: { tabId: tab.id },
     func: () => {
@@ -177,23 +177,23 @@ async function syncWechatContent(tab, content, helpers) {
   const token = tokenResult?.result
   
   if (!token) {
-    console.error('[COSE] 无法从页面获取 token')
+    console.error('[Imgto.link Publisher] 无法从页面获取 token')
     return { success: false, message: '无法获取微信公众号 token，请确保已登录', tabId: tab.id }
   }
   
   // 步骤3：跳转到编辑器页面
   const editorUrl = `https://mp.weixin.qq.com/cgi-bin/appmsg?t=media/appmsg_edit_v2&action=edit&isNew=1&type=10&token=${token}&lang=zh_CN`
-  console.log('[COSE] 获取到 token:', token, '跳转到编辑器')
+  console.log('[Imgto.link Publisher] 获取到 token:', token, '跳转到编辑器')
   
   await chrome.tabs.update(tab.id, { url: editorUrl })
   await waitForTab(tab.id)
   
   // 使用剪贴板 HTML（带完整样式）或降级到 body
   const htmlContent = content.wechatHtml || content.body
-  console.log('[COSE] 微信 HTML 内容长度:', htmlContent?.length || 0)
+  console.log('[Imgto.link Publisher] 微信 HTML 内容长度:', htmlContent?.length || 0)
 
   // 步骤4：使用 MutationObserver 监听编辑器出现
-  console.log('[COSE] 正在等待编辑器...')
+  console.log('[Imgto.link Publisher] 正在等待编辑器...')
   const [editorResult] = await chrome.scripting.executeScript({
     target: { tabId: tab.id },
     func: () => {
@@ -219,11 +219,11 @@ async function syncWechatContent(tab, content, helpers) {
   })
 
   if (!editorResult?.result) {
-    console.error('[COSE] 编辑器等待超时')
+    console.error('[Imgto.link Publisher] 编辑器等待超时')
     return { success: false, message: '编辑器加载超时', tabId: tab.id }
   }
 
-  console.log('[COSE] 编辑器已就绪，开始注入内容...')
+  console.log('[Imgto.link Publisher] 编辑器已就绪，开始注入内容...')
   
   // 页面跳转后需要重新注入工具函数（waitFor, setInputValue）
   await injectUtils(chrome, tab.id)
@@ -238,19 +238,19 @@ async function syncWechatContent(tab, content, helpers) {
       world: 'MAIN',
     })
   } catch (e) {
-    console.error('[COSE] executeScript 执行失败:', e)
+    console.error('[Imgto.link Publisher] executeScript 执行失败:', e)
     return { success: false, message: '脚本执行失败: ' + e.message, tabId: tab.id }
   }
 
   const fillResult = result?.[0]?.result
-  console.log('[COSE] 微信填充结果:', JSON.stringify(fillResult, null, 2))
+  console.log('[Imgto.link Publisher] 微信填充结果:', JSON.stringify(fillResult, null, 2))
   
   if (!fillResult?.success) {
-    console.error('[COSE] 微信内容填充失败:', fillResult?.error)
+    console.error('[Imgto.link Publisher] 微信内容填充失败:', fillResult?.error)
     return { success: false, message: fillResult?.error || '内容填充失败', tabId: tab.id }
   }
 
-  console.log('[COSE] 微信内容填充成功，字数:', fillResult.wordCount)
+  console.log('[Imgto.link Publisher] 微信内容填充成功，字数:', fillResult.wordCount)
 
   // 步骤6：等待内容稳定后，点击保存为草稿按钮
   await new Promise(resolve => setTimeout(resolve, 500))

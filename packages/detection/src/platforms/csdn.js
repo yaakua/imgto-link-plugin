@@ -9,17 +9,17 @@ import { convertAvatarToBase64 } from '../utils.js'
  */
 export async function detectCSDNUser() {
     try {
-        console.log('[COSE] CSDN Detection: Starting cookie check')
+        console.log('[Imgto.link Publisher] CSDN Detection: Starting cookie check')
         const userNameCookie = await chrome.cookies.get({ url: 'https://www.csdn.net', name: 'UserName' })
 
         if (userNameCookie && userNameCookie.value) {
             const userId = userNameCookie.value
-            console.log(`[COSE] CSDN UserName cookie found: ${userId}`)
+            console.log(`[Imgto.link Publisher] CSDN UserName cookie found: ${userId}`)
 
             // UserNick cookie contains the display name (e.g. 'xxxxxx')
             const userNickCookie = await chrome.cookies.get({ url: 'https://www.csdn.net', name: 'UserNick' })
             const username = (userNickCookie && userNickCookie.value) ? decodeURIComponent(userNickCookie.value) : userId
-            console.log(`[COSE] CSDN display name: ${username}`)
+            console.log(`[Imgto.link Publisher] CSDN display name: ${username}`)
 
             let avatar = ''
             try {
@@ -36,7 +36,7 @@ export async function detectCSDNUser() {
                     avatar = avatarMatch[1]
                 }
             } catch (e) {
-                console.warn('[COSE] CSDN Avatar fetch failed:', e)
+                console.warn('[Imgto.link Publisher] CSDN Avatar fetch failed:', e)
             }
 
             // Convert csdnimg.cn avatar to base64 data URL to bypass CORS/ORB
@@ -51,10 +51,10 @@ export async function detectCSDNUser() {
             }
         }
 
-        console.log('[COSE] CSDN: No login detected')
+        console.log('[Imgto.link Publisher] CSDN: No login detected')
         return { loggedIn: false }
     } catch (e) {
-        console.error('[COSE] CSDN Detection Error:', e)
+        console.error('[Imgto.link Publisher] CSDN Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

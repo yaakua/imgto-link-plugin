@@ -40,17 +40,17 @@ function fillCSDNContent(title, markdown, body) {
       editor.textContent = contentToFill
       // 触发 input 事件让编辑器识别变化
       editor.dispatchEvent(new Event('input', { bubbles: true }))
-      console.log('[COSE] CSDN contenteditable 填充成功')
+      console.log('[Imgto.link Publisher] CSDN contenteditable 填充成功')
       return { success: true, method: 'contenteditable' }
     } else {
       // 降级尝试其他方式
       const cmElement = document.querySelector('.CodeMirror')
       if (cmElement && cmElement.CodeMirror) {
         cmElement.CodeMirror.setValue(contentToFill)
-        console.log('[COSE] CSDN CodeMirror 填充成功')
+        console.log('[Imgto.link Publisher] CSDN CodeMirror 填充成功')
         return { success: true, method: 'CodeMirror' }
       } else {
-        console.log('[COSE] CSDN 未找到编辑器元素')
+        console.log('[Imgto.link Publisher] CSDN 未找到编辑器元素')
         return { success: false, error: 'Editor not found' }
       }
     }

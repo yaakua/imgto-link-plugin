@@ -20,7 +20,7 @@ async function fillInfoQContent(content, waitFor, setInputValue) {
     const titleInput = await waitFor('input[placeholder*="标题"], .title-input input, input.article-title')
     if (titleInput) {
         setInputValue(titleInput, title)
-        console.log('[COSE] InfoQ 标题填充成功')
+        console.log('[Imgto.link Publisher] InfoQ 标题填充成功')
     }
 
     // 等待编辑器加载
@@ -33,10 +33,10 @@ async function fillInfoQContent(content, waitFor, setInputValue) {
         if (typeof vm.readMarkdown === 'function') {
             try {
                 vm.readMarkdown(contentToFill)
-                console.log('[COSE] InfoQ readMarkdown 填充成功')
+                console.log('[Imgto.link Publisher] InfoQ readMarkdown 填充成功')
                 return
             } catch (e) {
-                console.log('[COSE] InfoQ readMarkdown 失败:', e.message)
+                console.log('[Imgto.link Publisher] InfoQ readMarkdown 失败:', e.message)
             }
         }
     }
@@ -45,11 +45,11 @@ async function fillInfoQContent(content, waitFor, setInputValue) {
     const cmElement = document.querySelector('.CodeMirror')
     if (cmElement && cmElement.CodeMirror) {
         cmElement.CodeMirror.setValue(contentToFill)
-        console.log('[COSE] InfoQ CodeMirror 填充成功')
+        console.log('[Imgto.link Publisher] InfoQ CodeMirror 填充成功')
         return
     }
 
-    console.log('[COSE] InfoQ 未找到编辑器')
+    console.log('[Imgto.link Publisher] InfoQ 未找到编辑器')
 }
 
 // 导出

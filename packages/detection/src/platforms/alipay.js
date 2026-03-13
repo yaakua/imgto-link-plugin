@@ -17,14 +17,14 @@ export async function detectAlipayUser() {
             const maxAge = 1 * 60 * 60 * 1000 // 1 hour
 
             if (cacheAge < maxAge) {
-                console.log(`[COSE] alipayopen 从缓存读取用户信息:`, cachedUser.username)
+                console.log(`[Imgto.link Publisher] alipayopen 从缓存读取用户信息:`, cachedUser.username)
                 return {
                     loggedIn: true,
                     username: cachedUser.username || '',
                     avatar: cachedUser.avatar || ''
                 }
             } else {
-                console.log(`[COSE] alipayopen 缓存已过期`)
+                console.log(`[Imgto.link Publisher] alipayopen 缓存已过期`)
                 // 清除过期缓存
                 await chrome.storage.local.remove('alipayopen_user')
             }
@@ -61,7 +61,7 @@ export async function detectAlipayUser() {
                 })
 
                 const data = results?.[0]?.result
-                console.log(`[COSE] alipayopen API 数据:`, data)
+                console.log(`[Imgto.link Publisher] alipayopen API 数据:`, data)
 
                 if (data?.stat === 'ok' && data?.data?.isLoginUser === 1) {
                     const username = data.data.nickname || ''
@@ -77,18 +77,18 @@ export async function detectAlipayUser() {
                         }
                     })
 
-                    console.log(`[COSE] alipayopen 用户信息:`, username, avatar ? '有头像' : '无头像')
+                    console.log(`[Imgto.link Publisher] alipayopen 用户信息:`, username, avatar ? '有头像' : '无头像')
                     return { loggedIn: true, username, avatar }
                 }
             } catch (e) {
-                console.log(`[COSE] alipayopen 从页面获取用户信息失败:`, e.message)
+                console.log(`[Imgto.link Publisher] alipayopen 从页面获取用户信息失败:`, e.message)
             }
         }
 
-        console.log(`[COSE] alipayopen 未检测到登录状态`)
+        console.log(`[Imgto.link Publisher] alipayopen 未检测到登录状态`)
         return { loggedIn: false }
     } catch (e) {
-        console.log(`[COSE] alipayopen 检测失败:`, e.message)
+        console.log(`[Imgto.link Publisher] alipayopen 检测失败:`, e.message)
         return { loggedIn: false, error: e.message }
     }
 }

@@ -45,7 +45,7 @@ export async function detectWangyihaoUser() {
 
         return { loggedIn: true, username, avatar }
     } catch (e) {
-        console.error('[COSE] Wangyihao Detection Error:', e)
+        console.error('[Imgto.link Publisher] Wangyihao Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

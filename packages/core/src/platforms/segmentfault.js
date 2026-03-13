@@ -21,7 +21,7 @@ async function fillSegmentFaultContent(content, waitFor, setInputValue) {
     titleInput.value = title
     titleInput.dispatchEvent(new Event('input', { bubbles: true }))
     titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-    console.log('[COSE] 思否标题填充成功')
+    console.log('[Imgto.link Publisher] 思否标题填充成功')
   }
 
   // 等待编辑器加载
@@ -31,7 +31,7 @@ async function fillSegmentFaultContent(content, waitFor, setInputValue) {
   const cmElement = document.querySelector('.CodeMirror')
   if (cmElement && cmElement.CodeMirror) {
     cmElement.CodeMirror.setValue(contentToFill)
-    console.log('[COSE] 思否 CodeMirror 填充成功')
+    console.log('[Imgto.link Publisher] 思否 CodeMirror 填充成功')
   } else {
     // 降级到 textarea
     const textarea = document.querySelector('textarea')
@@ -39,9 +39,9 @@ async function fillSegmentFaultContent(content, waitFor, setInputValue) {
       textarea.focus()
       textarea.value = contentToFill
       textarea.dispatchEvent(new Event('input', { bubbles: true }))
-      console.log('[COSE] 思否 textarea 填充成功')
+      console.log('[Imgto.link Publisher] 思否 textarea 填充成功')
     } else {
-      console.log('[COSE] 思否 未找到编辑器')
+      console.log('[Imgto.link Publisher] 思否 未找到编辑器')
     }
   }
 }

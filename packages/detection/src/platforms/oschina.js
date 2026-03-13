@@ -49,7 +49,7 @@ export async function detectOSChinaUser() {
                 }
             }
         } catch (e) {
-            console.log('[COSE] OSChina: API fetch failed, using cookie-only detection')
+            console.log('[Imgto.link Publisher] OSChina: API fetch failed, using cookie-only detection')
         }
 
         if (avatar && (avatar.includes('oschina.net') || avatar.includes('oscimg'))) {
@@ -63,7 +63,7 @@ export async function detectOSChinaUser() {
 
         return { loggedIn: true, username, avatar, userId }
     } catch (e) {
-        console.error('[COSE] OSChina Detection Error:', e)
+        console.error('[Imgto.link Publisher] OSChina Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

@@ -21,7 +21,7 @@ export async function detectHuaweiDevUser() {
                 // 验证 cookie 是否仍然存在，防止用户已登出但缓存未过期的误判
                 const userCookie = await chrome.cookies.get({ url: 'https://developer.huawei.com', name: 'developer_userdata' })
                 if (userCookie && userCookie.value) {
-                    console.log('[COSE] HuaweiDev: using cached user info:', cachedUser.username)
+                    console.log('[Imgto.link Publisher] HuaweiDev: using cached user info:', cachedUser.username)
                     let avatar = cachedUser.avatar || ''
                     // 如果缓存中的头像还是原始 URL（旧缓存），转换为 base64 并更新缓存
                     if (avatar && avatar.startsWith('http')) {
@@ -31,7 +31,7 @@ export async function detectHuaweiDevUser() {
                     return { loggedIn: true, username: cachedUser.username, avatar }
                 }
                 // cookie 已失效，清除缓存
-                console.log('[COSE] HuaweiDev: cache exists but cookie gone, clearing cache')
+                console.log('[Imgto.link Publisher] HuaweiDev: cache exists but cookie gone, clearing cache')
                 await chrome.storage.local.remove('huaweidev_user')
             } else {
                 await chrome.storage.local.remove('huaweidev_user')
@@ -119,14 +119,14 @@ export async function detectHuaweiDevUser() {
                     return { loggedIn: true, username: userInfo.username, avatar }
                 }
             } catch (e) {
-                console.log('[COSE] HuaweiDev: executeScript failed:', e.message)
+                console.log('[Imgto.link Publisher] HuaweiDev: executeScript failed:', e.message)
             }
         }
 
         // 3. 没有打开的华为开发者页面，检查 developer_userdata cookie 并通过 offscreen fetch 获取用户信息
         const userCookie = await chrome.cookies.get({ url: 'https://developer.huawei.com', name: 'developer_userdata' })
         if (userCookie && userCookie.value) {
-            console.log('[COSE] HuaweiDev: developer_userdata cookie found, trying offscreen fetch for user info')
+            console.log('[Imgto.link Publisher] HuaweiDev: developer_userdata cookie found, trying offscreen fetch for user info')
             let username = ''
             let avatar = ''
             let apiSuccess = false
@@ -188,7 +188,7 @@ export async function detectHuaweiDevUser() {
                     try { await chrome.offscreen.closeDocument() } catch (e) { /* ignore */ }
                 }
             } catch (e) {
-                console.log('[COSE] HuaweiDev: offscreen fetch failed:', e.message)
+                console.log('[Imgto.link Publisher] HuaweiDev: offscreen fetch failed:', e.message)
             }
 
             // API 成功才认为已登录，否则视为登录过期
@@ -201,14 +201,14 @@ export async function detectHuaweiDevUser() {
             } else {
                 // API 失败，清除可能残留的缓存
                 await chrome.storage.local.remove('huaweidev_user')
-                console.log('[COSE] HuaweiDev: API verification failed, treating as logged out')
+                console.log('[Imgto.link Publisher] HuaweiDev: API verification failed, treating as logged out')
                 return { loggedIn: false }
             }
         }
 
         return { loggedIn: false }
     } catch (e) {
-        console.error('[COSE] HuaweiDev Detection Error:', e)
+        console.error('[Imgto.link Publisher] HuaweiDev Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

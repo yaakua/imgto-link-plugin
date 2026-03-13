@@ -7,7 +7,7 @@ import { convertAvatarToBase64 } from '../utils.js'
  */
 export async function detectInfoQUser() {
     try {
-        console.log('[COSE] InfoQ Detection: Starting')
+        console.log('[Imgto.link Publisher] InfoQ Detection: Starting')
         const response = await fetch('https://www.infoq.cn/public/v1/user/get_user', {
             method: 'POST',
             credentials: 'include',
@@ -22,7 +22,7 @@ export async function detectInfoQUser() {
 
         const json = await response.json()
         if (json?.code !== 0 || !json?.data?.uid) {
-            console.log('[COSE] InfoQ: Not logged in', json?.code)
+            console.log('[Imgto.link Publisher] InfoQ: Not logged in', json?.code)
             return { loggedIn: false }
         }
 
@@ -35,7 +35,7 @@ export async function detectInfoQUser() {
 
         return { loggedIn: true, username, avatar }
     } catch (e) {
-        console.error('[COSE] InfoQ Detection Error:', e)
+        console.error('[Imgto.link Publisher] InfoQ Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

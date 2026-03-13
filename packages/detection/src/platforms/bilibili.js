@@ -33,7 +33,7 @@ export async function detectBilibiliUser() {
 
         return { loggedIn: true, username, avatar }
     } catch (e) {
-        console.log(`[COSE] bilibili 检测失败:`, e.message)
+        console.log(`[Imgto.link Publisher] bilibili 检测失败:`, e.message)
         return { loggedIn: false }
     }
 }
