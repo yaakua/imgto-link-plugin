@@ -1,7 +1,7 @@
 {
-  "name": "cose-extension",
+  "name": "imgto-link-publisher-extension",
   "version": "1.3.1",
-  "description": "Create Once, Sync Everywhere. 一键将文章同步到多个平台",
+  "description": "Official Imgto.link extension for one-click multi-platform publishing.",
   "type": "module",
   "scripts": {
     "dev": "mkdir -p /tmp/chrome-debug-profile && web-ext run --source-dir ./dist --target=chromium --chromium-binary \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --chromium-profile /tmp/chrome-debug-profile --keep-profile-changes",

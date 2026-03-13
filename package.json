@@ -1,5 +1,5 @@
 {
-  "name": "cose-monorepo",
+  "name": "imgto-link-publisher-monorepo",
   "private": true,
   "scripts": {
     "build": "pnpm -C apps/extension build",

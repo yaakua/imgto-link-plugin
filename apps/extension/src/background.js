@@ -345,9 +345,9 @@ async function initDynamicRules() {
 // 扩展启动时初始化规则
 initDynamicRules()
 
-// 点击扩展图标时打开 md.doocs.org
+// 点击扩展图标时打开 Imgto.link mdeditor
 chrome.action.onClicked.addListener(() => {
-  chrome.tabs.create({ url: 'https://md.doocs.org' })
+  chrome.tabs.create({ url: 'https://imgto.link/mdeditor' })
 })
 
 // 当前同步任务的 Tab Group ID

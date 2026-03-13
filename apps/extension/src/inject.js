@@ -4,6 +4,8 @@
 ; (function () {
   'use strict'
 
+  const BRIDGE_VERSION = '2.0.0'
+
   let requestId = 0
   const pendingRequests = new Map()
   
@@ -132,9 +134,9 @@
   ]
 
   // 暴露 $cose 全局对象
-  window.$cose = {
+  const publisherBridge = {
     // 版本标识
-    version: '1.0.0',
+    version: BRIDGE_VERSION,
 
     // 获取支持的平台列表
     getPlatforms() {
@@ -252,8 +254,8 @@
         const hasBilibili = selectedAccounts.some(a => (a.uid || a.type) === 'bilibili')
         const hasWeibo = selectedAccounts.some(a => (a.uid || a.type) === 'weibo')
         const hasXiaohongshu = selectedAccounts.some(a => (a.uid || a.type) === 'xiaohongshu')
-        let clipboardHtmlContent = null
-        if (hasWechat || hasBaijiahao || hasWangyihao || hasMedium || hasSspai || hasBilibili || hasWeibo || hasXiaohongshu) {
+        let clipboardHtmlContent = post.wechatHtml || null
+        if (!clipboardHtmlContent && (hasWechat || hasBaijiahao || hasWangyihao || hasMedium || hasSspai || hasBilibili || hasWeibo || hasXiaohongshu)) {
           // 先点击复制按钮，将带样式的内容复制到剪贴板
           const copyBtn = document.querySelector('.copy-btn') ||
             document.querySelector('button[class*="copy"]') ||
@@ -325,7 +327,19 @@
     },
   }
 
+  window.$imgtoLinkPublisher = publisherBridge
+  window.$cose = publisherBridge
+
   // 通知页面插件已加载
-  console.log('[COSE] 文章同步助手已加载')
-  window.dispatchEvent(new CustomEvent('cose-ready'))
+  console.log('[Imgto.link Publisher] Bridge loaded')
+  window.dispatchEvent(
+    new CustomEvent('imgtolink-publisher-ready', {
+      detail: { version: BRIDGE_VERSION },
+    })
+  )
+  window.dispatchEvent(
+    new CustomEvent('cose-ready', {
+      detail: { version: BRIDGE_VERSION },
+    })
+  )
 })()
