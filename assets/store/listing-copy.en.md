@@ -3,8 +3,16 @@
 ## Extension Name
 FaFaFa-全部发
 
-## Short Description
+## Store Summary (Short Description)
 Publish from fafafa.ai mdeditor to multiple platforms with one click, while checking login state and preserving formatting where possible.
+
+## Optional Taglines
+- Write once, publish to multiple platforms
+- Start publishing directly from fafafa.ai
+- Detect signed-in accounts and automate the repetitive steps
+
+## Optional Keywords
+markdown, publishing, cross-posting, multiposting, browser extension, creators, fafafa.ai, WeChat, Xiaohongshu, Juejin, CSDN
 
 ## Long Description
 FaFaFa-全部发 is the official browser extension for fafafa.ai, built for creators who need to distribute one Markdown article across multiple publishing platforms.
@@ -22,6 +30,12 @@ Typical use cases:
 - Technical blog cross-posting
 - Content operation and distribution workflows
 - Draft syncing for WeChat Official Accounts, Xiaohongshu, Juejin, CSDN, and more
+
+## Reviewer Notes
+- The extension runs only after the user explicitly clicks Publish
+- Article content is processed locally in the browser by default
+- Site access is limited to fafafa.ai and supported publishing platforms for sign-in checks, opening editors, and filling content
+- If requested during review, clarify that `debugger` and `clipboardRead` are used to preserve formatting and support richer editor automation on some sites
 
 ## Permission Notes
 - `scripting`: inject content into target editors
