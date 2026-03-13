@@ -9,8 +9,8 @@ export async function detectCTO51User() {
     try {
         console.log('[FaFaFa-全部发] 51CTO Detection: Starting (offscreen)')
 
-        if (typeof globalThis.__coseDetectCto51 === 'function') {
-            const result = await globalThis.__coseDetectCto51()
+        if (typeof globalThis.__fafafaPublisherDetectCto51 === 'function') {
+            const result = await globalThis.__fafafaPublisherDetectCto51()
             if (result && result.loggedIn) {
                 let avatar = result.avatar || ''
                 if (avatar && avatar.startsWith('http') && avatar.includes('51cto.com')) {

@@ -26,7 +26,7 @@ function qianfanIntercept() {
   const FAKE_RESPONSE = JSON.stringify({
     success: true,
     status: 200,
-    result: { id: 'cose-intercepted' }
+    result: { id: 'fafafa-publisher-intercepted' }
   })
 
   console.log('[FaFaFa-全部发] 千帆拦截器开始安装...')
@@ -53,14 +53,14 @@ function qianfanIntercept() {
   const originalXHRSend = XMLHttpRequest.prototype.send
 
   XMLHttpRequest.prototype.open = function (method, url, ...rest) {
-    this._coseUrl = url
-    this._coseMethod = (method || 'GET').toUpperCase()
+    this._fafafaPublisherUrl = url
+    this._fafafaPublisherMethod = (method || 'GET').toUpperCase()
     return originalXHROpen.call(this, method, url, ...rest)
   }
 
   XMLHttpRequest.prototype.send = function (body) {
-    if (this._coseUrl?.includes(INTERCEPT_PATTERN) && this._coseMethod === 'POST') {
-      console.log('[FaFaFa-全部发] 拦截 XHR POST:', this._coseUrl, '(已拦截', ++blockedCount, '个)')
+    if (this._fafafaPublisherUrl?.includes(INTERCEPT_PATTERN) && this._fafafaPublisherMethod === 'POST') {
+      console.log('[FaFaFa-全部发] 拦截 XHR POST:', this._fafafaPublisherUrl, '(已拦截', ++blockedCount, '个)')
       const self = this
       setTimeout(() => {
         Object.defineProperty(self, 'readyState', { get: () => 4, configurable: true })

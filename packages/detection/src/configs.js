@@ -1,5 +1,5 @@
 /**
- * @cose/detection - Platform login detection module
+ * @fafafa/publisher-detection - Platform login detection module
  * 
  * This package provides login detection configurations for all supported platforms.
  * Each config includes:

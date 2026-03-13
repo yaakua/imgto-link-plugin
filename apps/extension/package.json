@@ -15,8 +15,8 @@
     "lint": "web-ext lint --source-dir ./dist"
   },
   "dependencies": {
-    "@cose/core": "workspace:*",
-    "@cose/detection": "workspace:*"
+    "@fafafa/publisher-core": "workspace:*",
+    "@fafafa/publisher-detection": "workspace:*"
   },
   "devDependencies": {
     "cac": "^6.7.14",

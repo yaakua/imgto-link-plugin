@@ -1,5 +1,5 @@
 {
-    "name": "@cose/core",
+    "name": "@fafafa/publisher-core",
     "version": "1.0.0",
     "description": "Core publishing logic for FaFaFa-全部发",
     "main": "index.js",
@@ -10,6 +10,6 @@
         "./utils": "./src/utils.js"
     },
     "dependencies": {
-        "@cose/detection": "workspace:*"
+        "@fafafa/publisher-detection": "workspace:*"
     }
 }

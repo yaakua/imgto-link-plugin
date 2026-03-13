@@ -1,6 +1,6 @@
 // 平台配置汇总
-// 从 @cose/detection 导入登录检测配置
-import { LOGIN_CHECK_CONFIG } from '@cose/detection'
+// 从 @fafafa/publisher-detection 导入登录检测配置
+import { LOGIN_CHECK_CONFIG } from '@fafafa/publisher-detection'
 
 // 平台元数据和同步函数从各平台文件导入
 import { CSDNPlatform, syncCSDNContent } from './csdn.js'

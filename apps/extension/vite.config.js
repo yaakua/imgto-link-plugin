@@ -6,8 +6,8 @@ export default defineConfig({
     root: '.', // 项目根目录
     resolve: {
         alias: {
-            '@cose/core': resolve(__dirname, '../../packages/core'),
-            '@cose/detection': resolve(__dirname, '../../packages/detection')
+            '@fafafa/publisher-core': resolve(__dirname, '../../packages/core'),
+            '@fafafa/publisher-detection': resolve(__dirname, '../../packages/detection')
         }
     },
     build: {

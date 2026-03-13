@@ -9,8 +9,8 @@ export async function detectCnblogsUser() {
     try {
         console.log('[FaFaFa-全部发] Cnblogs Detection: Starting (offscreen)')
 
-        if (typeof globalThis.__coseDetectCnblogs === 'function') {
-            const result = await globalThis.__coseDetectCnblogs()
+        if (typeof globalThis.__fafafaPublisherDetectCnblogs === 'function') {
+            const result = await globalThis.__fafafaPublisherDetectCnblogs()
             if (result && result.loggedIn) {
                 let avatar = result.avatar || ''
                 if (avatar && avatar.includes('cnblogs.com')) {

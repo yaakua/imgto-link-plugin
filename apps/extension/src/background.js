@@ -1,8 +1,8 @@
 // 平台配置
-import { PLATFORMS, LOGIN_CHECK_CONFIG, SYNC_HANDLERS } from '@cose/core/src/platforms/index.js'
-import { qianfanIntercept } from '@cose/core/src/platforms/qianfan.js'
-import { convertAvatarToBase64 } from '@cose/detection/src/utils.js'
-// [DISABLED] import { fillAlipayOpenContent } from '@cose/core/src/platforms/alipayopen.js'
+import { PLATFORMS, LOGIN_CHECK_CONFIG, SYNC_HANDLERS } from '@fafafa/publisher-core/src/platforms/index.js'
+import { qianfanIntercept } from '@fafafa/publisher-core/src/platforms/qianfan.js'
+import { convertAvatarToBase64 } from '@fafafa/publisher-detection/src/utils.js'
+// [DISABLED] import { fillAlipayOpenContent } from '@fafafa/publisher-core/src/platforms/alipayopen.js'
 
 // ===== Offscreen helper =====
 // Used for login detection in document context (cookies sent automatically)
@@ -85,8 +85,8 @@ async function offscreenApiFetch(url, options = {}) {
 }
 
 // Export for use by detection modules
-globalThis.__coseWarmUpFetch = warmUpFetch
-globalThis.__coseOffscreenApiFetch = offscreenApiFetch
+globalThis.__fafafaPublisherWarmUpFetch = warmUpFetch
+globalThis.__fafafaPublisherOffscreenApiFetch = offscreenApiFetch
 
 /**
  * Serialized message sender for offscreen document.
@@ -205,7 +205,7 @@ async function tabContextFetch(siteUrl, apiUrl, options = {}) {
   }
 }
 
-globalThis.__coseTabContextFetch = tabContextFetch
+globalThis.__fafafaPublisherTabContextFetch = tabContextFetch
 
 /**
  * 51CTO detection via offscreen document (爱贝壳 approach).
@@ -241,7 +241,7 @@ async function detectCto51ViaOffscreen() {
   return null
 }
 
-globalThis.__coseDetectCto51 = detectCto51ViaOffscreen
+globalThis.__fafafaPublisherDetectCto51 = detectCto51ViaOffscreen
 
 /**
  * Cnblogs detection via offscreen document.
@@ -261,7 +261,7 @@ async function detectCnblogsViaOffscreen() {
   }
 }
 
-globalThis.__coseDetectCnblogs = detectCnblogsViaOffscreen
+globalThis.__fafafaPublisherDetectCnblogs = detectCnblogsViaOffscreen
 
 /**
  * Xiaohongshu detection via offscreen document.
@@ -281,7 +281,7 @@ async function detectXiaohongshuViaOffscreen() {
   }
 }
 
-globalThis.__coseDetectXiaohongshu = detectXiaohongshuViaOffscreen
+globalThis.__fafafaPublisherDetectXiaohongshu = detectXiaohongshuViaOffscreen
 
 // 初始化动态规则：为 sinaimg 和 sspai 头像添加 CORS 头
 async function initDynamicRules() {
@@ -582,7 +582,7 @@ async function checkAllPlatformsProgressive(platforms, tabId) {
   }
 }
 
-import { detectUser } from '@cose/detection'
+import { detectUser } from '@fafafa/publisher-detection'
 
 // 检查单个平台登录状态
 async function checkPlatformLogin(platform) {

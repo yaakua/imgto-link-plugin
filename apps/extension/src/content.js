@@ -1,5 +1,5 @@
 // Content Script - 在 md.doocs.org 或本地开发环境中运行
-// 注入 $cose 全局对象供页面使用
+// 注入 $imgtoLinkPublisher 全局对象供页面使用
 
 console.log('[FaFaFa-全部发 Content Script] Loaded!')
 console.log('[FaFaFa-全部发 Content Script] URL:', window.location.href)
@@ -234,7 +234,7 @@ console.log('[FaFaFa-全部发 Content Script] Hostname:', window.location.hostn
     // 监听来自页面的消息
     window.addEventListener('message', async (event) => {
       if (event.source !== window) return
-      if (!event.data || event.data.source !== 'cose-page') return
+      if (!event.data || event.data.source !== 'fafafa-publisher-page') return
 
       const { type, requestId, payload } = event.data
 
@@ -276,7 +276,7 @@ console.log('[FaFaFa-全部发 Content Script] Hostname:', window.location.hostn
         // 发送响应回页面
         window.postMessage(
           {
-            source: 'cose-extension',
+            source: 'fafafa-publisher-extension',
             requestId,
             result,
           },
@@ -285,7 +285,7 @@ console.log('[FaFaFa-全部发 Content Script] Hostname:', window.location.hostn
       } catch (error) {
         window.postMessage(
           {
-            source: 'cose-extension',
+            source: 'fafafa-publisher-extension',
             requestId,
             error: error.message,
           },
@@ -313,7 +313,7 @@ console.log('[FaFaFa-全部发 Content Script] Hostname:', window.location.hostn
     chrome.runtime.onMessage.addListener((message) => {
       if (message.type === 'PLATFORM_STATUS_UPDATE' || message.type === 'PLATFORM_STATUS_COMPLETE') {
         window.postMessage({
-          source: 'cose-extension',
+          source: 'fafafa-publisher-extension',
           type: message.type,
           ...message
         }, '*')

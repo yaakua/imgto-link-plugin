@@ -17,7 +17,7 @@ export async function detectXiaohongshuUser() {
 
         // 2a. Try offscreen fetch (document context, cookies sent automatically)
         try {
-            const offscreenDetect = globalThis.__coseDetectXiaohongshu
+            const offscreenDetect = globalThis.__fafafaPublisherDetectXiaohongshu
             if (offscreenDetect) {
                 const offResult = await offscreenDetect()
                 if (offResult && offResult.loggedIn) {

@@ -1,5 +1,5 @@
 // 注入到页面主世界的脚本
-// 在 window 上暴露 $cose 对象供 Vue 组件使用
+// 在 window 上暴露 $imgtoLinkPublisher 对象供 Vue 组件使用
 
 ; (function () {
   'use strict'
@@ -18,7 +18,7 @@
   // 监听来自 content script 的响应
   window.addEventListener('message', (event) => {
     if (event.source !== window) return
-    if (!event.data || event.data.source !== 'cose-extension') return
+    if (!event.data || event.data.source !== 'fafafa-publisher-extension') return
 
     const { type, requestId: resId, result, error, platformId, platform, completed, total } = event.data
     
@@ -81,7 +81,7 @@
 
       window.postMessage(
         {
-          source: 'cose-page',
+          source: 'fafafa-publisher-page',
           type,
           requestId: id,
           payload,
@@ -133,7 +133,7 @@
     { id: 'elecfans', name: 'Elecfans', icon: 'https://www.elecfans.com/favicon.ico', title: '电子发烧友', type: 'elecfans', url: 'https://www.elecfans.com/d/article/md/' },
   ]
 
-  // 暴露 $cose 全局对象
+  // 暴露 $imgtoLinkPublisher 全局对象
   const publisherBridge = {
     // 版本标识
     version: BRIDGE_VERSION,
