@@ -32,7 +32,7 @@ function fillJuejinContent(title, markdown, body) {
     const cmElement = document.querySelector('.CodeMirror')
     if (cmElement && cmElement.CodeMirror) {
       cmElement.CodeMirror.setValue(contentToFill)
-      console.log('[Imgto.link Publisher] 掘金 CodeMirror 填充成功')
+      console.log('[FaFaFa-全部发] 掘金 CodeMirror 填充成功')
       return { success: true, method: 'CodeMirror' }
     } else {
       // 降级到 textarea
@@ -41,10 +41,10 @@ function fillJuejinContent(title, markdown, body) {
         textarea.focus()
         textarea.value = contentToFill
         textarea.dispatchEvent(new Event('input', { bubbles: true }))
-        console.log('[Imgto.link Publisher] 掘金 textarea 填充成功')
+        console.log('[FaFaFa-全部发] 掘金 textarea 填充成功')
         return { success: true, method: 'textarea' }
       } else {
-        console.log('[Imgto.link Publisher] 掘金 未找到编辑器')
+        console.log('[FaFaFa-全部发] 掘金 未找到编辑器')
         return { success: false, error: 'Editor not found' }
       }
     }

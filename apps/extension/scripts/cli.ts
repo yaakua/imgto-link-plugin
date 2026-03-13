@@ -23,7 +23,7 @@ interface ChromeBackgroundOptions {
     type: 'module'
 }
 
-// Full manifest type for COSE extension
+// Full manifest type for the FaFaFa publisher extension
 interface Manifest {
     manifest_version: number
     name: string
@@ -94,14 +94,6 @@ const copyResources = async () => {
 
     const copyEntries: CopyEntry[] = [
         {
-            from: path.join(rootDir, 'icons'),
-            to: path.join(rootDir, 'dist/icons'),
-        },
-        {
-            from: path.join(rootDir, 'assets'),
-            to: path.join(rootDir, 'dist/assets'),
-        },
-        {
             // Copy platform scripts from core package
             from: path.resolve(rootDir, '../../packages/core/src/platforms'),
             to: path.join(rootDir, 'dist/bundles/platforms'),
@@ -148,7 +140,7 @@ const genManifest = async (options: BuildOptions) => {
         // Add Firefox-specific settings
         manifest.browser_specific_settings = {
             gecko: {
-                id: 'cose@doocs.org',
+                id: 'publisher@fafafa.ai',
             },
         }
 
@@ -184,7 +176,7 @@ const buildSafariExtension = async (options: BuildOptions) => {
     }
 
     const safariProjectDir = path.join(rootDir, 'safari-extension')
-    const bundleId = options.bundleId || 'org.doocs.cose'
+    const bundleId = options.bundleId || 'ai.fafafa.publisher'
 
     // Remove existing Safari project
     await fs.rm(safariProjectDir, { recursive: true, force: true })
@@ -197,7 +189,7 @@ const buildSafariExtension = async (options: BuildOptions) => {
             'safari-web-extension-converter',
             path.join(rootDir, 'dist'),
             '--project-location', safariProjectDir,
-            '--app-name', 'COSE',
+            '--app-name', 'FaFaFaPublisher',
             '--bundle-identifier', bundleId,
             '--swift',
             '--no-prompt',
@@ -205,7 +197,7 @@ const buildSafariExtension = async (options: BuildOptions) => {
         ])
         console.log(result.stdout)
         console.log('\n  ✓ Safari extension project created!')
-        console.log(`  ✓ Open in Xcode: open ${safariProjectDir}/COSE/COSE.xcodeproj`)
+        console.log(`  ✓ Open in Xcode: open ${safariProjectDir}/FaFaFaPublisher/FaFaFaPublisher.xcodeproj`)
     } catch (error: unknown) {
         const err = error as { stderr?: string; message?: string }
         console.error('Safari conversion failed:', err.stderr || err.message)
@@ -214,22 +206,22 @@ const buildSafariExtension = async (options: BuildOptions) => {
 }
 
 // CLI setup
-const cli = cac('cose-build')
+const cli = cac('fafafa-publisher-build')
 cli.help().version(packageJson.version)
 
 cli
-    .command('build', 'Build the COSE browser extension')
+    .command('build', 'Build the FaFaFa-全部发 browser extension')
     .option('-w, --watch', 'Watch mode', { default: false })
     .option('-r, --release', 'Build in release mode with optimizations', { default: false })
     .option('--target <target>', 'Browser target: "chromium", "firefox", or "safari"', { default: 'chromium' })
-    .option('--bundle-id <bundleId>', 'Bundle ID for Safari (default: org.doocs.cose)')
+    .option('--bundle-id <bundleId>', 'Bundle ID for Safari (default: ai.fafafa.publisher)')
     .action(async (options: BuildOptions) => {
         const validTargets = ['chromium', 'firefox', 'safari']
         if (!validTargets.includes(options.target)) {
             throw new Error(`Invalid target: ${options.target}. Use "chromium", "firefox", or "safari".`)
         }
 
-        console.log(`\n=== COSE Build (target: ${options.target}, release: ${options.release}) ===\n`)
+        console.log(`\n=== FaFaFa-全部发 Build (target: ${options.target}, release: ${options.release}) ===\n`)
 
         // Step 1: Build with Vite
         await buildWithVite(options)
@@ -244,7 +236,7 @@ cli
         if (options.target === 'firefox') {
             console.log('\nRunning web-ext lint...')
             try {
-                const result = await execa('pnpm', ['exec', 'web-ext', 'lint', '--source-dir', 'dist'])
+                const result = await execa('bunx', ['web-ext', 'lint', '--source-dir', 'dist'])
                 console.log(result.stdout)
             } catch (error) {
                 console.error('web-ext lint failed:', error)

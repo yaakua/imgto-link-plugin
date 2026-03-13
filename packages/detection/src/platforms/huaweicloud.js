@@ -39,7 +39,7 @@ export async function detectHuaweiCloudUser() {
         await chrome.storage.local.remove('huaweicloud_user')
         return { loggedIn: false }
     } catch (e) {
-        console.error('[Imgto.link Publisher] HuaweiCloud Detection Error:', e)
+        console.error('[FaFaFa-全部发] HuaweiCloud Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

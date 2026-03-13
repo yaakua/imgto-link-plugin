@@ -1,7 +1,7 @@
 {
     "name": "@cose/core",
     "version": "1.0.0",
-    "description": "Core publishing logic for COSE",
+    "description": "Core publishing logic for FaFaFa-全部发",
     "main": "index.js",
     "type": "module",
     "exports": {

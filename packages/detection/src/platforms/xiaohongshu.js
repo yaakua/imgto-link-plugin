@@ -28,7 +28,7 @@ export async function detectXiaohongshuUser() {
                 }
             }
         } catch (e) {
-            console.log('[Imgto.link Publisher] xiaohongshu offscreen detection failed:', e.message)
+            console.log('[FaFaFa-全部发] xiaohongshu offscreen detection failed:', e.message)
         }
 
         // 2b. Try open tab injection
@@ -66,7 +66,7 @@ export async function detectXiaohongshuUser() {
                 }
             }
         } catch (e) {
-            console.log('[Imgto.link Publisher] xiaohongshu tab detection failed:', e.message)
+            console.log('[FaFaFa-全部发] xiaohongshu tab detection failed:', e.message)
         }
 
         // 2c. Fall back to cache for user details
@@ -76,7 +76,7 @@ export async function detectXiaohongshuUser() {
             const cacheAge = Date.now() - (cachedUser.cachedAt || 0)
             const maxAge = 7 * 24 * 60 * 60 * 1000 // 7 days
             if (cacheAge < maxAge) {
-                console.log('[Imgto.link Publisher] xiaohongshu 从缓存读取:', cachedUser.username)
+                console.log('[FaFaFa-全部发] xiaohongshu 从缓存读取:', cachedUser.username)
                 return { loggedIn: true, username: cachedUser.username || '', avatar: cachedUser.avatar || '' }
             }
         }
@@ -84,7 +84,7 @@ export async function detectXiaohongshuUser() {
         // Cookie exists but couldn't get user details — still logged in
         return { loggedIn: true, username: '', avatar: '' }
     } catch (e) {
-        console.log('[Imgto.link Publisher] xiaohongshu 检测失败:', e.message)
+        console.log('[FaFaFa-全部发] xiaohongshu 检测失败:', e.message)
         return { loggedIn: false }
     }
 }

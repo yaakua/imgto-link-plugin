@@ -8,7 +8,7 @@ import { convertAvatarToBase64 } from '../utils.js'
  */
 export async function detectQianfanUser() {
     try {
-        console.log('[Imgto.link Publisher] Qianfan Detection: Starting')
+        console.log('[FaFaFa-全部发] Qianfan Detection: Starting')
 
         // Read csrftoken from cookie
         const csrfCookie = await chrome.cookies.get({ url: 'https://qianfan.cloud.baidu.com', name: 'bce-user-info-ct-id' })
@@ -38,7 +38,7 @@ export async function detectQianfanUser() {
             return { loggedIn: false }
         }
     } catch (e) {
-        console.error('[Imgto.link Publisher] Qianfan Detection Error:', e)
+        console.error('[FaFaFa-全部发] Qianfan Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

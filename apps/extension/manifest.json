@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Imgto.link Publisher",
-  "description": "Official Imgto.link extension for one-click multi-platform publishing.",
+  "name": "FaFaFa-全部发",
+  "description": "Official FaFaFa-全部发 extension for one-click multi-platform publishing.",
   "permissions": [
     "tabGroups",
     "activeTab",
@@ -63,7 +63,7 @@
       "48": "icons/imgtolink_publisher_48.png",
       "128": "icons/imgtolink_publisher_128.png"
     },
-    "default_title": "Imgto.link Publisher"
+    "default_title": "FaFaFa-全部发"
   },
   "background": {
     "service_worker": "bundles/background.js",
@@ -72,8 +72,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://imgto.link/*",
-        "https://*.imgto.link/*",
+        "https://fafafa.ai/*",
+        "https://*.fafafa.ai/*",
         "https://md.doocs.org/*",
         "http://localhost/*",
         "http://127.0.0.1/*",
@@ -100,8 +100,8 @@
         "bundles/platforms/*.js"
       ],
       "matches": [
-        "https://imgto.link/*",
-        "https://*.imgto.link/*",
+        "https://fafafa.ai/*",
+        "https://*.fafafa.ai/*",
         "https://md.doocs.org/*",
         "http://localhost/*",
         "http://127.0.0.1/*"

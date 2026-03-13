@@ -29,7 +29,7 @@ function qianfanIntercept() {
     result: { id: 'cose-intercepted' }
   })
 
-  console.log('[Imgto.link Publisher] 千帆拦截器开始安装...')
+  console.log('[FaFaFa-全部发] 千帆拦截器开始安装...')
 
   // ========== 拦截 fetch ==========
   const originalFetch = window.fetch
@@ -39,7 +39,7 @@ function qianfanIntercept() {
     const method = (opts.method || (args[0]?.method) || 'GET').toUpperCase()
 
     if (url.includes(INTERCEPT_PATTERN) && method === 'POST') {
-      console.log('[Imgto.link Publisher] 拦截 fetch POST:', url, '(已拦截', ++blockedCount, '个)')
+      console.log('[FaFaFa-全部发] 拦截 fetch POST:', url, '(已拦截', ++blockedCount, '个)')
       return Promise.resolve(new Response(FAKE_RESPONSE, {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
@@ -60,7 +60,7 @@ function qianfanIntercept() {
 
   XMLHttpRequest.prototype.send = function (body) {
     if (this._coseUrl?.includes(INTERCEPT_PATTERN) && this._coseMethod === 'POST') {
-      console.log('[Imgto.link Publisher] 拦截 XHR POST:', this._coseUrl, '(已拦截', ++blockedCount, '个)')
+      console.log('[FaFaFa-全部发] 拦截 XHR POST:', this._coseUrl, '(已拦截', ++blockedCount, '个)')
       const self = this
       setTimeout(() => {
         Object.defineProperty(self, 'readyState', { get: () => 4, configurable: true })
@@ -84,7 +84,7 @@ function qianfanIntercept() {
   if (originalSendBeacon) {
     navigator.sendBeacon = function (url, data) {
       if (url?.includes(INTERCEPT_PATTERN)) {
-        console.log('[Imgto.link Publisher] 拦截 sendBeacon:', url, '(已拦截', ++blockedCount, '个)')
+        console.log('[FaFaFa-全部发] 拦截 sendBeacon:', url, '(已拦截', ++blockedCount, '个)')
         return true
       }
       return originalSendBeacon(url, data)
@@ -97,7 +97,7 @@ function qianfanIntercept() {
 
   window.location.assign = function (url) {
     if (typeof url === 'string' && url.includes(LOGIN_URL_PATTERN)) {
-      console.log('[Imgto.link Publisher] 拦截 location.assign 跳转到登录页:', url)
+      console.log('[FaFaFa-全部发] 拦截 location.assign 跳转到登录页:', url)
       return
     }
     return origAssign(url)
@@ -105,7 +105,7 @@ function qianfanIntercept() {
 
   window.location.replace = function (url) {
     if (typeof url === 'string' && url.includes(LOGIN_URL_PATTERN)) {
-      console.log('[Imgto.link Publisher] 拦截 location.replace 跳转到登录页:', url)
+      console.log('[FaFaFa-全部发] 拦截 location.replace 跳转到登录页:', url)
       return
     }
     return origReplace(url)
@@ -115,7 +115,7 @@ function qianfanIntercept() {
   const originalOpen = window.open
   window.open = function (url, ...rest) {
     if (typeof url === 'string' && url.includes(LOGIN_URL_PATTERN)) {
-      console.log('[Imgto.link Publisher] 拦截 window.open 跳转到登录页:', url)
+      console.log('[FaFaFa-全部发] 拦截 window.open 跳转到登录页:', url)
       return null
     }
     return originalOpen.call(this, url, ...rest)
@@ -125,9 +125,9 @@ function qianfanIntercept() {
   if (window.navigation) {
     window.navigation.addEventListener('navigate', (e) => {
       const destUrl = e.destination?.url || ''
-      console.log('[Imgto.link Publisher] Navigation API navigate 事件:', destUrl)
+      console.log('[FaFaFa-全部发] Navigation API navigate 事件:', destUrl)
       if (destUrl.includes(LOGIN_URL_PATTERN)) {
-        console.log('[Imgto.link Publisher] 拦截 Navigation API 跳转到登录页')
+        console.log('[FaFaFa-全部发] 拦截 Navigation API 跳转到登录页')
         e.preventDefault()
       }
     })
@@ -139,7 +139,7 @@ function qianfanIntercept() {
 
   history.pushState = function (state, title, url) {
     if (typeof url === 'string' && url.includes(LOGIN_URL_PATTERN)) {
-      console.log('[Imgto.link Publisher] 拦截 pushState 跳转到登录页:', url)
+      console.log('[FaFaFa-全部发] 拦截 pushState 跳转到登录页:', url)
       return
     }
     return origPushState(state, title, url)
@@ -147,13 +147,13 @@ function qianfanIntercept() {
 
   history.replaceState = function (state, title, url) {
     if (typeof url === 'string' && url.includes(LOGIN_URL_PATTERN)) {
-      console.log('[Imgto.link Publisher] 拦截 replaceState 跳转到登录页:', url)
+      console.log('[FaFaFa-全部发] 拦截 replaceState 跳转到登录页:', url)
       return
     }
     return origReplaceState(state, title, url)
   }
 
-  console.log('[Imgto.link Publisher] 千帆拦截器安装完成（fetch/XHR/sendBeacon/location/navigation）')
+  console.log('[FaFaFa-全部发] 千帆拦截器安装完成（fetch/XHR/sendBeacon/location/navigation）')
 }
 
 // 导出

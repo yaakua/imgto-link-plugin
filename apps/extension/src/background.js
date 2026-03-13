@@ -21,11 +21,11 @@ async function ensureOffscreen() {
       // have executed yet. Ping until the offscreen listener responds.
       const ready = await _waitForOffscreenReady(3000)
       if (!ready) {
-        console.warn('[Imgto.link Publisher] ensureOffscreen: offscreen document did not become ready in time')
+        console.warn('[FaFaFa-全部发] ensureOffscreen: offscreen document did not become ready in time')
       }
     }
   } catch (e) {
-    console.log('[Imgto.link Publisher] ensureOffscreen error:', e.message)
+    console.log('[FaFaFa-全部发] ensureOffscreen error:', e.message)
   }
 }
 
@@ -57,10 +57,10 @@ async function warmUpFetch(url) {
       type: 'OFFSCREEN_WARM_FETCH',
       payload: { url },
     })
-    console.log(`[Imgto.link Publisher] Warm-up fetch ${url}: status=${result?.data?.status}`)
+    console.log(`[FaFaFa-全部发] Warm-up fetch ${url}: status=${result?.data?.status}`)
     return result
   } catch (e) {
-    console.log(`[Imgto.link Publisher] Warm-up fetch failed for ${url}:`, e.message)
+    console.log(`[FaFaFa-全部发] Warm-up fetch failed for ${url}:`, e.message)
     return null
   }
 }
@@ -76,10 +76,10 @@ async function offscreenApiFetch(url, options = {}) {
       type: 'OFFSCREEN_API_FETCH',
       payload: { url, ...options },
     })
-    console.log(`[Imgto.link Publisher] Offscreen API fetch ${url}: status=${result?.data?.status}`)
+    console.log(`[FaFaFa-全部发] Offscreen API fetch ${url}: status=${result?.data?.status}`)
     return result?.data || null
   } catch (e) {
-    console.log(`[Imgto.link Publisher] Offscreen API fetch failed for ${url}:`, e.message)
+    console.log(`[FaFaFa-全部发] Offscreen API fetch failed for ${url}:`, e.message)
     return null
   }
 }
@@ -127,19 +127,19 @@ async function tabContextFetch(siteUrl, apiUrl, options = {}) {
   try {
     const urlObj = new URL(siteUrl)
     const pattern = `*://*.${urlObj.hostname.replace(/^www\./, '')}/*`
-    console.log(`[Imgto.link Publisher] tabContextFetch: looking for tabs matching ${pattern}`)
+    console.log(`[FaFaFa-全部发] tabContextFetch: looking for tabs matching ${pattern}`)
 
     // Find existing tab
     let tabs = await chrome.tabs.query({ url: pattern })
     let tab = tabs.find(t => t.id && !t.discarded)
-    console.log(`[Imgto.link Publisher] tabContextFetch: found ${tabs.length} tabs, usable: ${tab ? tab.id : 'none'}`)
+    console.log(`[FaFaFa-全部发] tabContextFetch: found ${tabs.length} tabs, usable: ${tab ? tab.id : 'none'}`)
 
     if (!tab) {
       // Create a background tab (not active, for other platforms that need it)
       const newTab = await chrome.tabs.create({ url: siteUrl, active: false })
       tab = newTab
       createdTabId = tab.id
-      console.log(`[Imgto.link Publisher] tabContextFetch: created background tab ${tab.id}`)
+      console.log(`[FaFaFa-全部发] tabContextFetch: created background tab ${tab.id}`)
       // Wait for the tab to finish loading
       const currentTab = await chrome.tabs.get(tab.id)
       if (currentTab.status !== 'complete') {
@@ -193,14 +193,14 @@ async function tabContextFetch(siteUrl, apiUrl, options = {}) {
       try { await chrome.tabs.remove(createdTabId) } catch (e) { /* ignore */ }
     }
 
-    console.log(`[Imgto.link Publisher] tabContextFetch result:`, JSON.stringify(results?.[0]?.result).substring(0, 200))
+    console.log(`[FaFaFa-全部发] tabContextFetch result:`, JSON.stringify(results?.[0]?.result).substring(0, 200))
     return results?.[0]?.result || null
   } catch (e) {
     // Clean up on error
     if (createdTabId) {
       try { await chrome.tabs.remove(createdTabId) } catch (e2) { /* ignore */ }
     }
-    console.log(`[Imgto.link Publisher] tabContextFetch failed for ${apiUrl}:`, e.message)
+    console.log(`[FaFaFa-全部发] tabContextFetch failed for ${apiUrl}:`, e.message)
     return null
   }
 }
@@ -215,14 +215,14 @@ globalThis.__coseTabContextFetch = tabContextFetch
 async function detectCto51ViaOffscreen() {
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      console.log(`[Imgto.link Publisher] 51CTO: Sending OFFSCREEN_DETECT_CTO51 (attempt ${attempt})...`)
+      console.log(`[FaFaFa-全部发] 51CTO: Sending OFFSCREEN_DETECT_CTO51 (attempt ${attempt})...`)
       const result = await sendOffscreenMessage({
         type: 'OFFSCREEN_DETECT_CTO51',
       })
-      console.log('[Imgto.link Publisher] 51CTO: Offscreen response:', JSON.stringify(result))
+      console.log('[FaFaFa-全部发] 51CTO: Offscreen response:', JSON.stringify(result))
       if (result === undefined || result === null) {
         // No listener responded — offscreen might not be ready
-        console.warn('[Imgto.link Publisher] 51CTO: Got empty response, offscreen may not be ready')
+        console.warn('[FaFaFa-全部发] 51CTO: Got empty response, offscreen may not be ready')
         if (attempt < 2) {
           await new Promise(r => setTimeout(r, 500))
           continue
@@ -230,7 +230,7 @@ async function detectCto51ViaOffscreen() {
       }
       return result?.data || null
     } catch (e) {
-      console.log(`[Imgto.link Publisher] 51CTO offscreen detection failed (attempt ${attempt}):`, e.message)
+      console.log(`[FaFaFa-全部发] 51CTO offscreen detection failed (attempt ${attempt}):`, e.message)
       if (attempt < 2) {
         await new Promise(r => setTimeout(r, 500))
         continue
@@ -249,14 +249,14 @@ globalThis.__coseDetectCto51 = detectCto51ViaOffscreen
  */
 async function detectCnblogsViaOffscreen() {
   try {
-    console.log('[Imgto.link Publisher] Cnblogs: Sending OFFSCREEN_DETECT_CNBLOGS message...')
+    console.log('[FaFaFa-全部发] Cnblogs: Sending OFFSCREEN_DETECT_CNBLOGS message...')
     const result = await sendOffscreenMessage({
       type: 'OFFSCREEN_DETECT_CNBLOGS',
     })
-    console.log('[Imgto.link Publisher] Cnblogs: Offscreen response:', JSON.stringify(result))
+    console.log('[FaFaFa-全部发] Cnblogs: Offscreen response:', JSON.stringify(result))
     return result?.data || null
   } catch (e) {
-    console.log('[Imgto.link Publisher] Cnblogs offscreen detection failed:', e.message)
+    console.log('[FaFaFa-全部发] Cnblogs offscreen detection failed:', e.message)
     return null
   }
 }
@@ -269,14 +269,14 @@ globalThis.__coseDetectCnblogs = detectCnblogsViaOffscreen
  */
 async function detectXiaohongshuViaOffscreen() {
   try {
-    console.log('[Imgto.link Publisher] Xiaohongshu: Sending OFFSCREEN_DETECT_XIAOHONGSHU message...')
+    console.log('[FaFaFa-全部发] Xiaohongshu: Sending OFFSCREEN_DETECT_XIAOHONGSHU message...')
     const result = await sendOffscreenMessage({
       type: 'OFFSCREEN_DETECT_XIAOHONGSHU',
     })
-    console.log('[Imgto.link Publisher] Xiaohongshu: Offscreen response:', JSON.stringify(result))
+    console.log('[FaFaFa-全部发] Xiaohongshu: Offscreen response:', JSON.stringify(result))
     return result?.data || null
   } catch (e) {
-    console.log('[Imgto.link Publisher] Xiaohongshu offscreen detection failed:', e.message)
+    console.log('[FaFaFa-全部发] Xiaohongshu offscreen detection failed:', e.message)
     return null
   }
 }
@@ -336,18 +336,18 @@ async function initDynamicRules() {
         }
       ]
     })
-    console.log('[Imgto.link Publisher] 动态规则初始化完成')
+    console.log('[FaFaFa-全部发] 动态规则初始化完成')
   } catch (e) {
-    console.error('[Imgto.link Publisher] 动态规则初始化失败:', e)
+    console.error('[FaFaFa-全部发] 动态规则初始化失败:', e)
   }
 }
 
 // 扩展启动时初始化规则
 initDynamicRules()
 
-// 点击扩展图标时打开 Imgto.link mdeditor
+// 点击扩展图标时打开 FaFaFa mdeditor
 chrome.action.onClicked.addListener(() => {
-  chrome.tabs.create({ url: 'https://imgto.link/mdeditor' })
+  chrome.tabs.create({ url: 'https://fafafa.ai/mdeditor' })
 })
 
 // 当前同步任务的 Tab Group ID
@@ -394,7 +394,7 @@ async function addTabToSyncGroup(tabId, windowId) {
       await chrome.tabs.group({ tabIds: tabId, groupId: currentSyncGroupId })
     }
   } catch (error) {
-    console.error('[Imgto.link Publisher] 添加标签到组失败:', error)
+    console.error('[FaFaFa-全部发] 添加标签到组失败:', error)
   }
 }
 
@@ -435,7 +435,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const result = await handleMessage(request, sender)
       sendResponse(result)
     } catch (err) {
-      console.error('[Imgto.link Publisher] 消息处理错误:', err)
+      console.error('[FaFaFa-全部发] 消息处理错误:', err)
       sendResponse({ error: err.message || '未知错误' })
     }
   })()
@@ -443,7 +443,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 })
 
 async function handleMessage(request, sender) {
-  console.log(`[Imgto.link Publisher] handleMessage received type: ${request.type}`, request)
+  console.log(`[FaFaFa-全部发] handleMessage received type: ${request.type}`, request)
   switch (request.type) {
     case 'GET_PLATFORMS':
       return { platforms: PLATFORMS }
@@ -463,24 +463,24 @@ async function handleMessage(request, sender) {
       // 缓存用户信息
       if (request.platform === 'xiaohongshu' && request.userInfo) {
         await chrome.storage.local.set({ xiaohongshu_user: request.userInfo })
-        console.log('[Imgto.link Publisher] 小红书用户信息已缓存:', request.userInfo.username)
+        console.log('[FaFaFa-全部发] 小红书用户信息已缓存:', request.userInfo.username)
       } else if (request.platform === 'alipayopen' && request.userInfo) {
         await chrome.storage.local.set({ alipayopen_user: request.userInfo })
-        console.log('[Imgto.link Publisher] 支付宝用户信息已缓存:', request.userInfo.username)
+        console.log('[FaFaFa-全部发] 支付宝用户信息已缓存:', request.userInfo.username)
       } else if (request.platform === 'huaweicloud' && request.userInfo) {
         const hwcInfo = { ...request.userInfo }
         if (hwcInfo.avatar && hwcInfo.avatar.startsWith('http')) {
           hwcInfo.avatar = await convertAvatarToBase64(hwcInfo.avatar, 'https://bbs.huaweicloud.com/')
         }
         await chrome.storage.local.set({ huaweicloud_user: hwcInfo })
-        console.log('[Imgto.link Publisher] 华为云用户信息已缓存:', hwcInfo.username)
+        console.log('[FaFaFa-全部发] 华为云用户信息已缓存:', hwcInfo.username)
       } else if (request.platform === 'huaweidev' && request.userInfo) {
         const hwdInfo = { ...request.userInfo }
         if (hwdInfo.avatar && hwdInfo.avatar.startsWith('http')) {
           hwdInfo.avatar = await convertAvatarToBase64(hwdInfo.avatar, 'https://developer.huawei.com/')
         }
         await chrome.storage.local.set({ huaweidev_user: hwdInfo })
-        console.log('[Imgto.link Publisher] 华为开发者用户信息已缓存:', hwdInfo.username)
+        console.log('[FaFaFa-全部发] 华为开发者用户信息已缓存:', hwdInfo.username)
       }
       return { success: true }
     default:
@@ -510,7 +510,7 @@ async function checkAllPlatforms(platforms) {
       }
     })
   } catch (e) {
-    console.error('[Imgto.link Publisher] 检查平台状态失败:', e)
+    console.error('[FaFaFa-全部发] 检查平台状态失败:', e)
   }
   return status
 }
@@ -539,7 +539,7 @@ async function checkAllPlatformsProgressive(platforms, tabId) {
             total: total
           })
         } catch (e) {
-          console.log('[Imgto.link Publisher] 发送平台状态更新失败:', platform.id, e.message)
+          console.log('[FaFaFa-全部发] 发送平台状态更新失败:', platform.id, e.message)
         }
       }
 
@@ -559,7 +559,7 @@ async function checkAllPlatformsProgressive(platforms, tabId) {
             total: total
           })
         } catch (e2) {
-          console.log('[Imgto.link Publisher] 发送平台状态更新失败:', platform.id, e2.message)
+          console.log('[FaFaFa-全部发] 发送平台状态更新失败:', platform.id, e2.message)
         }
       }
 
@@ -577,7 +577,7 @@ async function checkAllPlatformsProgressive(platforms, tabId) {
         total: total
       })
     } catch (e) {
-      console.log('[Imgto.link Publisher] 发送完成消息失败:', e.message)
+      console.log('[FaFaFa-全部发] 发送完成消息失败:', e.message)
     }
   }
 }
@@ -597,7 +597,7 @@ async function pasteWithDebugger(tabId) {
   try {
     // 附加调试器
     await chrome.debugger.attach(debuggee, '1.3')
-    console.log('[Imgto.link Publisher] Debugger attached')
+    console.log('[FaFaFa-全部发] Debugger attached')
 
     // 发送 Ctrl/Cmd 按下
     await chrome.debugger.sendCommand(debuggee, 'Input.dispatchKeyEvent', {
@@ -635,18 +635,18 @@ async function pasteWithDebugger(tabId) {
       key: 'Control'
     })
 
-    console.log('[Imgto.link Publisher] Paste command sent via debugger')
+    console.log('[FaFaFa-全部发] Paste command sent via debugger')
 
     // 等待粘贴完成
     await new Promise(resolve => setTimeout(resolve, 1000))
 
   } catch (error) {
-    console.error('[Imgto.link Publisher] Debugger paste failed:', error)
+    console.error('[FaFaFa-全部发] Debugger paste failed:', error)
   } finally {
     // 分离调试器
     try {
       await chrome.debugger.detach(debuggee)
-      console.log('[Imgto.link Publisher] Debugger detached')
+      console.log('[FaFaFa-全部发] Debugger detached')
     } catch (e) {
       // 忽略分离错误
     }
@@ -666,7 +666,7 @@ async function syncToPlatform(platformId, content) {
     // 检查是否有平台特定的同步处理器
     const syncHandler = SYNC_HANDLERS[platformId]
     if (syncHandler) {
-      console.log(`[Imgto.link Publisher] 使用 ${platformId} 平台特定同步处理器`)
+      console.log(`[FaFaFa-全部发] 使用 ${platformId} 平台特定同步处理器`)
       // 创建新标签页（对于微信等需要特殊处理的平台，使用首页）
       const initialUrl = platformId === 'wechat' ? 'https://mp.weixin.qq.com/' : platform.publishUrl
       tab = await chrome.tabs.create({ url: initialUrl, active: false })
@@ -701,17 +701,17 @@ async function syncToPlatform(platformId, content) {
         if (data.code === 0 && data.data?.id) {
           const draftId = data.data.id
           const targetUrl = `https://xie.infoq.cn/draft/${draftId}`
-          console.log('[Imgto.link Publisher] InfoQ 创建草稿成功，ID:', draftId)
+          console.log('[FaFaFa-全部发] InfoQ 创建草稿成功，ID:', draftId)
 
           tab = await chrome.tabs.create({ url: targetUrl, active: false })
           await addTabToSyncGroup(tab.id, tab.windowId)
           await waitForTab(tab.id)
         } else {
-          console.error('[Imgto.link Publisher] InfoQ 创建草稿失败:', data)
+          console.error('[FaFaFa-全部发] InfoQ 创建草稿失败:', data)
           return { success: false, message: 'InfoQ 创建草稿失败，请确保已登录' }
         }
       } catch (e) {
-        console.error('[Imgto.link Publisher] InfoQ API 调用失败:', e)
+        console.error('[FaFaFa-全部发] InfoQ API 调用失败:', e)
         return { success: false, message: 'InfoQ API 调用失败: ' + e.message }
       }
     } else if (platformId === 'jianshu') {
@@ -733,7 +733,7 @@ async function syncToPlatform(platformId, content) {
 
         // 使用第一个文集
         const notebookId = notebooks[0].id
-        console.log('[Imgto.link Publisher] 简书使用文集:', notebooks[0].name, 'ID:', notebookId)
+        console.log('[FaFaFa-全部发] 简书使用文集:', notebooks[0].name, 'ID:', notebookId)
 
         // 创建新文章
         const createResp = await fetch('https://www.jianshu.com/author/notes', {
@@ -754,22 +754,22 @@ async function syncToPlatform(platformId, content) {
         if (noteData && noteData.id) {
           const noteId = noteData.id
           const targetUrl = `https://www.jianshu.com/writer#/notebooks/${notebookId}/notes/${noteId}`
-          console.log('[Imgto.link Publisher] 简书创建文章成功，ID:', noteId)
+          console.log('[FaFaFa-全部发] 简书创建文章成功，ID:', noteId)
 
           tab = await chrome.tabs.create({ url: targetUrl, active: false })
           await addTabToSyncGroup(tab.id, tab.windowId)
           await waitForTab(tab.id)
         } else {
-          console.error('[Imgto.link Publisher] 简书创建文章失败:', noteData)
+          console.error('[FaFaFa-全部发] 简书创建文章失败:', noteData)
           return { success: false, message: '简书创建文章失败，请确保已登录' }
         }
       } catch (e) {
-        console.error('[Imgto.link Publisher] 简书 API 调用失败:', e)
+        console.error('[FaFaFa-全部发] 简书 API 调用失败:', e)
         return { success: false, message: '简书 API 调用失败: ' + e.message }
       }
     } else if (platformId === 'xiaohongshu') {
       // 小红书：需要先点击"新的创作"按钮，等待编辑器加载后填充
-      console.log('[Imgto.link Publisher] 开始处理小红书同步...')
+      console.log('[FaFaFa-全部发] 开始处理小红书同步...')
 
       // 打开发布页面
       tab = await chrome.tabs.create({ url: platform.publishUrl, active: false })
@@ -791,7 +791,7 @@ async function syncToPlatform(platformId, content) {
 
           if (createBtn) {
             createBtn.click()
-            console.log('[Imgto.link Publisher] 小红书已点击"新的创作"按钮')
+            console.log('[FaFaFa-全部发] 小红书已点击"新的创作"按钮')
 
             // 等待编辑器加载（等待富文本编辑器出现）
             const waitForEditor = async (timeout = 10000) => {
@@ -825,7 +825,7 @@ async function syncToPlatform(platformId, content) {
 
       // 使用剪贴板 HTML（带完整样式）或降级到 body
       const htmlContent = content.wechatHtml || content.body
-      console.log('[Imgto.link Publisher] 小红书 HTML 内容长度:', htmlContent?.length || 0)
+      console.log('[FaFaFa-全部发] 小红书 HTML 内容长度:', htmlContent?.length || 0)
 
       // 填充标题和内容
       const fillResult = await chrome.scripting.executeScript({
@@ -856,7 +856,7 @@ async function syncToPlatform(platformId, content) {
           }
 
           try {
-            console.log('[Imgto.link Publisher] 小红书开始填充内容...')
+            console.log('[FaFaFa-全部发] 小红书开始填充内容...')
 
             // 等待并查找标题输入框
             const titleInput = await waitForElement('input[placeholder*="标题"], textarea[placeholder*="标题"], .title-input', 5000)
@@ -871,7 +871,7 @@ async function syncToPlatform(platformId, content) {
               }
               titleInput.dispatchEvent(new Event('input', { bubbles: true }))
               titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-              console.log('[Imgto.link Publisher] 小红书标题已填充:', title)
+              console.log('[FaFaFa-全部发] 小红书标题已填充:', title)
             }
 
             // 稍等一下让标题生效
@@ -901,7 +901,7 @@ async function syncToPlatform(platformId, content) {
               })
 
               contentEditor.dispatchEvent(pasteEvent)
-              console.log('[Imgto.link Publisher] 小红书内容已通过 paste 事件注入')
+              console.log('[FaFaFa-全部发] 小红书内容已通过 paste 事件注入')
 
               // 等待内容渲染
               await new Promise(r => setTimeout(r, 500))
@@ -910,7 +910,7 @@ async function syncToPlatform(platformId, content) {
               const wordCount = contentEditor.textContent?.length || 0
               if (wordCount === 0) {
                 // 备用方案：直接设置 innerHTML
-                console.log('[Imgto.link Publisher] paste 事件未生效，尝试备用方案')
+                console.log('[FaFaFa-全部发] paste 事件未生效，尝试备用方案')
                 contentEditor.innerHTML = htmlBody
               }
 
@@ -919,7 +919,7 @@ async function syncToPlatform(platformId, content) {
 
             return { success: false, error: 'Content editor not found' }
           } catch (e) {
-            console.error('[Imgto.link Publisher] 小红书同步失败:', e)
+            console.error('[FaFaFa-全部发] 小红书同步失败:', e)
             return { success: false, error: e.message }
           }
         },
@@ -927,7 +927,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] 小红书填充结果:', fillResult[0]?.result)
+      console.log('[FaFaFa-全部发] 小红书填充结果:', fillResult[0]?.result)
 
       // 等待内容注入完成
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -963,7 +963,7 @@ async function syncToPlatform(platformId, content) {
 
           if (createBtn) {
             createBtn.click()
-            console.log('[Imgto.link Publisher] Twitter Articles 已点击 create 按钮')
+            console.log('[FaFaFa-全部发] Twitter Articles 已点击 create 按钮')
 
             // 等待编辑器加载（等待标题输入框出现）
             const waitForEditor = async (timeout = 10000) => {
@@ -985,13 +985,13 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] Twitter Articles create 结果:', clickResult[0]?.result)
+      console.log('[FaFaFa-全部发] Twitter Articles create 结果:', clickResult[0]?.result)
 
       // 编辑器加载完成后，切回原 Tab
       if (currentTab?.id) {
         try {
           await chrome.tabs.update(currentTab.id, { active: true })
-          console.log('[Imgto.link Publisher] Twitter 已切回原 Tab')
+          console.log('[FaFaFa-全部发] Twitter 已切回原 Tab')
         } catch (e) {
           // 原 Tab 可能已关闭，忽略
         }
@@ -1006,7 +1006,7 @@ async function syncToPlatform(platformId, content) {
 
       // 使用 Markdown 内容
       const markdownContent = content.markdown || content.body || ''
-      console.log('[Imgto.link Publisher] Twitter Articles Markdown 内容长度:', markdownContent?.length || 0)
+      console.log('[FaFaFa-全部发] Twitter Articles Markdown 内容长度:', markdownContent?.length || 0)
 
       // 第三步：填充标题和内容
       const fillResult = await chrome.scripting.executeScript({
@@ -1205,11 +1205,11 @@ async function syncToPlatform(platformId, content) {
 
           // ========== 主流程 ==========
           try {
-            console.log('[Imgto.link Publisher] Twitter Articles 开始填充内容...')
+            console.log('[FaFaFa-全部发] Twitter Articles 开始填充内容...')
 
             // 使用内置解析器转换 Markdown 为 HTML
             const htmlContent = parseMarkdownToHtml(markdown)
-            console.log('[Imgto.link Publisher] Markdown 已转换为 HTML')
+            console.log('[FaFaFa-全部发] Markdown 已转换为 HTML')
 
             // 第一步：填充标题
             const titleInput = await waitForElement('textarea[placeholder="Add a title"], textarea[name="Article Title"]', 5000)
@@ -1219,9 +1219,9 @@ async function syncToPlatform(platformId, content) {
               nativeSetter.call(titleInput, title)
               titleInput.dispatchEvent(new Event('input', { bubbles: true }))
               titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-              console.log('[Imgto.link Publisher] Twitter Articles 标题填充成功')
+              console.log('[FaFaFa-全部发] Twitter Articles 标题填充成功')
             } else {
-              console.log('[Imgto.link Publisher] Twitter Articles 未找到标题输入框')
+              console.log('[FaFaFa-全部发] Twitter Articles 未找到标题输入框')
             }
 
             await sleep(500)
@@ -1242,14 +1242,14 @@ async function syncToPlatform(platformId, content) {
               })
 
               contentEl.dispatchEvent(pasteEvent)
-              console.log('[Imgto.link Publisher] Twitter Articles 内容填充成功')
+              console.log('[FaFaFa-全部发] Twitter Articles 内容填充成功')
               return { success: true, method: 'paste-html', length: htmlContent.length }
             } else {
-              console.log('[Imgto.link Publisher] Twitter Articles 未找到内容编辑器')
+              console.log('[FaFaFa-全部发] Twitter Articles 未找到内容编辑器')
               return { success: false, error: 'Content editor not found' }
             }
           } catch (e) {
-            console.error('[Imgto.link Publisher] Twitter Articles 同步失败:', e)
+            console.error('[FaFaFa-全部发] Twitter Articles 同步失败:', e)
             return { success: false, error: e.message }
           }
         },
@@ -1257,7 +1257,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] Twitter Articles 填充结果:', fillResult[0]?.result)
+      console.log('[FaFaFa-全部发] Twitter Articles 填充结果:', fillResult[0]?.result)
 
       // 等待内容注入完成
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -1289,9 +1289,9 @@ async function syncToPlatform(platformId, content) {
             }
           }]
         })
-        console.log('[Imgto.link Publisher] 千帆登录页阻止规则已添加')
+        console.log('[FaFaFa-全部发] 千帆登录页阻止规则已添加')
       } catch (e) {
-        console.warn('[Imgto.link Publisher] 千帆登录页阻止规则添加失败:', e)
+        console.warn('[FaFaFa-全部发] 千帆登录页阻止规则添加失败:', e)
       }
 
       // 打开发布页面
@@ -1306,15 +1306,15 @@ async function syncToPlatform(platformId, content) {
           world: 'MAIN',
           injectImmediately: true,
         })
-        console.log('[Imgto.link Publisher] 千帆拦截脚本已动态注入')
+        console.log('[FaFaFa-全部发] 千帆拦截脚本已动态注入')
       } catch (e) {
-        console.warn('[Imgto.link Publisher] 千帆拦截脚本注入失败:', e)
+        console.warn('[FaFaFa-全部发] 千帆拦截脚本注入失败:', e)
       }
 
       // 监听 tab URL 变化，如果跳转到登录页则导航回编辑器
       const tabUpdateListener = (tabId, changeInfo) => {
         if (tabId === tab.id && changeInfo.url && changeInfo.url.includes('login.bce.baidu.com')) {
-          console.log('[Imgto.link Publisher] 检测到千帆 tab 跳转到登录页，导航回编辑器')
+          console.log('[FaFaFa-全部发] 检测到千帆 tab 跳转到登录页，导航回编辑器')
           chrome.tabs.update(tabId, { url: platform.publishUrl })
         }
       }
@@ -1326,7 +1326,7 @@ async function syncToPlatform(platformId, content) {
         await new Promise(resolve => setTimeout(resolve, 2000))
 
         const markdownContent = content.markdown || content.body || ''
-        console.log('[Imgto.link Publisher] 百度千帆 Markdown 内容长度:', markdownContent?.length || 0)
+        console.log('[FaFaFa-全部发] 百度千帆 Markdown 内容长度:', markdownContent?.length || 0)
 
         // 填充标题和内容
         const fillResult = await chrome.scripting.executeScript({
@@ -1355,7 +1355,7 @@ async function syncToPlatform(platformId, content) {
                 const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value').set
                 nativeSetter.call(titleInput, title)
                 titleInput.dispatchEvent(new Event('input', { bubbles: true }))
-                console.log('[Imgto.link Publisher] 百度千帆标题填充成功')
+                console.log('[FaFaFa-全部发] 百度千帆标题填充成功')
               }
 
               await sleep(300)
@@ -1372,7 +1372,7 @@ async function syncToPlatform(platformId, content) {
                   bubbles: true, cancelable: true, clipboardData: dt
                 })
                 contentEditor.dispatchEvent(pasteEvent)
-                console.log('[Imgto.link Publisher] 百度千帆内容填充成功')
+                console.log('[FaFaFa-全部发] 百度千帆内容填充成功')
 
                 // 等待并点击 Markdown 转换确认按钮
                 let confirmed = false
@@ -1383,7 +1383,7 @@ async function syncToPlatform(platformId, content) {
                     if (confirmBtn) {
                       confirmBtn.click()
                       confirmed = true
-                      console.log('[Imgto.link Publisher] 百度千帆已确认 Markdown 转换')
+                      console.log('[FaFaFa-全部发] 百度千帆已确认 Markdown 转换')
                       break
                     }
                   }
@@ -1395,7 +1395,7 @@ async function syncToPlatform(platformId, content) {
 
               return { success: false, error: 'Editor not found' }
             } catch (e) {
-              console.error('[Imgto.link Publisher] 百度千帆同步失败:', e)
+              console.error('[FaFaFa-全部发] 百度千帆同步失败:', e)
               return { success: false, error: e.message }
             }
           },
@@ -1403,7 +1403,7 @@ async function syncToPlatform(platformId, content) {
           world: 'MAIN',
         })
 
-        console.log('[Imgto.link Publisher] 百度千帆填充结果:', fillResult[0]?.result)
+        console.log('[FaFaFa-全部发] 百度千帆填充结果:', fillResult[0]?.result)
 
         // 等待内容稳定
         await new Promise(resolve => setTimeout(resolve, 2000))
@@ -1414,12 +1414,12 @@ async function syncToPlatform(platformId, content) {
           await chrome.declarativeNetRequest.updateDynamicRules({
             removeRuleIds: [QIANFAN_BLOCK_RULE_ID]
           })
-          console.log('[Imgto.link Publisher] 千帆登录页阻止规则已移除')
+          console.log('[FaFaFa-全部发] 千帆登录页阻止规则已移除')
         } catch (_) {}
 
         return { success: true, message: '已同步到百度云千帆，请手动点击发布', tabId: tab.id }
       } catch (e) {
-        console.error('[Imgto.link Publisher] 千帆同步失败:', e)
+        console.error('[FaFaFa-全部发] 千帆同步失败:', e)
         chrome.tabs.onUpdated.removeListener(tabUpdateListener)
         try {
           await chrome.declarativeNetRequest.updateDynamicRules({
@@ -1441,7 +1441,7 @@ async function syncToPlatform(platformId, content) {
       await new Promise(resolve => setTimeout(resolve, 2000))
 
       const markdownContent = content.markdown || content.body || ''
-      console.log('[Imgto.link Publisher] 支付宝开放平台 Markdown 内容长度:', markdownContent?.length || 0)
+      console.log('[FaFaFa-全部发] 支付宝开放平台 Markdown 内容长度:', markdownContent?.length || 0)
 
       // 使用导入的填充函数
       const fillResult = await chrome.scripting.executeScript({
@@ -1451,7 +1451,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] 支付宝开放平台填充结果:', fillResult[0]?.result)
+      console.log('[FaFaFa-全部发] 支付宝开放平台填充结果:', fillResult[0]?.result)
 
       // 等待内容处理完成
       await new Promise(resolve => setTimeout(resolve, 2000))
@@ -1468,9 +1468,9 @@ async function syncToPlatform(platformId, content) {
         const userId = stored?.oschina_userId
         if (userId) {
           targetUrl = `https://my.oschina.net/u/${userId}/blog/ai-write`
-          console.log('[Imgto.link Publisher] 使用 OSChina AI 写作 URL:', targetUrl)
+          console.log('[FaFaFa-全部发] 使用 OSChina AI 写作 URL:', targetUrl)
         } else {
-          console.warn('[Imgto.link Publisher] 未找到 OSChina 用户 ID，使用默认 URL')
+          console.warn('[FaFaFa-全部发] 未找到 OSChina 用户 ID，使用默认 URL')
         }
       }
 
@@ -1484,14 +1484,14 @@ async function syncToPlatform(platformId, content) {
     if (platformId === 'wechat') {
       // 使用剪贴板 HTML（带完整样式）或降级到 body
       const htmlContent = content.wechatHtml || content.body
-      console.log('[Imgto.link Publisher] 微信 HTML 内容长度:', htmlContent?.length || 0)
+      console.log('[FaFaFa-全部发] 微信 HTML 内容长度:', htmlContent?.length || 0)
 
       // 等待额外时间确保编辑器完全加载
       await new Promise(resolve => setTimeout(resolve, 2000))
 
       // 等待编辑器就绪并注入内容
-      console.log('[Imgto.link Publisher] 开始注入微信内容...')
-      console.log('[Imgto.link Publisher] 目标 tab ID:', tab.id)
+      console.log('[FaFaFa-全部发] 开始注入微信内容...')
+      console.log('[FaFaFa-全部发] 目标 tab ID:', tab.id)
 
       let result
       try {
@@ -1542,7 +1542,7 @@ async function syncToPlatform(platformId, content) {
                 }
                 titleInput.dispatchEvent(new Event('input', { bubbles: true }))
                 titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-                console.log('[Imgto.link Publisher] 微信标题已填充:', title)
+                console.log('[FaFaFa-全部发] 微信标题已填充:', title)
               }
 
               // 稍等一下让标题生效
@@ -1569,7 +1569,7 @@ async function syncToPlatform(platformId, content) {
                 })
 
                 editor.dispatchEvent(pasteEvent)
-                console.log('[Imgto.link Publisher] 微信内容已通过 paste 事件注入')
+                console.log('[FaFaFa-全部发] 微信内容已通过 paste 事件注入')
 
                 // 等待内容渲染
                 await new Promise(r => setTimeout(r, 500))
@@ -1578,7 +1578,7 @@ async function syncToPlatform(platformId, content) {
                 const wordCount = editor.textContent?.length || 0
                 if (wordCount === 0) {
                   // 备用方案：直接设置 innerHTML
-                  console.log('[Imgto.link Publisher] paste 事件未生效，尝试备用方案')
+                  console.log('[FaFaFa-全部发] paste 事件未生效，尝试备用方案')
                   editor.innerHTML = htmlBody
                   editor.dispatchEvent(new Event('input', { bubbles: true }))
                 }
@@ -1599,34 +1599,34 @@ async function syncToPlatform(platformId, content) {
           world: 'MAIN',
         })
       } catch (e) {
-        console.error('[Imgto.link Publisher] executeScript 执行失败:', e)
+        console.error('[FaFaFa-全部发] executeScript 执行失败:', e)
         return { success: false, message: '脚本执行失败: ' + e.message, tabId: tab.id }
       }
 
-      console.log('[Imgto.link Publisher] executeScript 返回数组长度:', result?.length)
-      console.log('[Imgto.link Publisher] executeScript 完整返回:', JSON.stringify(result, null, 2))
+      console.log('[FaFaFa-全部发] executeScript 返回数组长度:', result?.length)
+      console.log('[FaFaFa-全部发] executeScript 完整返回:', JSON.stringify(result, null, 2))
 
       if (!result || result.length === 0) {
-        console.error('[Imgto.link Publisher] executeScript 返回空数组')
+        console.error('[FaFaFa-全部发] executeScript 返回空数组')
         return { success: false, message: '脚本执行失败：无返回值', tabId: tab.id }
       }
 
       const fillResult = result[0].result
-      console.log('[Imgto.link Publisher] 微信填充结果:', JSON.stringify(fillResult, null, 2))
+      console.log('[FaFaFa-全部发] 微信填充结果:', JSON.stringify(fillResult, null, 2))
 
       // 检查 result 结构
       if (!result || !result[0]) {
-        console.error('[Imgto.link Publisher] executeScript 没有返回有效结果')
+        console.error('[FaFaFa-全部发] executeScript 没有返回有效结果')
         return { success: false, message: '内容注入失败：脚本执行无返回值', tabId: tab.id }
       }
 
       if (!fillResult?.success) {
-        console.error('[Imgto.link Publisher] 微信内容填充失败:', fillResult?.error)
-        console.error('[Imgto.link Publisher] 完整 result 对象:', result)
+        console.error('[FaFaFa-全部发] 微信内容填充失败:', fillResult?.error)
+        console.error('[FaFaFa-全部发] 完整 result 对象:', result)
         return { success: false, message: fillResult?.error || '内容填充失败', tabId: tab.id }
       }
 
-      console.log('[Imgto.link Publisher] 微信内容填充成功，字数:', fillResult.wordCount)
+      console.log('[FaFaFa-全部发] 微信内容填充成功，字数:', fillResult.wordCount)
 
       // 等待内容稳定后，点击保存为草稿按钮
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -1637,7 +1637,7 @@ async function syncToPlatform(platformId, content) {
             .find(b => b.textContent.includes('保存为草稿'))
           if (saveDraftBtn) {
             saveDraftBtn.click()
-            console.log('[Imgto.link Publisher] 已点击保存为草稿')
+            console.log('[FaFaFa-全部发] 已点击保存为草稿')
           }
         },
         world: 'MAIN',
@@ -1650,8 +1650,8 @@ async function syncToPlatform(platformId, content) {
     if (platformId === 'douyin') {
       // 使用剪贴板 HTML（带完整样式）或降级到 body
       const htmlContent = content.wechatHtml || content.body
-      console.log('[Imgto.link Publisher] 抖音 HTML 内容长度:', htmlContent?.length || 0)
-      console.log('[Imgto.link Publisher] 开始注入抖音内容...')
+      console.log('[FaFaFa-全部发] 抖音 HTML 内容长度:', htmlContent?.length || 0)
+      console.log('[FaFaFa-全部发] 开始注入抖音内容...')
 
       let result
       try {
@@ -1702,7 +1702,7 @@ async function syncToPlatform(platformId, content) {
                 }
                 titleInput.dispatchEvent(new Event('input', { bubbles: true }))
                 titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-                console.log('[Imgto.link Publisher] 抖音标题已填充:', title)
+                console.log('[FaFaFa-全部发] 抖音标题已填充:', title)
               }
 
               // 填充正文内容
@@ -1724,13 +1724,13 @@ async function syncToPlatform(platformId, content) {
                 })
 
                 editor.dispatchEvent(pasteEvent)
-                console.log('[Imgto.link Publisher] 抖音内容已通过 paste 事件注入')
+                console.log('[FaFaFa-全部发] 抖音内容已通过 paste 事件注入')
 
                 // 立即验证内容是否注入成功
                 const wordCount = editor.textContent?.length || 0
                 if (wordCount === 0) {
                   // 备用方案：直接设置 innerHTML
-                  console.log('[Imgto.link Publisher] paste 事件未生效，尝试备用方案')
+                  console.log('[FaFaFa-全部发] paste 事件未生效，尝试备用方案')
                   editor.innerHTML = htmlBody
                   editor.dispatchEvent(new Event('input', { bubbles: true }))
                 }
@@ -1751,11 +1751,11 @@ async function syncToPlatform(platformId, content) {
           world: 'MAIN',
         })
       } catch (e) {
-        console.error('[Imgto.link Publisher] executeScript 执行失败:', e)
+        console.error('[FaFaFa-全部发] executeScript 执行失败:', e)
         return { success: false, message: '脚本执行失败: ' + e.message, tabId: tab.id }
       }
 
-      console.log('[Imgto.link Publisher] 抖音填充结果:', JSON.stringify(result, null, 2))
+      console.log('[FaFaFa-全部发] 抖音填充结果:', JSON.stringify(result, null, 2))
 
       if (!result || result.length === 0) {
         return { success: false, message: '脚本执行失败：无返回值', tabId: tab.id }
@@ -1766,7 +1766,7 @@ async function syncToPlatform(platformId, content) {
         return { success: false, message: fillResult?.error || '内容填充失败', tabId: tab.id }
       }
 
-      console.log('[Imgto.link Publisher] 抖音内容填充成功，字数:', fillResult.wordCount)
+      console.log('[FaFaFa-全部发] 抖音内容填充成功，字数:', fillResult.wordCount)
       return { success: true, message: '已同步到抖音', tabId: tab.id }
     }
 
@@ -1777,7 +1777,7 @@ async function syncToPlatform(platformId, content) {
 
       // 使用剪贴板 HTML（带完整样式）或降级到 body
       const htmlContent = content.wechatHtml || content.body
-      console.log('[Imgto.link Publisher] 搜狐号 HTML 内容长度:', htmlContent?.length || 0)
+      console.log('[FaFaFa-全部发] 搜狐号 HTML 内容长度:', htmlContent?.length || 0)
 
       // 填充标题和内容
       await chrome.scripting.executeScript({
@@ -1791,7 +1791,7 @@ async function syncToPlatform(platformId, content) {
             nativeSetter.call(titleInput, title)
             titleInput.dispatchEvent(new Event('input', { bubbles: true }))
             titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-            console.log('[Imgto.link Publisher] 搜狐号标题填充成功')
+            console.log('[FaFaFa-全部发] 搜狐号标题填充成功')
           }
 
           // 找到 Quill 编辑器
@@ -1814,9 +1814,9 @@ async function syncToPlatform(platformId, content) {
             })
 
             editor.dispatchEvent(pasteEvent)
-            console.log('[Imgto.link Publisher] 搜狐号内容已通过 paste 事件注入')
+            console.log('[FaFaFa-全部发] 搜狐号内容已通过 paste 事件注入')
           } else {
-            console.log('[Imgto.link Publisher] 搜狐号未找到编辑器')
+            console.log('[FaFaFa-全部发] 搜狐号未找到编辑器')
           }
         },
         args: [content.title, htmlContent],
@@ -1833,7 +1833,7 @@ async function syncToPlatform(platformId, content) {
     if (platformId === 'bilibili') {
       // 使用剪贴板 HTML（带完整样式）或降级到 body
       const htmlContent = content.wechatHtml || content.body
-      console.log('[Imgto.link Publisher] B站专栏 HTML 内容长度:', htmlContent?.length || 0)
+      console.log('[FaFaFa-全部发] B站专栏 HTML 内容长度:', htmlContent?.length || 0)
 
       // 等待 UEditor 就绪
       const waitForEditor = await chrome.scripting.executeScript({
@@ -1848,14 +1848,14 @@ async function syncToPlatform(platformId, content) {
               if (UE && UE.instants && UE.instants['ueditorInstant0']) {
                 const editor = UE.instants['ueditorInstant0']
                 if (editor.isReady) {
-                  console.log('[Imgto.link Publisher] UEditor 已就绪，耗时:', Date.now() - startTime, 'ms')
+                  console.log('[FaFaFa-全部发] UEditor 已就绪，耗时:', Date.now() - startTime, 'ms')
                   resolve({ ready: true, time: Date.now() - startTime })
                   return
                 }
               }
 
               if (Date.now() - startTime > maxWait) {
-                console.log('[Imgto.link Publisher] UEditor 等待超时')
+                console.log('[FaFaFa-全部发] UEditor 等待超时')
                 resolve({ ready: false, timeout: true })
                 return
               }
@@ -1868,7 +1868,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] B站专栏编辑器状态:', waitForEditor)
+      console.log('[FaFaFa-全部发] B站专栏编辑器状态:', waitForEditor)
 
       // 填充标题和内容（一次性完成）
       const fillResult = await chrome.scripting.executeScript({
@@ -1881,7 +1881,7 @@ async function syncToPlatform(platformId, content) {
             titleInput.value = title
             titleInput.dispatchEvent(new Event('input', { bubbles: true }))
             titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-            console.log('[Imgto.link Publisher] B站专栏标题填充成功')
+            console.log('[FaFaFa-全部发] B站专栏标题填充成功')
           }
 
           // 填充内容
@@ -1900,7 +1900,7 @@ async function syncToPlatform(platformId, content) {
           editor.execCommand('inserthtml', htmlBody)
           editor.fireEvent('contentchange')
 
-          console.log('[Imgto.link Publisher] B站专栏内容已填充')
+          console.log('[FaFaFa-全部发] B站专栏内容已填充')
           return {
             success: true,
             contentLength: editor.getContentLength()
@@ -1910,7 +1910,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] B站专栏填充结果:', fillResult)
+      console.log('[FaFaFa-全部发] B站专栏填充结果:', fillResult)
 
       // 短暂等待后点击存草稿
       await new Promise(resolve => setTimeout(resolve, 300))
@@ -1923,7 +1923,7 @@ async function syncToPlatform(platformId, content) {
             .find(b => b.textContent && b.textContent.includes('存草稿'))
           if (saveDraftBtn) {
             saveDraftBtn.click()
-            console.log('[Imgto.link Publisher] B站专栏已点击存草稿')
+            console.log('[FaFaFa-全部发] B站专栏已点击存草稿')
           }
         },
         world: 'MAIN',
@@ -1942,7 +1942,7 @@ async function syncToPlatform(platformId, content) {
 
       // 使用剪贴板 HTML（带完整样式）或降级到 body
       const htmlContent = content.wechatHtml || content.body
-      console.log('[Imgto.link Publisher] 微博头条 HTML 内容长度:', htmlContent?.length || 0)
+      console.log('[FaFaFa-全部发] 微博头条 HTML 内容长度:', htmlContent?.length || 0)
 
       // 填充标题和内容
       const fillResult = await chrome.scripting.executeScript({
@@ -1955,7 +1955,7 @@ async function syncToPlatform(platformId, content) {
             titleInput.value = title
             titleInput.dispatchEvent(new Event('input', { bubbles: true }))
             titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-            console.log('[Imgto.link Publisher] 微博头条标题填充成功')
+            console.log('[FaFaFa-全部发] 微博头条标题填充成功')
           }
 
           // 填充内容 - 微博使用 ProseMirror/TipTap 编辑器
@@ -1963,7 +1963,7 @@ async function syncToPlatform(platformId, content) {
           if (editor && htmlBody) {
             editor.innerHTML = htmlBody
             editor.dispatchEvent(new Event('input', { bubbles: true }))
-            console.log('[Imgto.link Publisher] 微博头条内容填充成功')
+            console.log('[FaFaFa-全部发] 微博头条内容填充成功')
             return { success: true }
           }
 
@@ -1973,7 +1973,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] 微博头条填充结果:', fillResult)
+      console.log('[FaFaFa-全部发] 微博头条填充结果:', fillResult)
 
       // 等待内容注入完成
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -1986,7 +1986,7 @@ async function syncToPlatform(platformId, content) {
             .find(b => b.textContent && b.textContent.includes('保存草稿'))
           if (saveBtn) {
             saveBtn.click()
-            console.log('[Imgto.link Publisher] 微博头条已点击保存草稿')
+            console.log('[FaFaFa-全部发] 微博头条已点击保存草稿')
           }
         },
         world: 'MAIN',
@@ -2005,7 +2005,7 @@ async function syncToPlatform(platformId, content) {
 
       // 阿里云使用 Markdown 编辑器
       const markdownContent = content.markdown || content.body || ''
-      console.log('[Imgto.link Publisher] 阿里云开发者社区 Markdown 内容长度:', markdownContent?.length || 0)
+      console.log('[FaFaFa-全部发] 阿里云开发者社区 Markdown 内容长度:', markdownContent?.length || 0)
 
       // 填充标题和内容
       const fillResult = await chrome.scripting.executeScript({
@@ -2020,7 +2020,7 @@ async function syncToPlatform(platformId, content) {
             nativeSetter.call(titleInput, title)
             titleInput.dispatchEvent(new Event('input', { bubbles: true }))
             titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-            console.log('[Imgto.link Publisher] 阿里云开发者社区标题填充成功')
+            console.log('[FaFaFa-全部发] 阿里云开发者社区标题填充成功')
           }
 
           // 填充内容 - 阿里云使用 textarea 作为 Markdown 编辑器
@@ -2035,7 +2035,7 @@ async function syncToPlatform(platformId, content) {
             nativeSetter.call(contentTextarea, markdown)
             contentTextarea.dispatchEvent(new Event('input', { bubbles: true }))
             contentTextarea.dispatchEvent(new Event('change', { bubbles: true }))
-            console.log('[Imgto.link Publisher] 阿里云开发者社区内容填充成功')
+            console.log('[FaFaFa-全部发] 阿里云开发者社区内容填充成功')
             return { success: true }
           }
 
@@ -2045,7 +2045,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] 阿里云开发者社区填充结果:', fillResult)
+      console.log('[FaFaFa-全部发] 阿里云开发者社区填充结果:', fillResult)
 
       // 等待内容注入完成
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -2060,7 +2060,7 @@ async function syncToPlatform(platformId, content) {
 
       // 火山引擎使用 Markdown 编辑器
       const markdownContent = content.markdown || content.body || ''
-      console.log('[Imgto.link Publisher] 火山引擎开发者社区 Markdown 内容长度:', markdownContent?.length || 0)
+      console.log('[FaFaFa-全部发] 火山引擎开发者社区 Markdown 内容长度:', markdownContent?.length || 0)
 
       // 填充标题和内容
       const fillResult = await chrome.scripting.executeScript({
@@ -2077,14 +2077,14 @@ async function syncToPlatform(platformId, content) {
             nativeSetter.call(titleInput, title)
             titleInput.dispatchEvent(new Event('input', { bubbles: true }))
             titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-            console.log('[Imgto.link Publisher] 火山引擎开发者社区标题填充成功')
+            console.log('[FaFaFa-全部发] 火山引擎开发者社区标题填充成功')
           }
 
           // 火山引擎使用 ByteMD 编辑器（基于 CodeMirror）
           const codeMirrorEl = document.querySelector('.CodeMirror')
           if (codeMirrorEl && codeMirrorEl.CodeMirror && markdown) {
             codeMirrorEl.CodeMirror.setValue(markdown)
-            console.log('[Imgto.link Publisher] 火山引擎开发者社区内容填充成功')
+            console.log('[FaFaFa-全部发] 火山引擎开发者社区内容填充成功')
             return { success: true, method: 'CodeMirror' }
           }
 
@@ -2098,7 +2098,7 @@ async function syncToPlatform(platformId, content) {
             nativeSetter.call(contentTextarea, markdown)
             contentTextarea.dispatchEvent(new Event('input', { bubbles: true }))
             contentTextarea.dispatchEvent(new Event('change', { bubbles: true }))
-            console.log('[Imgto.link Publisher] 火山引擎开发者社区内容填充成功（textarea）')
+            console.log('[FaFaFa-全部发] 火山引擎开发者社区内容填充成功（textarea）')
             return { success: true, method: 'textarea' }
           }
 
@@ -2108,7 +2108,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] 火山引擎开发者社区填充结果:', fillResult)
+      console.log('[FaFaFa-全部发] 火山引擎开发者社区填充结果:', fillResult)
 
       // 等待内容注入完成
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -2123,21 +2123,21 @@ async function syncToPlatform(platformId, content) {
 
       // 华为云使用 Markdown 编辑器
       const markdownContent = content.markdown || content.body || ''
-      console.log('[Imgto.link Publisher] 华为云开发者博客 Markdown 内容长度:', markdownContent?.length || 0)
+      console.log('[FaFaFa-全部发] 华为云开发者博客 Markdown 内容长度:', markdownContent?.length || 0)
 
       // 检查当前编辑器类型，如果不是 Markdown 则切换
       const switchResult = await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: () => {
           if (window.tinymceModal?.currentEditorType === 'markdown') {
-            console.log('[Imgto.link Publisher] 华为云已经是 Markdown 编辑器')
+            console.log('[FaFaFa-全部发] 华为云已经是 Markdown 编辑器')
             return { alreadyMarkdown: true }
           }
           const allElements = document.querySelectorAll('*')
           for (const el of allElements) {
             if (el.textContent === 'Markdown格式编辑' && el.children.length === 0) {
               el.click()
-              console.log('[Imgto.link Publisher] 华为云已点击 Markdown 编辑器标签')
+              console.log('[FaFaFa-全部发] 华为云已点击 Markdown 编辑器标签')
               return { clicked: true }
             }
           }
@@ -2156,7 +2156,7 @@ async function syncToPlatform(platformId, content) {
             for (const el of allElements) {
               if (el.textContent === '确定' && el.children.length === 0) {
                 el.click()
-                console.log('[Imgto.link Publisher] 华为云已点击确定按钮')
+                console.log('[FaFaFa-全部发] 华为云已点击确定按钮')
                 return { confirmed: true }
               }
             }
@@ -2178,7 +2178,7 @@ async function syncToPlatform(platformId, content) {
             titleInput.value = title
             titleInput.dispatchEvent(new Event('input', { bubbles: true }))
             titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-            console.log('[Imgto.link Publisher] 华为云开发者博客标题填充成功')
+            console.log('[FaFaFa-全部发] 华为云开发者博客标题填充成功')
           }
         },
         args: [content.title],
@@ -2265,32 +2265,32 @@ async function syncToPlatform(platformId, content) {
           }
 
           // 1. 等待编辑器和 iframe 就绪
-          console.log('[Imgto.link Publisher] 华为云：等待 Markdown 编辑器 iframe 就绪...')
+          console.log('[FaFaFa-全部发] 华为云：等待 Markdown 编辑器 iframe 就绪...')
           const ready = await waitForEditorReady()
           if (!ready) {
-            console.log('[Imgto.link Publisher] 华为云：编辑器等待超时')
+            console.log('[FaFaFa-全部发] 华为云：编辑器等待超时')
             return { success: false, error: '编辑器 iframe 等待超时' }
           }
-          console.log('[Imgto.link Publisher] 华为云：编辑器 iframe 已就绪')
+          console.log('[FaFaFa-全部发] 华为云：编辑器 iframe 已就绪')
 
           // 2. 带重试的内容填充，通过 message 事件确认
           const maxRetries = 6
           for (let attempt = 1; attempt <= maxRetries; attempt++) {
-            console.log(`[Imgto.link Publisher] 华为云内容填充尝试 ${attempt}/${maxRetries}`)
+            console.log(`[FaFaFa-全部发] 华为云内容填充尝试 ${attempt}/${maxRetries}`)
 
             const result = await setContentWithConfirm(ready.editor, ready.iframe, markdown)
             if (result.confirmed) {
-              console.log(`[Imgto.link Publisher] 华为云内容填充成功（第${attempt}次），已收到 iframe 确认`)
+              console.log(`[FaFaFa-全部发] 华为云内容填充成功（第${attempt}次），已收到 iframe 确认`)
               return { success: true, method: 'message-confirm', attempt, length: markdown.length }
             }
 
-            console.log(`[Imgto.link Publisher] 华为云：未收到 iframe 确认，等待后重试...`)
+            console.log(`[FaFaFa-全部发] 华为云：未收到 iframe 确认，等待后重试...`)
             // iframe 内部应用可能还在初始化，等待后重试
             await new Promise(r => setTimeout(r, 2000))
           }
 
           // 3. 所有重试失败，直接 postMessage 作为最后手段
-          console.log('[Imgto.link Publisher] 重试耗尽，尝试直接 postMessage')
+          console.log('[FaFaFa-全部发] 重试耗尽，尝试直接 postMessage')
           ready.iframe.contentWindow.postMessage(JSON.stringify({
             mdEditorEventAction: 'setMdEditorContent',
             data: encodeURIComponent(markdown)
@@ -2302,7 +2302,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] 华为云开发者博客填充结果:', fillResult)
+      console.log('[FaFaFa-全部发] 华为云开发者博客填充结果:', fillResult)
 
       // 等待内容注入完成
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -2315,7 +2315,7 @@ async function syncToPlatform(platformId, content) {
           for (const link of allLinks) {
             if (link.textContent && link.textContent.includes('保存草稿')) {
               link.click()
-              console.log('[Imgto.link Publisher] 华为云开发者博客已点击保存草稿')
+              console.log('[FaFaFa-全部发] 华为云开发者博客已点击保存草稿')
               return { clicked: true }
             }
           }
@@ -2334,7 +2334,7 @@ async function syncToPlatform(platformId, content) {
     if (platformId === 'huaweidev') {
       // 华为开发者文章使用 Markdown 编辑器
       const markdownContent = content.markdown || content.body || ''
-      console.log('[Imgto.link Publisher] 华为开发者文章 Markdown 内容长度:', markdownContent?.length || 0)
+      console.log('[FaFaFa-全部发] 华为开发者文章 Markdown 内容长度:', markdownContent?.length || 0)
 
       // 注入异步弹窗监听器，并执行主流程
       const result = await chrome.scripting.executeScript({
@@ -2348,13 +2348,13 @@ async function syncToPlatform(platformId, content) {
               const buttons = modalBtns.querySelectorAll('button')
               const modalText = document.querySelector('.ant-modal-confirm-content')?.textContent || ''
 
-              console.log('[Imgto.link Publisher] 检测到 Ant Modal:', modalText.substring(0, 50))
+              console.log('[FaFaFa-全部发] 检测到 Ant Modal:', modalText.substring(0, 50))
 
               // 处理"温馨提示"弹窗 - 点击"取消"
               if (modalText.includes('温馨提示') || modalText.includes('未保存')) {
                 for (const btn of buttons) {
                   if (btn.textContent?.trim() === '取消') {
-                    console.log('[Imgto.link Publisher] 点击温馨提示弹窗的取消按钮')
+                    console.log('[FaFaFa-全部发] 点击温馨提示弹窗的取消按钮')
                     btn.click()
                     return true
                   }
@@ -2365,7 +2365,7 @@ async function syncToPlatform(platformId, content) {
               if (modalText.includes('Markdown') || modalText.includes('切换')) {
                 for (const btn of buttons) {
                   if (btn.textContent?.trim() === '确认') {
-                    console.log('[Imgto.link Publisher] 点击 MD 切换确认按钮')
+                    console.log('[FaFaFa-全部发] 点击 MD 切换确认按钮')
                     btn.click()
                     return true
                   }
@@ -2379,7 +2379,7 @@ async function syncToPlatform(platformId, content) {
               const dialogText = dialog.textContent || ''
               const buttons = dialog.querySelectorAll('button')
 
-              console.log('[Imgto.link Publisher] 检测到 dialog:', dialogText.substring(0, 50))
+              console.log('[FaFaFa-全部发] 检测到 dialog:', dialogText.substring(0, 50))
 
               if (dialogText.includes('温馨提示') || dialogText.includes('未保存')) {
                 for (const btn of buttons) {
@@ -2417,14 +2417,14 @@ async function syncToPlatform(platformId, content) {
               handleDialog()
             }, 200)
 
-            console.log('[Imgto.link Publisher] 华为开发者文章弹窗检查器已启动')
+            console.log('[FaFaFa-全部发] 华为开发者文章弹窗检查器已启动')
           }
 
           const stopDialogChecker = () => {
             if (dialogCheckInterval) {
               clearInterval(dialogCheckInterval)
               dialogCheckInterval = null
-              console.log('[Imgto.link Publisher] 华为开发者文章弹窗检查器已停止')
+              console.log('[FaFaFa-全部发] 华为开发者文章弹窗检查器已停止')
             }
           }
 
@@ -2490,7 +2490,7 @@ async function syncToPlatform(platformId, content) {
 
             // 等待 DOM 完全加载
             if (document.readyState !== 'complete') {
-              console.log('[Imgto.link Publisher] 等待 DOM 加载完成...')
+              console.log('[FaFaFa-全部发] 等待 DOM 加载完成...')
               await new Promise(resolve => {
                 if (document.readyState === 'complete') {
                   resolve()
@@ -2502,7 +2502,7 @@ async function syncToPlatform(platformId, content) {
 
             // 等待页面加载完成（等待 MD编辑器 或 富文本编辑器 按钮出现）
             // 华为开发者页面的编辑器工具栏是异步加载的，需要较长时间
-            console.log('[Imgto.link Publisher] 等待编辑器工具栏加载...')
+            console.log('[FaFaFa-全部发] 等待编辑器工具栏加载...')
             let mdButton = await waitForMdButton(15000)
             let richTextButton = await waitForRichTextButton(2000)
 
@@ -2511,28 +2511,28 @@ async function syncToPlatform(platformId, content) {
 
             // 如果有富文本编辑器按钮，说明当前已经是 Markdown 编辑器
             if (richTextButton || aceEditor) {
-              console.log('[Imgto.link Publisher] 已经是 Markdown 编辑器')
+              console.log('[FaFaFa-全部发] 已经是 Markdown 编辑器')
               aceEditor = aceEditor || document.querySelector('.ace_editor')
             } else if (!aceEditor) {
               // 需要切换到 Markdown 编辑器
               if (mdButton) {
-                console.log('[Imgto.link Publisher] 点击 MD编辑器 按钮')
+                console.log('[FaFaFa-全部发] 点击 MD编辑器 按钮')
                 mdButton.click()
 
                 // 等待 ACE Editor 出现（弹窗会被检查器自动处理）
                 aceEditor = await waitForElement('.ace_editor', 10000)
 
                 if (!aceEditor) {
-                  console.error('[Imgto.link Publisher] 等待 ACE Editor 超时')
+                  console.error('[FaFaFa-全部发] 等待 ACE Editor 超时')
                   return { success: false, error: 'ACE Editor not found after timeout' }
                 }
               } else {
-                console.error('[Imgto.link Publisher] 未找到 MD编辑器 按钮')
+                console.error('[FaFaFa-全部发] 未找到 MD编辑器 按钮')
                 return { success: false, error: 'MD Editor button not found' }
               }
             }
 
-            console.log('[Imgto.link Publisher] 华为开发者文章已进入 Markdown 编辑器')
+            console.log('[FaFaFa-全部发] 华为开发者文章已进入 Markdown 编辑器')
 
             // 等待编辑器完全初始化
             await sleep(500)
@@ -2545,7 +2545,7 @@ async function syncToPlatform(platformId, content) {
               nativeSetter.call(titleInput, title)
               titleInput.dispatchEvent(new Event('input', { bubbles: true }))
               titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-              console.log('[Imgto.link Publisher] 华为开发者文章标题填充成功')
+              console.log('[FaFaFa-全部发] 华为开发者文章标题填充成功')
             }
 
             // 填充 Markdown 内容
@@ -2553,7 +2553,7 @@ async function syncToPlatform(platformId, content) {
               const editor = ace.edit(aceEditor)
               if (editor) {
                 editor.session.setValue(markdown)
-                console.log('[Imgto.link Publisher] 华为开发者文章内容填充成功，长度:', markdown.length)
+                console.log('[FaFaFa-全部发] 华为开发者文章内容填充成功，长度:', markdown.length)
               }
             }
 
@@ -2568,7 +2568,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] 华为开发者文章填充结果:', result[0]?.result)
+      console.log('[FaFaFa-全部发] 华为开发者文章填充结果:', result[0]?.result)
 
       return { success: true, message: '已同步到华为开发者文章', tabId: tab.id }
     }
@@ -2580,7 +2580,7 @@ async function syncToPlatform(platformId, content) {
 
       // 使用剪贴板 HTML（带完整样式）或降级到 body
       const htmlContent = content.wechatHtml || content.body
-      console.log('[Imgto.link Publisher] 百家号 HTML 内容长度:', htmlContent?.length || 0)
+      console.log('[FaFaFa-全部发] 百家号 HTML 内容长度:', htmlContent?.length || 0)
 
       // 填充标题和内容
       await chrome.scripting.executeScript({
@@ -2599,7 +2599,7 @@ async function syncToPlatform(platformId, content) {
               titleEditor.innerHTML = `<p dir="auto">${title}</p>`
             }
             titleEditor.dispatchEvent(new Event('input', { bubbles: true }))
-            console.log('[Imgto.link Publisher] 百家号标题已填充')
+            console.log('[FaFaFa-全部发] 百家号标题已填充')
           }
 
           // 等待一下再填充内容
@@ -2623,7 +2623,7 @@ async function syncToPlatform(platformId, content) {
                     })
                   }
                 })
-                console.log('[Imgto.link Publisher] 百家号提取到', originalFormulas.length, '个公式')
+                console.log('[FaFaFa-全部发] 百家号提取到', originalFormulas.length, '个公式')
 
                 // 先用 setContent 设置内容（公式 SVG 会被过滤）
                 editor.setContent(htmlBody)
@@ -2649,7 +2649,7 @@ async function syncToPlatform(platformId, content) {
                         }
                       })
 
-                      console.log('[Imgto.link Publisher] 百家号公式 SVG 已恢复')
+                      console.log('[FaFaFa-全部发] 百家号公式 SVG 已恢复')
                       editor.fireEvent('contentChange')
                     }
                   }, 300)
@@ -2657,10 +2657,10 @@ async function syncToPlatform(platformId, content) {
 
                 editor.fireEvent('contentChange');
                 editor.fireEvent('selectionchange');
-                console.log('[Imgto.link Publisher] 百家号通过 UEditor API 填充成功')
+                console.log('[FaFaFa-全部发] 百家号通过 UEditor API 填充成功')
                 return
               } catch (e) {
-                console.log('[Imgto.link Publisher] 百家号 UEditor API 调用失败', e)
+                console.log('[FaFaFa-全部发] 百家号 UEditor API 调用失败', e)
               }
             }
           }, 500)
@@ -2682,7 +2682,7 @@ async function syncToPlatform(platformId, content) {
 
       // 使用剪贴板 HTML（带完整样式）或降级到 body
       const htmlContent = content.wechatHtml || content.body
-      console.log('[Imgto.link Publisher] 少数派 HTML 内容长度:', htmlContent?.length || 0)
+      console.log('[FaFaFa-全部发] 少数派 HTML 内容长度:', htmlContent?.length || 0)
 
       // 填充标题和内容
       await chrome.scripting.executeScript({
@@ -2702,7 +2702,7 @@ async function syncToPlatform(platformId, content) {
             titleInput.dispatchEvent(new InputEvent('input', { bubbles: true, data: title, inputType: 'insertText' }))
             titleInput.dispatchEvent(new Event('change', { bubbles: true }))
             titleInput.dispatchEvent(new Event('blur', { bubbles: true }))
-            console.log('[Imgto.link Publisher] 少数派标题已填充')
+            console.log('[FaFaFa-全部发] 少数派标题已填充')
           }
 
           // 等待一下再填充内容
@@ -2726,7 +2726,7 @@ async function syncToPlatform(platformId, content) {
               })
 
               editor.dispatchEvent(pasteEvent)
-              console.log('[Imgto.link Publisher] 少数派内容已通过 paste 事件注入')
+              console.log('[FaFaFa-全部发] 少数派内容已通过 paste 事件注入')
             }
           }, 500)
         },
@@ -2747,7 +2747,7 @@ async function syncToPlatform(platformId, content) {
 
       // 使用剪贴板 HTML（带完整样式）或降级到 body
       const htmlContent = content.wechatHtml || content.body
-      console.log('[Imgto.link Publisher] 支付宝开放平台 HTML 内容长度:', htmlContent?.length || 0)
+      console.log('[FaFaFa-全部发] 支付宝开放平台 HTML 内容长度:', htmlContent?.length || 0)
 
       // 填充标题和内容
       const fillResult = await chrome.scripting.executeScript({
@@ -2776,7 +2776,7 @@ async function syncToPlatform(platformId, content) {
           }
 
           try {
-            console.log('[Imgto.link Publisher] 支付宝开放平台开始填充内容...')
+            console.log('[FaFaFa-全部发] 支付宝开放平台开始填充内容...')
 
             // 等待并查找标题输入框
             const titleInput = await waitForElement('#title', 5000) || await waitForElement('input[placeholder*="标题"]', 5000)
@@ -2819,7 +2819,7 @@ async function syncToPlatform(platformId, content) {
               })
               titleInput.dispatchEvent(inputEvent)
 
-              console.log('[Imgto.link Publisher] 支付宝开放平台标题已填充:', title, '当前值:', titleInput.value)
+              console.log('[FaFaFa-全部发] 支付宝开放平台标题已填充:', title, '当前值:', titleInput.value)
             }
 
             // 稍等一下让标题生效
@@ -2845,7 +2845,7 @@ async function syncToPlatform(platformId, content) {
               })
 
               editor.dispatchEvent(pasteEvent)
-              console.log('[Imgto.link Publisher] 支付宝开放平台内容已通过 paste 事件注入')
+              console.log('[FaFaFa-全部发] 支付宝开放平台内容已通过 paste 事件注入')
 
               // 等待内容渲染
               await new Promise(r => setTimeout(r, 500))
@@ -2854,7 +2854,7 @@ async function syncToPlatform(platformId, content) {
               const wordCount = editor.textContent?.length || 0
               if (wordCount === 0) {
                 // 备用方案：直接设置 innerHTML
-                console.log('[Imgto.link Publisher] paste 事件未生效，尝试备用方案')
+                console.log('[FaFaFa-全部发] paste 事件未生效，尝试备用方案')
                 editor.innerHTML = htmlBody
                 editor.dispatchEvent(new Event('input', { bubbles: true }))
               }
@@ -2864,7 +2864,7 @@ async function syncToPlatform(platformId, content) {
 
             return { success: false, error: 'ne-engine editor not found' }
           } catch (e) {
-            console.error('[Imgto.link Publisher] 支付宝开放平台同步失败:', e)
+            console.error('[FaFaFa-全部发] 支付宝开放平台同步失败:', e)
             return { success: false, error: e.message }
           }
         },
@@ -2872,7 +2872,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] 支付宝开放平台填充结果:', fillResult[0]?.result)
+      console.log('[FaFaFa-全部发] 支付宝开放平台填充结果:', fillResult[0]?.result)
 
       // 等待内容注入完成
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -2887,7 +2887,7 @@ async function syncToPlatform(platformId, content) {
 
       // 使用 Markdown 内容
       const markdownContent = content.markdown || content.body || ''
-      console.log('[Imgto.link Publisher] 电子发烧友 Markdown 内容长度:', markdownContent?.length || 0)
+      console.log('[FaFaFa-全部发] 电子发烧友 Markdown 内容长度:', markdownContent?.length || 0)
 
       // 填充标题和内容
       const fillResult = await chrome.scripting.executeScript({
@@ -2916,7 +2916,7 @@ async function syncToPlatform(platformId, content) {
           }
 
           try {
-            console.log('[Imgto.link Publisher] 电子发烧友开始填充内容...')
+            console.log('[FaFaFa-全部发] 电子发烧友开始填充内容...')
 
             // 等待并查找标题输入框
             const titleInput = await waitForElement('input[placeholder*="标题"], input.title-input, input[name="title"]', 5000)
@@ -2931,7 +2931,7 @@ async function syncToPlatform(platformId, content) {
               }
               titleInput.dispatchEvent(new Event('input', { bubbles: true }))
               titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-              console.log('[Imgto.link Publisher] 电子发烧友标题已填充:', title)
+              console.log('[FaFaFa-全部发] 电子发烧友标题已填充:', title)
             }
 
             // 稍等一下让标题生效
@@ -2954,7 +2954,7 @@ async function syncToPlatform(platformId, content) {
               })
 
               vditorWysiwyg.dispatchEvent(pasteEvent)
-              console.log('[Imgto.link Publisher] 电子发烧友 Vditor paste 事件已触发')
+              console.log('[FaFaFa-全部发] 电子发烧友 Vditor paste 事件已触发')
 
               // 等待内容渲染
               await new Promise(r => setTimeout(r, 500))
@@ -2962,12 +2962,12 @@ async function syncToPlatform(platformId, content) {
               // 验证内容是否注入成功
               const wordCount = vditorWysiwyg.textContent?.length || 0
               if (wordCount > 10) {
-                console.log('[Imgto.link Publisher] 电子发烧友 Vditor 内容已填充，字数:', wordCount)
+                console.log('[FaFaFa-全部发] 电子发烧友 Vditor 内容已填充，字数:', wordCount)
                 return { success: true, method: 'vditor-paste', length: wordCount }
               }
 
               // 备用方案：直接设置 textContent（Vditor 会自动解析 Markdown）
-              console.log('[Imgto.link Publisher] paste 事件未生效，尝试直接输入')
+              console.log('[FaFaFa-全部发] paste 事件未生效，尝试直接输入')
               vditorWysiwyg.textContent = markdown
               vditorWysiwyg.dispatchEvent(new Event('input', { bubbles: true }))
 
@@ -2978,7 +2978,7 @@ async function syncToPlatform(platformId, content) {
             const cmElement = document.querySelector('.CodeMirror')
             if (cmElement && cmElement.CodeMirror) {
               cmElement.CodeMirror.setValue(markdown)
-              console.log('[Imgto.link Publisher] 电子发烧友 CodeMirror 内容已填充')
+              console.log('[FaFaFa-全部发] 电子发烧友 CodeMirror 内容已填充')
               return { success: true, method: 'codemirror', length: markdown.length }
             }
 
@@ -2994,7 +2994,7 @@ async function syncToPlatform(platformId, content) {
               }
               textarea.dispatchEvent(new Event('input', { bubbles: true }))
               textarea.dispatchEvent(new Event('change', { bubbles: true }))
-              console.log('[Imgto.link Publisher] 电子发烧友 textarea 内容已填充')
+              console.log('[FaFaFa-全部发] 电子发烧友 textarea 内容已填充')
               return { success: true, method: 'textarea', length: markdown.length }
             }
 
@@ -3004,13 +3004,13 @@ async function syncToPlatform(platformId, content) {
               editor.focus()
               editor.textContent = markdown
               editor.dispatchEvent(new Event('input', { bubbles: true }))
-              console.log('[Imgto.link Publisher] 电子发烧友 contenteditable 内容已填充')
+              console.log('[FaFaFa-全部发] 电子发烧友 contenteditable 内容已填充')
               return { success: true, method: 'contenteditable', length: markdown.length }
             }
 
             return { success: false, error: 'editor not found' }
           } catch (e) {
-            console.error('[Imgto.link Publisher] 电子发烧友同步失败:', e)
+            console.error('[FaFaFa-全部发] 电子发烧友同步失败:', e)
             return { success: false, error: e.message }
           }
         },
@@ -3018,7 +3018,7 @@ async function syncToPlatform(platformId, content) {
         world: 'MAIN',
       })
 
-      console.log('[Imgto.link Publisher] 电子发烧友填充结果:', fillResult[0]?.result)
+      console.log('[FaFaFa-全部发] 电子发烧友填充结果:', fillResult[0]?.result)
 
       // 等待内容注入完成
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -3080,7 +3080,7 @@ function fillContentOnPage(content, platformId) {
 
     // 知乎专栏 - 由 syncToPlatform 单独处理（使用导入文档功能）
     if (host.includes('zhihu.com')) {
-      console.log('[Imgto.link Publisher] 知乎由导入文档功能处理')
+      console.log('[FaFaFa-全部发] 知乎由导入文档功能处理')
     }
     // 今日头条
     else if (host.includes('toutiao.com')) {
@@ -3094,9 +3094,9 @@ function fillContentOnPage(content, platformId) {
         titleInput.dispatchEvent(new InputEvent('input', { bubbles: true, data: title, inputType: 'insertText' }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
         titleInput.dispatchEvent(new Event('blur', { bubbles: true }))
-        console.log('[Imgto.link Publisher] 头条标题填充成功:', title)
+        console.log('[FaFaFa-全部发] 头条标题填充成功:', title)
       } else {
-        console.log('[Imgto.link Publisher] 头条未找到标题输入框')
+        console.log('[FaFaFa-全部发] 头条未找到标题输入框')
       }
 
       // 等待编辑器加载
@@ -3108,9 +3108,9 @@ function fillContentOnPage(content, platformId) {
         editor.focus()
         editor.innerHTML = body || contentToFill.replace(/\n/g, '<br>')
         editor.dispatchEvent(new InputEvent('input', { bubbles: true }))
-        console.log('[Imgto.link Publisher] 头条内容填充成功')
+        console.log('[FaFaFa-全部发] 头条内容填充成功')
       } else {
-        console.log('[Imgto.link Publisher] 头条未找到编辑器')
+        console.log('[FaFaFa-全部发] 头条未找到编辑器')
       }
     }
     // 思否 SegmentFault
@@ -3122,9 +3122,9 @@ function fillContentOnPage(content, platformId) {
         titleInput.value = title
         titleInput.dispatchEvent(new Event('input', { bubbles: true }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[Imgto.link Publisher] 思否标题填充成功')
+        console.log('[FaFaFa-全部发] 思否标题填充成功')
       } else {
-        console.log('[Imgto.link Publisher] 思否未找到标题输入框')
+        console.log('[FaFaFa-全部发] 思否未找到标题输入框')
       }
 
       // 等待编辑器加载
@@ -3134,7 +3134,7 @@ function fillContentOnPage(content, platformId) {
       const cmElement = document.querySelector('.CodeMirror')
       if (cmElement && cmElement.CodeMirror) {
         cmElement.CodeMirror.setValue(contentToFill)
-        console.log('[Imgto.link Publisher] 思否 CodeMirror 填充成功')
+        console.log('[FaFaFa-全部发] 思否 CodeMirror 填充成功')
       } else {
         // 降级到 textarea
         const textarea = document.querySelector('textarea')
@@ -3142,9 +3142,9 @@ function fillContentOnPage(content, platformId) {
           textarea.focus()
           textarea.value = contentToFill
           textarea.dispatchEvent(new Event('input', { bubbles: true }))
-          console.log('[Imgto.link Publisher] 思否 textarea 填充成功')
+          console.log('[FaFaFa-全部发] 思否 textarea 填充成功')
         } else {
-          console.log('[Imgto.link Publisher] 思否 未找到编辑器')
+          console.log('[FaFaFa-全部发] 思否 未找到编辑器')
         }
       }
     }
@@ -3157,7 +3157,7 @@ function fillContentOnPage(content, platformId) {
         const switchBtn = document.querySelector('.editor-switch-btn') || switchText.parentElement
         if (switchBtn) {
           switchBtn.click()
-          console.log('[Imgto.link Publisher] OSChina 已点击切换按钮')
+          console.log('[FaFaFa-全部发] OSChina 已点击切换按钮')
           // Poll for the confirmation button (Ant Design Modal animation)
           let confirmBtn = null
           for (let i = 0; i < 20; i++) {
@@ -3168,15 +3168,15 @@ function fillContentOnPage(content, platformId) {
           }
           if (confirmBtn) {
             confirmBtn.click()
-            console.log('[Imgto.link Publisher] OSChina 已确认切换到MD编辑器')
+            console.log('[FaFaFa-全部发] OSChina 已确认切换到MD编辑器')
           } else {
-            console.log('[Imgto.link Publisher] OSChina 未找到确认切换按钮')
+            console.log('[FaFaFa-全部发] OSChina 未找到确认切换按钮')
           }
           // Wait for MD editor to load after switch
           await new Promise(resolve => setTimeout(resolve, 2000))
         }
       } else {
-        console.log('[Imgto.link Publisher] OSChina 已在MD编辑器模式')
+        console.log('[FaFaFa-全部发] OSChina 已在MD编辑器模式')
       }
 
       // 2. 填充标题
@@ -3191,7 +3191,7 @@ function fillContentOnPage(content, platformId) {
         }
         titleInput.dispatchEvent(new Event('input', { bubbles: true }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[Imgto.link Publisher] OSChina 标题填充成功')
+        console.log('[FaFaFa-全部发] OSChina 标题填充成功')
       }
 
       // 3. 填充 Markdown 内容到 textarea
@@ -3214,9 +3214,9 @@ function fillContentOnPage(content, platformId) {
         }
         textarea.dispatchEvent(new Event('input', { bubbles: true }))
         textarea.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[Imgto.link Publisher] OSChina Markdown 内容填充成功，长度:', mdContent.length)
+        console.log('[FaFaFa-全部发] OSChina Markdown 内容填充成功，长度:', mdContent.length)
       } else {
-        console.log('[Imgto.link Publisher] OSChina 未找到 Markdown textarea')
+        console.log('[FaFaFa-全部发] OSChina 未找到 Markdown textarea')
       }
     }
     // 博客园
@@ -3231,9 +3231,9 @@ function fillContentOnPage(content, platformId) {
         titleInput.value = title
         titleInput.dispatchEvent(new Event('input', { bubbles: true }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[Imgto.link Publisher] 博客园标题填充成功')
+        console.log('[FaFaFa-全部发] 博客园标题填充成功')
       } else {
-        console.log('[Imgto.link Publisher] 博客园未找到标题输入框')
+        console.log('[FaFaFa-全部发] 博客园未找到标题输入框')
       }
 
       // 等待编辑器加载
@@ -3246,9 +3246,9 @@ function fillContentOnPage(content, platformId) {
         editor.value = contentToFill
         editor.dispatchEvent(new Event('input', { bubbles: true }))
         editor.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[Imgto.link Publisher] 博客园内容填充成功')
+        console.log('[FaFaFa-全部发] 博客园内容填充成功')
       } else {
-        console.log('[Imgto.link Publisher] 博客园未找到编辑器')
+        console.log('[FaFaFa-全部发] 博客园未找到编辑器')
       }
     }
     // InfoQ
@@ -3257,9 +3257,9 @@ function fillContentOnPage(content, platformId) {
       const titleInput = await waitFor('input[placeholder*="标题"], .title-input input, input.article-title')
       if (titleInput) {
         setInputValue(titleInput, title)
-        console.log('[Imgto.link Publisher] InfoQ 标题填充成功')
+        console.log('[FaFaFa-全部发] InfoQ 标题填充成功')
       } else {
-        console.log('[Imgto.link Publisher] InfoQ 未找到标题输入框')
+        console.log('[FaFaFa-全部发] InfoQ 未找到标题输入框')
       }
 
       // InfoQ 使用 Vue 编辑器，需要在主世界执行才能访问 __vue__
@@ -3300,7 +3300,7 @@ function fillContentOnPage(content, platformId) {
           
           const view = await waitForEditor();
           if (!view) {
-            console.log('[Imgto.link Publisher] InfoQ 编辑器初始化超时');
+            console.log('[FaFaFa-全部发] InfoQ 编辑器初始化超时');
             return;
           }
           
@@ -3324,9 +3324,9 @@ function fillContentOnPage(content, platformId) {
             });
             
             view.dom.dispatchEvent(pasteEvent);
-            console.log('[Imgto.link Publisher] InfoQ 内容填充成功');
+            console.log('[FaFaFa-全部发] InfoQ 内容填充成功');
           } catch (e) {
-            console.log('[Imgto.link Publisher] InfoQ 内容填充失败:', e.message);
+            console.log('[FaFaFa-全部发] InfoQ 内容填充失败:', e.message);
           }
         })();
       `
@@ -3344,9 +3344,9 @@ function fillContentOnPage(content, platformId) {
         titleInput.dispatchEvent(new InputEvent('input', { bubbles: true, data: title, inputType: 'insertText' }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
         titleInput.dispatchEvent(new Event('blur', { bubbles: true }))
-        console.log('[Imgto.link Publisher] 简书标题填充成功')
+        console.log('[FaFaFa-全部发] 简书标题填充成功')
       } else {
-        console.log('[Imgto.link Publisher] 简书未找到标题输入框')
+        console.log('[FaFaFa-全部发] 简书未找到标题输入框')
       }
 
       // 等待编辑器加载
@@ -3360,14 +3360,14 @@ function fillContentOnPage(content, platformId) {
         textareaSetter.call(editor, contentToFill)
         editor.dispatchEvent(new InputEvent('input', { bubbles: true, data: contentToFill, inputType: 'insertText' }))
         editor.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[Imgto.link Publisher] 简书内容填充成功')
+        console.log('[FaFaFa-全部发] 简书内容填充成功')
       } else {
-        console.log('[Imgto.link Publisher] 简书未找到编辑器')
+        console.log('[FaFaFa-全部发] 简书未找到编辑器')
       }
     }
     // 腾讯云开发者社区
     else if (host.includes('cloud.tencent.com')) {
-      console.log('[Imgto.link Publisher] TencentCloud 开始同步...')
+      console.log('[FaFaFa-全部发] TencentCloud 开始同步...')
 
       // 等待页面加载
       await new Promise(resolve => setTimeout(resolve, 1500))
@@ -3391,12 +3391,12 @@ function fillContentOnPage(content, platformId) {
       }
 
       if (needSwitch && switchBtn) {
-        console.log('[Imgto.link Publisher] TencentCloud 检测到富文本编辑器，正在切换到 MD 编辑器...')
+        console.log('[FaFaFa-全部发] TencentCloud 检测到富文本编辑器，正在切换到 MD 编辑器...')
         switchBtn.click()
         // 等待切换完成和 CodeMirror 加载
         await new Promise(resolve => setTimeout(resolve, 2000))
       } else {
-        console.log('[Imgto.link Publisher] TencentCloud 当前已是 MD 编辑器')
+        console.log('[FaFaFa-全部发] TencentCloud 当前已是 MD 编辑器')
       }
 
       /**
@@ -3416,7 +3416,7 @@ function fillContentOnPage(content, platformId) {
       }
 
       if (!codeMirror) {
-        console.error('[Imgto.link Publisher] TencentCloud 错误：CodeMirror 未加载，请刷新页面后重试')
+        console.error('[FaFaFa-全部发] TencentCloud 错误：CodeMirror 未加载，请刷新页面后重试')
         return
       }
 
@@ -3430,18 +3430,18 @@ function fillContentOnPage(content, platformId) {
         nativeSetter.call(titleInput, title)
         titleInput.dispatchEvent(new Event('input', { bubbles: true }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[Imgto.link Publisher] TencentCloud 标题填充成功')
+        console.log('[FaFaFa-全部发] TencentCloud 标题填充成功')
       }
 
       /**
        * 第四步：填充内容到 CodeMirror
        */
       codeMirror.setValue(contentToFill)
-      console.log('[Imgto.link Publisher] TencentCloud 内容填充成功')
+      console.log('[FaFaFa-全部发] TencentCloud 内容填充成功')
     }
     // Medium
     else if (host.includes('medium.com')) {
-      console.log('[Imgto.link Publisher] Medium 开始同步...')
+      console.log('[FaFaFa-全部发] Medium 开始同步...')
 
       // 等待编辑器加载
       await new Promise(resolve => setTimeout(resolve, 2000))
@@ -3455,7 +3455,7 @@ function fillContentOnPage(content, platformId) {
         titleEl.focus()
         titleEl.textContent = title
         titleEl.dispatchEvent(new Event('input', { bubbles: true }))
-        console.log('[Imgto.link Publisher] Medium 标题填充成功')
+        console.log('[FaFaFa-全部发] Medium 标题填充成功')
       }
 
       /**
@@ -3481,17 +3481,17 @@ function fillContentOnPage(content, platformId) {
         })
 
         contentEl.dispatchEvent(pasteEvent)
-        console.log('[Imgto.link Publisher] Medium 内容填充成功')
+        console.log('[FaFaFa-全部发] Medium 内容填充成功')
       }
     }
     // 搜狐号 - 由 syncToPlatform 单独处理，这里跳过
     else if (host.includes('mp.sohu.com')) {
-      console.log('[Imgto.link Publisher] 搜狐号由 syncToPlatform 处理')
+      console.log('[FaFaFa-全部发] 搜狐号由 syncToPlatform 处理')
     }
     // ModelScope 魔搭社区
     // 使用仓颉(cangjie)富文本编辑器，需要特殊的事件序列来触发"转为富文本"
     else if (host.includes('modelscope.cn')) {
-      console.log('[Imgto.link Publisher] ModelScope 开始同步...')
+      console.log('[FaFaFa-全部发] ModelScope 开始同步...')
 
       // 等待页面加载
       await new Promise(resolve => setTimeout(resolve, 2000))
@@ -3527,7 +3527,7 @@ function fillContentOnPage(content, platformId) {
 
         textarea.dispatchEvent(new Event('change', { bubbles: true }))
 
-        console.log('[Imgto.link Publisher] ModelScope 内容填充成功')
+        console.log('[FaFaFa-全部发] ModelScope 内容填充成功')
 
         // 等待"转为富文本"按钮出现并点击
         await new Promise(resolve => setTimeout(resolve, 800))
@@ -3537,7 +3537,7 @@ function fillContentOnPage(content, platformId) {
           // 使用特定选择器
           const richTextBtn = document.querySelector('[data-testid="menu-item-markdownToDoc"][data-role="markdownToDoc"]')
           if (richTextBtn) {
-            console.log('[Imgto.link Publisher] ModelScope 找到"转为富文本"按钮，点击中...')
+            console.log('[FaFaFa-全部发] ModelScope 找到"转为富文本"按钮，点击中...')
             richTextBtn.click()
             return true
           }
@@ -3547,7 +3547,7 @@ function fillContentOnPage(content, platformId) {
           for (const el of allElements) {
             const text = el.textContent?.trim()
             if (text === '转为富文本' || text?.includes('转为富文本')) {
-              console.log('[Imgto.link Publisher] ModelScope 找到"转为富文本"按钮（通过文本），点击中...')
+              console.log('[FaFaFa-全部发] ModelScope 找到"转为富文本"按钮（通过文本），点击中...')
               el.click()
               return true
             }
@@ -3563,18 +3563,18 @@ function fillContentOnPage(content, platformId) {
         }
 
         if (found) {
-          console.log('[Imgto.link Publisher] ModelScope 已点击"转为富文本"')
+          console.log('[FaFaFa-全部发] ModelScope 已点击"转为富文本"')
         } else {
-          console.log('[Imgto.link Publisher] ModelScope 未找到"转为富文本"按钮（可能已自动转换）')
+          console.log('[FaFaFa-全部发] ModelScope 未找到"转为富文本"按钮（可能已自动转换）')
         }
       } else if (cangjieEditor) {
         // 降级：直接操作仓颉编辑器
         cangjieEditor.focus()
         document.execCommand('selectAll', false, null)
         document.execCommand('insertText', false, contentToFill)
-        console.log('[Imgto.link Publisher] ModelScope 通过 execCommand 填充')
+        console.log('[FaFaFa-全部发] ModelScope 通过 execCommand 填充')
       } else {
-        console.log('[Imgto.link Publisher] ModelScope 未找到编辑器')
+        console.log('[FaFaFa-全部发] ModelScope 未找到编辑器')
       }
     }
     // 通用处理
@@ -3599,7 +3599,7 @@ function fillContentOnPage(content, platformId) {
       }
     }
 
-    console.log('[Imgto.link Publisher] 内容已填充，请检查并发布')
+    console.log('[FaFaFa-全部发] 内容已填充，请检查并发布')
   }
 
   fill().catch(console.error)
@@ -3628,12 +3628,12 @@ function waitForTab(tabId, timeout = 60000) {
           urlReadyTime = Date.now()
         }
         if (urlReady && Date.now() - urlReadyTime > 10000) {
-          console.log('[Imgto.link Publisher] waitForTab: 页面 URL 已就绪但 status 仍为 loading，提前继续')
+          console.log('[FaFaFa-全部发] waitForTab: 页面 URL 已就绪但 status 仍为 loading，提前继续')
           setTimeout(resolve, 1500)
           return
         }
         if (Date.now() - start > timeout) {
-          console.log('[Imgto.link Publisher] waitForTab: 超时，继续执行')
+          console.log('[FaFaFa-全部发] waitForTab: 超时，继续执行')
           resolve()
         } else {
           setTimeout(check, 300)

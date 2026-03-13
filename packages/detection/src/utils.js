@@ -23,7 +23,7 @@ export async function convertAvatarToBase64(avatarUrl, referer) {
             return `data:${mime};base64,${base64}`
         }
     } catch (e) {
-        console.log('[Imgto.link Publisher] avatar base64 conversion failed:', e.message)
+        console.log('[FaFaFa-全部发] avatar base64 conversion failed:', e.message)
     }
     return avatarUrl
 }
@@ -53,20 +53,20 @@ export async function checkLoginByCookie(platformId, config) {
             }
         }
 
-        console.log(`[Imgto.link Publisher] ${platformId} 找到的cookies:`, Object.keys(cookieMap))
+        console.log(`[FaFaFa-全部发] ${platformId} 找到的cookies:`, Object.keys(cookieMap))
 
         const hasLoginCookie = config.cookieNames && config.cookieNames.some(name => cookieMap[name])
 
         if (!hasLoginCookie) {
-            console.log(`[Imgto.link Publisher] ${platformId} 未找到登录 cookie`)
+            console.log(`[FaFaFa-全部发] ${platformId} 未找到登录 cookie`)
             return { loggedIn: false }
         }
 
         // 自定义 cookie 值检测逻辑（如 InfoQ）
         if (config.customCheck && config.checkCookieValue) {
-            console.log(`[Imgto.link Publisher] ${platformId} 使用自定义 cookie 检测`)
+            console.log(`[FaFaFa-全部发] ${platformId} 使用自定义 cookie 检测`)
             const result = config.checkCookieValue(cookieMap)
-            console.log(`[Imgto.link Publisher] ${platformId} 自定义检测结果:`, result)
+            console.log(`[FaFaFa-全部发] ${platformId} 自定义检测结果:`, result)
             return result
         }
 
@@ -85,17 +85,17 @@ export async function checkLoginByCookie(platformId, config) {
                 const fetchedAvatar = await config.fetchAvatar(cookieMap)
                 if (fetchedAvatar) {
                     avatar = fetchedAvatar
-                    console.log(`[Imgto.link Publisher] ${platformId} 找到头像:`, avatar)
+                    console.log(`[FaFaFa-全部发] ${platformId} 找到头像:`, avatar)
                 }
             } catch (e) {
-                console.log(`[Imgto.link Publisher] ${platformId} 获取头像失败:`, e.message)
+                console.log(`[FaFaFa-全部发] ${platformId} 获取头像失败:`, e.message)
             }
         }
 
         return { loggedIn: true, username, avatar }
 
     } catch (e) {
-        console.log(`[Imgto.link Publisher] ${platformId} Cookie 检测失败:`, e.message)
+        console.log(`[FaFaFa-全部发] ${platformId} Cookie 检测失败:`, e.message)
         return { loggedIn: false, error: e.message }
     }
 }
@@ -103,7 +103,7 @@ export async function checkLoginByCookie(platformId, config) {
 // 通用 API 检测逻辑
 export async function detectByApi(platformId, config) {
     try {
-        console.log(`[Imgto.link Publisher] ${platformId} 开始 API 检测: ${config.api}`)
+        console.log(`[FaFaFa-全部发] ${platformId} 开始 API 检测: ${config.api}`)
         const controller = new AbortController()
         const timeoutId = setTimeout(() => controller.abort(), 8000)
 
@@ -124,7 +124,7 @@ export async function detectByApi(platformId, config) {
             })
             cookieStr = uniqueCookies.map(c => `${c.name}=${c.value}`).join('; ')
         } catch (e) {
-            console.log(`[Imgto.link Publisher] ${platformId} cookie 收集失败:`, e.message)
+            console.log(`[FaFaFa-全部发] ${platformId} cookie 收集失败:`, e.message)
         }
 
         const apiUrl = new URL(config.api)
@@ -149,7 +149,7 @@ export async function detectByApi(platformId, config) {
 
         const response = await fetch(config.api, fetchOptions)
         clearTimeout(timeoutId)
-        console.log(`[Imgto.link Publisher] ${platformId} API 响应状态: ${response.status}`)
+        console.log(`[FaFaFa-全部发] ${platformId} API 响应状态: ${response.status}`)
 
         let data = null
         if (config.isHtml) {
@@ -159,18 +159,18 @@ export async function detectByApi(platformId, config) {
             // 其他情况尝试 JSON 解析
             try { data = await response.json() } catch (e) { data = null }
         }
-        // console.log(`[Imgto.link Publisher] ${platformId} API 数据:`, data)
+        // console.log(`[FaFaFa-全部发] ${platformId} API 数据:`, data)
 
         const loggedIn = config.checkLogin(data)
-        // console.log(`[Imgto.link Publisher] ${platformId} checkLogin 结果: ${loggedIn}`)
+        // console.log(`[FaFaFa-全部发] ${platformId} checkLogin 结果: ${loggedIn}`)
         if (loggedIn && config.getUserInfo) {
             const userInfo = config.getUserInfo(data)
-            console.log(`[Imgto.link Publisher] ${platformId} 用户信息:`, userInfo)
+            console.log(`[FaFaFa-全部发] ${platformId} 用户信息:`, userInfo)
             return { loggedIn: true, ...userInfo }
         }
         return { loggedIn: !!loggedIn }
     } catch (error) {
-        console.log(`[Imgto.link Publisher] ${platformId} API 检测失败: ${error.message}`)
+        console.log(`[FaFaFa-全部发] ${platformId} API 检测失败: ${error.message}`)
         return { loggedIn: false, error: error.message }
     }
 }

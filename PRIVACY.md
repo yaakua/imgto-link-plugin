@@ -1,16 +1,16 @@
-# Privacy Policy for Imgto.link Publisher
+# Privacy Policy for FaFaFa-全部发
 
 **Last Updated: December 13, 2025**
 
 ## Overview
 
-Imgto.link Publisher is a browser extension that helps users publish articles from the Imgto.link Markdown editor to multiple publishing platforms. We are committed to protecting your privacy.
+FaFaFa-全部发 is a browser extension that helps users publish articles from the FaFaFa Markdown editor to multiple publishing platforms. We are committed to protecting your privacy.
 
 ## Data Collection
 
 **We do not collect any personal data.**
 
-Imgto.link Publisher operates entirely locally within your browser. The extension:
+FaFaFa-全部发 operates entirely locally within your browser. The extension:
 
 - Does **NOT** collect personally identifiable information
 - Does **NOT** collect health, financial, or authentication information
@@ -20,11 +20,11 @@ Imgto.link Publisher operates entirely locally within your browser. The extensio
 
 ## Data Usage
 
-All data processed by Imgto.link Publisher remains on your local device:
+All data processed by FaFaFa-全部发 remains on your local device:
 
-- **Article Content**: Your article title, body, and formatting are only read from imgto.link and transferred directly to the target publishing platforms within your browser.
+- **Article Content**: Your article title, body, and formatting are only read from fafafa.ai and transferred directly to the target publishing platforms within your browser.
 - **Login Status**: The extension checks login cookies on target platforms (CSDN, Juejin, WeChat, etc.) solely to verify if you are logged in. This information is not stored or transmitted.
-- **User Preferences**: Imgto.link Publisher does not persist user preferences or settings.
+- **User Preferences**: FaFaFa-全部发 does not persist user preferences or settings.
 
 ## Permissions Explained
 
@@ -39,7 +39,7 @@ All data processed by Imgto.link Publisher remains on your local device:
 
 ## Third-Party Services
 
-Imgto.link Publisher interacts with the following third-party publishing platforms only when you explicitly initiate a sync:
+FaFaFa-全部发 interacts with the following third-party publishing platforms only when you explicitly initiate a sync:
 
 - CSDN (csdn.net)
 - Juejin (juejin.cn)
@@ -54,7 +54,7 @@ Since no data is collected or transmitted to our servers, there is no risk of da
 
 ## Children's Privacy
 
-Imgto.link Publisher is not directed at children under 13 years of age, and we do not knowingly collect information from children.
+FaFaFa-全部发 is not directed at children under 13 years of age, and we do not knowingly collect information from children.
 
 ## Changes to This Policy
 
@@ -68,6 +68,6 @@ https://github.com/doocs/cose/issues
 
 ## Open Source
 
-Imgto.link Publisher is open source. You can review the complete source code at:
+FaFaFa-全部发 is open source. You can review the complete source code at:
 
 https://github.com/doocs/cose

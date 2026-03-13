@@ -12,7 +12,7 @@ const SohuPlatform = {
 // 搜狐号内容填充函数
 // 注意：搜狐号由 syncToPlatform 单独处理，此函数作为备用
 async function fillSohuContent(content, waitFor) {
-  console.log('[Imgto.link Publisher] 搜狐号由 syncToPlatform 处理')
+  console.log('[FaFaFa-全部发] 搜狐号由 syncToPlatform 处理')
 }
 
 // 导出

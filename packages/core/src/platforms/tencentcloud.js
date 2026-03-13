@@ -43,7 +43,7 @@ async function ensureMarkdownEditor() {
     
     if (switchBtn) {
         // 找到了"切换 MD 编辑器"按钮，说明当前是富文本编辑器，需要切换
-        console.log('[Imgto.link Publisher] TencentCloud 检测到富文本编辑器，正在切换到 MD 编辑器...')
+        console.log('[FaFaFa-全部发] TencentCloud 检测到富文本编辑器，正在切换到 MD 编辑器...')
         switchBtn.click()
         
         // 等待切换完成
@@ -52,7 +52,7 @@ async function ensureMarkdownEditor() {
         // 验证切换是否成功：检查 CodeMirror 是否存在
         const cm = document.querySelector('.CodeMirror')
         if (cm && cm.CodeMirror) {
-            console.log('[Imgto.link Publisher] TencentCloud 成功切换到 MD 编辑器')
+            console.log('[FaFaFa-全部发] TencentCloud 成功切换到 MD 编辑器')
             return true
         }
         
@@ -60,15 +60,15 @@ async function ensureMarkdownEditor() {
         await new Promise(resolve => setTimeout(resolve, 1000))
         const cmRetry = document.querySelector('.CodeMirror')
         if (cmRetry && cmRetry.CodeMirror) {
-            console.log('[Imgto.link Publisher] TencentCloud 成功切换到 MD 编辑器（延迟加载）')
+            console.log('[FaFaFa-全部发] TencentCloud 成功切换到 MD 编辑器（延迟加载）')
             return true
         }
         
-        console.error('[Imgto.link Publisher] TencentCloud 切换失败：CodeMirror 未加载')
+        console.error('[FaFaFa-全部发] TencentCloud 切换失败：CodeMirror 未加载')
         return false
     } else {
         // 没有找到"切换 MD 编辑器"按钮，说明已经是 MD 编辑器
-        console.log('[Imgto.link Publisher] TencentCloud 当前已是 MD 编辑器')
+        console.log('[FaFaFa-全部发] TencentCloud 当前已是 MD 编辑器')
         
         // 验证 CodeMirror 是否存在
         const cm = document.querySelector('.CodeMirror')
@@ -111,19 +111,19 @@ async function fillTencentCloudContent(content, waitFor, setInputValue) {
     const { title, body, markdown } = content
     const contentToFill = markdown || body || ''
 
-    console.log('[Imgto.link Publisher] TencentCloud 开始同步...')
+    console.log('[FaFaFa-全部发] TencentCloud 开始同步...')
     
     // 第一步：确保进入 MD 编辑器模式
     const isMarkdownMode = await ensureMarkdownEditor()
     if (!isMarkdownMode) {
-        console.error('[Imgto.link Publisher] TencentCloud 错误：无法进入 MD 编辑器模式，请手动切换后重试')
+        console.error('[FaFaFa-全部发] TencentCloud 错误：无法进入 MD 编辑器模式，请手动切换后重试')
         return
     }
 
     // 第二步：获取 CodeMirror 实例
     const codeMirror = await getCodeMirror(3000)
     if (!codeMirror) {
-        console.error('[Imgto.link Publisher] TencentCloud 错误：CodeMirror 未加载，请刷新页面后重试')
+        console.error('[FaFaFa-全部发] TencentCloud 错误：CodeMirror 未加载，请刷新页面后重试')
         return
     }
 
@@ -135,12 +135,12 @@ async function fillTencentCloudContent(content, waitFor, setInputValue) {
         nativeSetter.call(titleInput, title)
         titleInput.dispatchEvent(new Event('input', { bubbles: true }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[Imgto.link Publisher] TencentCloud 标题填充成功')
+        console.log('[FaFaFa-全部发] TencentCloud 标题填充成功')
     }
 
     // 第四步：填充内容到 CodeMirror
     codeMirror.setValue(contentToFill)
-    console.log('[Imgto.link Publisher] TencentCloud 内容填充成功')
+    console.log('[FaFaFa-全部发] TencentCloud 内容填充成功')
 }
 
 // 导出

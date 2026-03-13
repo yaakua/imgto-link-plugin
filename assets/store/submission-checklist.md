@@ -1,8 +1,8 @@
-# Imgto.link Publisher Store Submission Checklist
+# FaFaFa-全部发 Store Submission Checklist
 
 ## Branding
-- Extension name: `Imgto.link Publisher`
-- Short description: official browser extension for one-click multi-platform publishing
+- Extension name: `FaFaFa-全部发`
+- Short description: official FaFaFa-全部发 browser extension for one-click multi-platform publishing
 - Keep website landing page, manifest, README, privacy policy, and store copy aligned
 
 ## Required listing assets
@@ -21,8 +21,8 @@
 - `debugger` / clipboard-related permissions should be justified in listing notes if still retained
 
 ## Store copy consistency
-- Landing page: `https://imgto.link/publish-extension`
-- Editor entry: `https://imgto.link/mdeditor`
+- Landing page: `https://fafafa.ai/publish-extension`
+- Editor entry: `https://fafafa.ai/mdeditor`
 - Privacy policy: local processing, no analytics, no remote content storage
 
 ## Before submitting

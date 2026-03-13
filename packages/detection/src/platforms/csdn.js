@@ -9,17 +9,17 @@ import { convertAvatarToBase64 } from '../utils.js'
  */
 export async function detectCSDNUser() {
     try {
-        console.log('[Imgto.link Publisher] CSDN Detection: Starting cookie check')
+        console.log('[FaFaFa-全部发] CSDN Detection: Starting cookie check')
         const userNameCookie = await chrome.cookies.get({ url: 'https://www.csdn.net', name: 'UserName' })
 
         if (userNameCookie && userNameCookie.value) {
             const userId = userNameCookie.value
-            console.log(`[Imgto.link Publisher] CSDN UserName cookie found: ${userId}`)
+            console.log(`[FaFaFa-全部发] CSDN UserName cookie found: ${userId}`)
 
             // UserNick cookie contains the display name (e.g. 'xxxxxx')
             const userNickCookie = await chrome.cookies.get({ url: 'https://www.csdn.net', name: 'UserNick' })
             const username = (userNickCookie && userNickCookie.value) ? decodeURIComponent(userNickCookie.value) : userId
-            console.log(`[Imgto.link Publisher] CSDN display name: ${username}`)
+            console.log(`[FaFaFa-全部发] CSDN display name: ${username}`)
 
             let avatar = ''
             try {
@@ -36,7 +36,7 @@ export async function detectCSDNUser() {
                     avatar = avatarMatch[1]
                 }
             } catch (e) {
-                console.warn('[Imgto.link Publisher] CSDN Avatar fetch failed:', e)
+                console.warn('[FaFaFa-全部发] CSDN Avatar fetch failed:', e)
             }
 
             // Convert csdnimg.cn avatar to base64 data URL to bypass CORS/ORB
@@ -51,10 +51,10 @@ export async function detectCSDNUser() {
             }
         }
 
-        console.log('[Imgto.link Publisher] CSDN: No login detected')
+        console.log('[FaFaFa-全部发] CSDN: No login detected')
         return { loggedIn: false }
     } catch (e) {
-        console.error('[Imgto.link Publisher] CSDN Detection Error:', e)
+        console.error('[FaFaFa-全部发] CSDN Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

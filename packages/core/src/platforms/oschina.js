@@ -29,7 +29,7 @@ async function fillOSChinaContent(content, waitFor, setInputValue) {
             }
             if (confirmBtn) {
                 confirmBtn.click()
-                console.log('[Imgto.link Publisher] OSChina 已确认切换到MD编辑器')
+                console.log('[FaFaFa-全部发] OSChina 已确认切换到MD编辑器')
             }
             await new Promise(resolve => setTimeout(resolve, 2000))
         }
@@ -47,7 +47,7 @@ async function fillOSChinaContent(content, waitFor, setInputValue) {
         }
         titleInput.dispatchEvent(new Event('input', { bubbles: true }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[Imgto.link Publisher] OSChina 标题填充成功')
+        console.log('[FaFaFa-全部发] OSChina 标题填充成功')
     }
 
     // 3. 填充 Markdown 内容到 textarea
@@ -68,9 +68,9 @@ async function fillOSChinaContent(content, waitFor, setInputValue) {
         }
         textarea.dispatchEvent(new Event('input', { bubbles: true }))
         textarea.dispatchEvent(new Event('change', { bubbles: true }))
-        console.log('[Imgto.link Publisher] OSChina Markdown 内容填充成功')
+        console.log('[FaFaFa-全部发] OSChina Markdown 内容填充成功')
     } else {
-        console.log('[Imgto.link Publisher] OSChina 未找到 Markdown textarea')
+        console.log('[FaFaFa-全部发] OSChina 未找到 Markdown textarea')
     }
 }
 

@@ -1,17 +1,17 @@
 {
   "name": "imgto-link-publisher-extension",
   "version": "1.3.1",
-  "description": "Official Imgto.link extension for one-click multi-platform publishing.",
+  "description": "Official FaFaFa-全部发 extension for one-click multi-platform publishing.",
   "type": "module",
   "scripts": {
     "dev": "mkdir -p /tmp/chrome-debug-profile && web-ext run --source-dir ./dist --target=chromium --chromium-binary \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --chromium-profile /tmp/chrome-debug-profile --keep-profile-changes",
     "dev:chrome": "mkdir -p /tmp/chrome-debug-profile && '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222 --user-data-dir=/tmp/chrome-debug-profile --load-extension=$(pwd)/dist",
-    "dev:watch": "bun run scripts/reload-extension.mjs",
-    "build": "bun run scripts/cli.ts build",
-    "build:firefox": "bun run scripts/cli.ts build --target firefox",
-    "build:safari": "bun run scripts/cli.ts build --target safari",
-    "build:release": "bun run scripts/cli.ts build --release",
-    "watch": "bun run scripts/cli.ts build --watch",
+    "dev:watch": "bun scripts/reload-extension.mjs",
+    "build": "bun scripts/cli.ts build",
+    "build:firefox": "bun scripts/cli.ts build --target firefox",
+    "build:safari": "bun scripts/cli.ts build --target safari",
+    "build:release": "bun scripts/cli.ts build --release",
+    "watch": "bun scripts/cli.ts build --watch",
     "lint": "web-ext lint --source-dir ./dist"
   },
   "dependencies": {
@@ -22,7 +22,6 @@
     "cac": "^6.7.14",
     "execa": "^9.6.1",
     "rimraf": "^5.0.5",
-    "tsx": "^4.21.0",
     "vite": "^5.0.12",
     "vite-plugin-static-copy": "^1.0.1",
     "web-ext": "^7.11.0",

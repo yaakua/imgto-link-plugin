@@ -34,9 +34,9 @@ async function fillBaijiahaoContent(content, waitFor, setInputValue) {
     }
     titleEditor.dispatchEvent(new Event('input', { bubbles: true }))
     titleEditor.dispatchEvent(new Event('change', { bubbles: true }))
-    console.log('[Imgto.link Publisher] 百家号标题填充成功')
+    console.log('[FaFaFa-全部发] 百家号标题填充成功')
   } else {
-    console.log('[Imgto.link Publisher] 百家号未找到标题输入框')
+    console.log('[FaFaFa-全部发] 百家号未找到标题输入框')
   }
 
   // 2. 等待编辑器加载
@@ -56,7 +56,7 @@ async function fillBaijiahaoContent(content, waitFor, setInputValue) {
         .join('')
       iframeBody.innerHTML = htmlContent
       iframeBody.dispatchEvent(new Event('input', { bubbles: true }))
-      console.log('[Imgto.link Publisher] 百家号 iframe 编辑器填充成功')
+      console.log('[FaFaFa-全部发] 百家号 iframe 编辑器填充成功')
       return
     }
   }
@@ -70,10 +70,10 @@ async function fillBaijiahaoContent(content, waitFor, setInputValue) {
         .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
         .join('')
       editor.setContent(htmlContent)
-      console.log('[Imgto.link Publisher] 百家号通过 UEditor API 填充成功')
+      console.log('[FaFaFa-全部发] 百家号通过 UEditor API 填充成功')
       return
     } catch (e) {
-      console.log('[Imgto.link Publisher] 百家号 UEditor API 调用失败', e)
+      console.log('[FaFaFa-全部发] 百家号 UEditor API 调用失败', e)
     }
   }
 
@@ -83,9 +83,9 @@ async function fillBaijiahaoContent(content, waitFor, setInputValue) {
     contentEditor.focus()
     contentEditor.innerHTML = contentToFill.replace(/\n/g, '<br>')
     contentEditor.dispatchEvent(new Event('input', { bubbles: true }))
-    console.log('[Imgto.link Publisher] 百家号 contenteditable 降级填充成功')
+    console.log('[FaFaFa-全部发] 百家号 contenteditable 降级填充成功')
   } else {
-    console.log('[Imgto.link Publisher] 百家号未找到编辑器元素')
+    console.log('[FaFaFa-全部发] 百家号未找到编辑器元素')
   }
 }
 

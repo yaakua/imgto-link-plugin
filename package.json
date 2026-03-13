@@ -2,13 +2,13 @@
   "name": "imgto-link-publisher-monorepo",
   "private": true,
   "scripts": {
-    "build": "bun run -C apps/extension build",
-    "build:firefox": "bun run -C apps/extension build:firefox",
-    "build:safari": "bun run -C apps/extension build:safari",
-    "dev": "bun run -C apps/extension dev",
-    "dev:chrome": "bun run -C apps/extension dev:chrome",
-    "dev:watch": "bun run -C apps/extension dev:watch",
-    "lint": "bun run --workspaces --if-present lint"
+    "build": "cd apps/extension && bun run build",
+    "build:firefox": "cd apps/extension && bun run build:firefox",
+    "build:safari": "cd apps/extension && bun run build:safari",
+    "dev": "cd apps/extension && bun run dev",
+    "dev:chrome": "cd apps/extension && bun run dev:chrome",
+    "dev:watch": "cd apps/extension && bun run dev:watch",
+    "lint": "cd apps/extension && bun run lint"
   },
   "devDependencies": {
     "typescript": "^5.0.0"

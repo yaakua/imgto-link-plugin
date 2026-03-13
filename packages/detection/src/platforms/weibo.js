@@ -22,7 +22,7 @@ export async function detectWeiboUser() {
         })
 
         if (!subpCookie && !alfCookie) {
-            console.log(`[Imgto.link Publisher] weibo 未找到登录 cookie，未登录`)
+            console.log(`[FaFaFa-全部发] weibo 未找到登录 cookie，未登录`)
             return { loggedIn: false }
         }
 
@@ -75,9 +75,9 @@ export async function detectWeiboUser() {
                 }
             }
 
-            console.log(`[Imgto.link Publisher] weibo 用户信息: ${username}`)
+            console.log(`[FaFaFa-全部发] weibo 用户信息: ${username}`)
         } catch (e) {
-            console.log(`[Imgto.link Publisher] weibo 获取用户详情失败:`, e.message)
+            console.log(`[FaFaFa-全部发] weibo 获取用户详情失败:`, e.message)
         }
 
         if (!username) {
@@ -91,7 +91,7 @@ export async function detectWeiboUser() {
 
         return { loggedIn: true, username, avatar }
     } catch (e) {
-        console.log(`[Imgto.link Publisher] weibo 检测失败:`, e.message)
+        console.log(`[FaFaFa-全部发] weibo 检测失败:`, e.message)
         return { loggedIn: false }
     }
 }

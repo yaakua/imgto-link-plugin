@@ -21,7 +21,7 @@ function fillAlipayOpenContent(title, markdown) {
   
   return (async () => {
     try {
-      console.log('[Imgto.link Publisher] 支付宝开放平台 开始填充, 标题:', title)
+      console.log('[FaFaFa-全部发] 支付宝开放平台 开始填充, 标题:', title)
 
       // 等待页面加载
       await sleep(500)
@@ -41,7 +41,7 @@ function fillAlipayOpenContent(title, markdown) {
         }
       }
       
-      console.log('[Imgto.link Publisher] 支付宝开放平台 查找标题输入框:', !!titleInput)
+      console.log('[FaFaFa-全部发] 支付宝开放平台 查找标题输入框:', !!titleInput)
       
       if (titleInput && title) {
         titleInput.focus()
@@ -50,9 +50,9 @@ function fillAlipayOpenContent(title, markdown) {
         titleInput.dispatchEvent(new Event('input', { bubbles: true }))
         titleInput.dispatchEvent(new Event('change', { bubbles: true }))
         titleInput.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }))
-        console.log('[Imgto.link Publisher] 支付宝开放平台 标题填充成功:', title)
+        console.log('[FaFaFa-全部发] 支付宝开放平台 标题填充成功:', title)
       } else {
-        console.log('[Imgto.link Publisher] 支付宝开放平台 标题填充失败 - input:', !!titleInput, 'title:', !!title)
+        console.log('[FaFaFa-全部发] 支付宝开放平台 标题填充失败 - input:', !!titleInput, 'title:', !!title)
       }
 
       await sleep(300)
@@ -74,7 +74,7 @@ function fillAlipayOpenContent(title, markdown) {
         })
         
         editor.dispatchEvent(pasteEvent)
-        console.log('[Imgto.link Publisher] 支付宝开放平台 内容粘贴成功')
+        console.log('[FaFaFa-全部发] 支付宝开放平台 内容粘贴成功')
 
         // 等待并点击"立即转换"按钮
         let confirmed = false
@@ -86,7 +86,7 @@ function fillAlipayOpenContent(title, markdown) {
           if (convertBtn) {
             convertBtn.click()
             confirmed = true
-            console.log('[Imgto.link Publisher] 支付宝开放平台 Markdown 转换成功')
+            console.log('[FaFaFa-全部发] 支付宝开放平台 Markdown 转换成功')
             break
           }
         }
@@ -96,7 +96,7 @@ function fillAlipayOpenContent(title, markdown) {
 
       return { success: false, error: '未找到编辑器' }
     } catch (e) {
-      console.error('[Imgto.link Publisher] 支付宝开放平台 填充失败:', e)
+      console.error('[FaFaFa-全部发] 支付宝开放平台 填充失败:', e)
       return { success: false, error: e.message }
     }
   })()

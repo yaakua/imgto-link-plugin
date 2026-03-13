@@ -45,7 +45,7 @@ export async function detectWangyihaoUser() {
 
         return { loggedIn: true, username, avatar }
     } catch (e) {
-        console.error('[Imgto.link Publisher] Wangyihao Detection Error:', e)
+        console.error('[FaFaFa-全部发] Wangyihao Detection Error:', e)
         return { loggedIn: false, error: e.message }
     }
 }

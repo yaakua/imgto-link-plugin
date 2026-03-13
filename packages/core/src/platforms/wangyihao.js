@@ -28,9 +28,9 @@ function fillWangyihaoContent(title, htmlBody) {
       titleInput.dispatchEvent(new InputEvent('input', { bubbles: true, data: title, inputType: 'insertText' }))
       titleInput.dispatchEvent(new Event('change', { bubbles: true }))
       titleInput.dispatchEvent(new Event('blur', { bubbles: true }))
-      console.log('[Imgto.link Publisher] 网易号标题已填充')
+      console.log('[FaFaFa-全部发] 网易号标题已填充')
     } else {
-      console.log('[Imgto.link Publisher] 网易号未找到标题输入框')
+      console.log('[FaFaFa-全部发] 网易号未找到标题输入框')
     }
 
     // 2. 等待 Draft.js 编辑器出现
@@ -58,10 +58,10 @@ function fillWangyihaoContent(title, htmlBody) {
       })
 
       editor.dispatchEvent(pasteEvent)
-      console.log('[Imgto.link Publisher] 网易号内容已通过 paste 事件注入')
+      console.log('[FaFaFa-全部发] 网易号内容已通过 paste 事件注入')
       return { success: true }
     } else {
-      console.log('[Imgto.link Publisher] 网易号未找到编辑器元素')
+      console.log('[FaFaFa-全部发] 网易号未找到编辑器元素')
       return { success: false, error: 'Editor not found' }
     }
   }
@@ -88,7 +88,7 @@ async function syncWangyihaoContent(tab, content, helpers) {
 
   // 使用剪贴板 HTML（带完整样式）或降级到 body
   const htmlContent = content.wechatHtml || content.body
-  console.log('[Imgto.link Publisher] 网易号 HTML 内容长度:', htmlContent?.length || 0)
+  console.log('[FaFaFa-全部发] 网易号 HTML 内容长度:', htmlContent?.length || 0)
 
   // 在页面中执行：填充标题和粘贴 HTML 内容
   const result = await chrome.scripting.executeScript({

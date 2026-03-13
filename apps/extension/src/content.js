@@ -1,16 +1,16 @@
 // Content Script - 在 md.doocs.org 或本地开发环境中运行
 // 注入 $cose 全局对象供页面使用
 
-console.log('[Imgto.link Publisher Content Script] Loaded!')
-console.log('[Imgto.link Publisher Content Script] URL:', window.location.href)
-console.log('[Imgto.link Publisher Content Script] Hostname:', window.location.hostname)
+console.log('[FaFaFa-全部发 Content Script] Loaded!')
+console.log('[FaFaFa-全部发 Content Script] URL:', window.location.href)
+console.log('[FaFaFa-全部发 Content Script] Hostname:', window.location.hostname)
 
   ; (function () {
     'use strict'
 
     // 华为云开发者博客页面：自动获取并缓存用户信息
     if (window.location.hostname.includes('huaweicloud.com')) {
-      console.log('[Imgto.link Publisher] 检测到华为云页面')
+      console.log('[FaFaFa-全部发] 检测到华为云页面')
 
       setTimeout(async () => {
         try {
@@ -36,21 +36,21 @@ console.log('[Imgto.link Publisher Content Script] Hostname:', window.location.h
                 platform: 'huaweicloud',
                 userInfo,
               }).then(() => {
-                console.log('[Imgto.link Publisher] 华为云用户信息已缓存:', userInfo.username)
+                console.log('[FaFaFa-全部发] 华为云用户信息已缓存:', userInfo.username)
               }).catch(e => {
-                console.log('[Imgto.link Publisher] 缓存失败:', e.message)
+                console.log('[FaFaFa-全部发] 缓存失败:', e.message)
               })
             }
           }
         } catch (e) {
-          console.log('[Imgto.link Publisher] 华为云用户信息缓存失败:', e.message)
+          console.log('[FaFaFa-全部发] 华为云用户信息缓存失败:', e.message)
         }
       }, 3000) // 华为云 SSO 登录需要几秒延迟
     }
 
     // 华为开发者页面：自动获取并缓存用户信息
     if (window.location.hostname.includes('developer.huawei.com')) {
-      console.log('[Imgto.link Publisher] 检测到华为开发者页面')
+      console.log('[FaFaFa-全部发] 检测到华为开发者页面')
 
       setTimeout(async () => {
         try {
@@ -117,36 +117,36 @@ console.log('[Imgto.link Publisher Content Script] Hostname:', window.location.h
                 platform: 'huaweidev',
                 userInfo,
               }).then(() => {
-                console.log('[Imgto.link Publisher] 华为开发者用户信息已缓存:', userInfo.username)
+                console.log('[FaFaFa-全部发] 华为开发者用户信息已缓存:', userInfo.username)
               }).catch(e => {
-                console.log('[Imgto.link Publisher] 缓存失败:', e.message)
+                console.log('[FaFaFa-全部发] 缓存失败:', e.message)
               })
             }
           }
         } catch (e) {
-          console.log('[Imgto.link Publisher] 华为开发者用户信息缓存失败:', e.message)
+          console.log('[FaFaFa-全部发] 华为开发者用户信息缓存失败:', e.message)
         }
       }, 3000)
     }
 
     // 小红书页面：自动获取并缓存用户信息
     if (window.location.hostname.includes('xiaohongshu.com')) {
-      console.log('[Imgto.link Publisher] 检测到小红书页面')
+      console.log('[FaFaFa-全部发] 检测到小红书页面')
 
       // 通过 background script 处理缓存
       setTimeout(async () => {
         try {
-          console.log('[Imgto.link Publisher] 开始获取小红书用户信息')
+          console.log('[FaFaFa-全部发] 开始获取小红书用户信息')
           const response = await fetch('https://creator.xiaohongshu.com/api/galaxy/user/info', {
             method: 'GET',
             credentials: 'include',
             headers: { 'Accept': 'application/json' }
           })
-          console.log('[Imgto.link Publisher] API 响应:', response.status)
+          console.log('[FaFaFa-全部发] API 响应:', response.status)
           if (!response.ok) return
 
           const data = await response.json()
-          console.log('[Imgto.link Publisher] API 数据:', data?.success, data?.code)
+          console.log('[FaFaFa-全部发] API 数据:', data?.success, data?.code)
           if (data?.success === true && data?.code === 0 && data?.data?.userId) {
             const userInfo = {
               loggedIn: true,
@@ -163,16 +163,16 @@ console.log('[Imgto.link Publisher Content Script] Hostname:', window.location.h
                 platform: 'xiaohongshu',
                 userInfo
               }).then(() => {
-                console.log('[Imgto.link Publisher] 小红书用户信息已缓存:', userInfo.username)
+                console.log('[FaFaFa-全部发] 小红书用户信息已缓存:', userInfo.username)
               }).catch(e => {
-                console.log('[Imgto.link Publisher] 缓存失败:', e.message)
+                console.log('[FaFaFa-全部发] 缓存失败:', e.message)
               })
             } else {
-              console.log('[Imgto.link Publisher] Chrome runtime 不可用')
+              console.log('[FaFaFa-全部发] Chrome runtime 不可用')
             }
           }
         } catch (e) {
-          console.log('[Imgto.link Publisher] 缓存失败:', e.message)
+          console.log('[FaFaFa-全部发] 缓存失败:', e.message)
         }
       }, 2000)
     }
@@ -208,10 +208,10 @@ console.log('[Imgto.link Publisher Content Script] Hostname:', window.location.h
                 userInfo
               })
             }
-            console.log('[Imgto.link Publisher] 支付宝用户信息已缓存:', userInfo.username)
+            console.log('[FaFaFa-全部发] 支付宝用户信息已缓存:', userInfo.username)
           }
         } catch (e) {
-          console.log('[Imgto.link Publisher] 支付宝用户信息缓存失败:', e.message)
+          console.log('[FaFaFa-全部发] 支付宝用户信息缓存失败:', e.message)
         }
       }
 
@@ -300,12 +300,12 @@ console.log('[Imgto.link Publisher Content Script] Hostname:', window.location.h
 
       if (event.data.type === 'IMGTOLINK_PUBLISHER_CACHE_USER' && event.data.platform === 'xiaohongshu') {
         if (typeof chrome !== 'undefined' && chrome.storage) {
-          console.log('[Imgto.link Publisher] 收到缓存请求，保存用户信息')
+          console.log('[FaFaFa-全部发] 收到缓存请求，保存用户信息')
           chrome.storage.local.set({ xiaohongshu_user: event.data.userInfo })
-            .then(() => console.log('[Imgto.link Publisher] 小红书用户信息已手动缓存'))
-            .catch(e => console.log('[Imgto.link Publisher] 缓存失败:', e))
+            .then(() => console.log('[FaFaFa-全部发] 小红书用户信息已手动缓存'))
+            .catch(e => console.log('[FaFaFa-全部发] 缓存失败:', e))
         } else {
-          console.log('[Imgto.link Publisher] Chrome API 不可用，无法保存缓存')
+          console.log('[FaFaFa-全部发] Chrome API 不可用，无法保存缓存')
         }
       }
     })

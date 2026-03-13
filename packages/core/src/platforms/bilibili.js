@@ -13,7 +13,7 @@ const BilibiliPlatform = {
 // B站专栏内容填充函数（由 background.js 处理）
 // 使用 UEditor 的 execCommand('inserthtml') 方法插入 HTML 内容
 async function fillBilibiliContent(content, waitFor, setInputValue) {
-  console.log('[Imgto.link Publisher] B站专栏填充由 background.js 处理')
+  console.log('[FaFaFa-全部发] B站专栏填充由 background.js 处理')
 }
 
 // 导出

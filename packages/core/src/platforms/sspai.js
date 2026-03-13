@@ -31,9 +31,9 @@ async function fillSspaiContent(content, waitFor, setInputValue) {
     titleInput.dispatchEvent(new InputEvent('input', { bubbles: true, data: title, inputType: 'insertText' }))
     titleInput.dispatchEvent(new Event('change', { bubbles: true }))
     titleInput.dispatchEvent(new Event('blur', { bubbles: true }))
-    console.log('[Imgto.link Publisher] 少数派标题填充成功')
+    console.log('[FaFaFa-全部发] 少数派标题填充成功')
   } else {
-    console.log('[Imgto.link Publisher] 少数派未找到标题输入框')
+    console.log('[FaFaFa-全部发] 少数派未找到标题输入框')
   }
 
   // 2. 等待编辑器加载
@@ -48,9 +48,9 @@ async function fillSspaiContent(content, waitFor, setInputValue) {
     editor.focus()
     editor.innerHTML = contentToFill.replace(/\n/g, '<br>')
     editor.dispatchEvent(new Event('input', { bubbles: true }))
-    console.log('[Imgto.link Publisher] 少数派编辑器填充成功')
+    console.log('[FaFaFa-全部发] 少数派编辑器填充成功')
   } else {
-    console.log('[Imgto.link Publisher] 少数派未找到编辑器元素')
+    console.log('[FaFaFa-全部发] 少数派未找到编辑器元素')
   }
 }
 

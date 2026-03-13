@@ -22,7 +22,7 @@ async function fillMediumContent(content, waitFor, setInputValue) {
     const { title, body, wechatHtml } = content
     const htmlContent = wechatHtml || body || ''
 
-    console.log('[Imgto.link Publisher] Medium 开始同步...')
+    console.log('[FaFaFa-全部发] Medium 开始同步...')
 
     // 等待编辑器加载
     await new Promise(resolve => setTimeout(resolve, 2000))
@@ -33,7 +33,7 @@ async function fillMediumContent(content, waitFor, setInputValue) {
         titleEl.focus()
         titleEl.textContent = title
         titleEl.dispatchEvent(new Event('input', { bubbles: true }))
-        console.log('[Imgto.link Publisher] Medium 标题填充成功')
+        console.log('[FaFaFa-全部发] Medium 标题填充成功')
     }
 
     // 第二步：填充内容 - 使用 paste 事件
@@ -53,7 +53,7 @@ async function fillMediumContent(content, waitFor, setInputValue) {
         })
 
         contentEl.dispatchEvent(pasteEvent)
-        console.log('[Imgto.link Publisher] Medium 内容填充成功')
+        console.log('[FaFaFa-全部发] Medium 内容填充成功')
     }
 }
 

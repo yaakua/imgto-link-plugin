@@ -186,7 +186,7 @@ function convertMarkdownToTwitterHtml(markdown, marked) {
 async function fillTwitterContent(content, waitFor, setInputValue) {
   const { title, body, markdown } = content
 
-  console.log('[Imgto.link Publisher] Twitter Articles 开始同步...')
+  console.log('[FaFaFa-全部发] Twitter Articles 开始同步...')
 
   // 等待编辑器加载
   await new Promise(resolve => setTimeout(resolve, 3000))
@@ -207,7 +207,7 @@ async function fillTwitterContent(content, waitFor, setInputValue) {
     }
     marked = window.marked
   } catch (e) {
-    console.error('[Imgto.link Publisher] 加载 marked 库失败:', e)
+    console.error('[FaFaFa-全部发] 加载 marked 库失败:', e)
     // 降级处理：直接使用原始内容
     marked = null
   }
@@ -216,7 +216,7 @@ async function fillTwitterContent(content, waitFor, setInputValue) {
   let htmlContent
   if (marked && markdown) {
     htmlContent = convertMarkdownToTwitterHtml(markdown, marked)
-    console.log('[Imgto.link Publisher] Markdown 已转换为 HTML')
+    console.log('[FaFaFa-全部发] Markdown 已转换为 HTML')
   } else {
     // 降级：使用原始 body 或简单转换
     htmlContent = body || markdown || ''
@@ -236,7 +236,7 @@ async function fillTwitterContent(content, waitFor, setInputValue) {
     nativeSetter.call(titleInput, title)
     titleInput.dispatchEvent(new Event('input', { bubbles: true }))
     titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-    console.log('[Imgto.link Publisher] Twitter Articles 标题填充成功')
+    console.log('[FaFaFa-全部发] Twitter Articles 标题填充成功')
   }
 
   // 第二步：填充内容
@@ -257,9 +257,9 @@ async function fillTwitterContent(content, waitFor, setInputValue) {
     })
 
     contentEl.dispatchEvent(pasteEvent)
-    console.log('[Imgto.link Publisher] Twitter Articles 内容填充成功 (Draft.js)')
+    console.log('[FaFaFa-全部发] Twitter Articles 内容填充成功 (Draft.js)')
   } else {
-    console.log('[Imgto.link Publisher] Twitter Articles 未找到内容编辑器')
+    console.log('[FaFaFa-全部发] Twitter Articles 未找到内容编辑器')
   }
 }
 

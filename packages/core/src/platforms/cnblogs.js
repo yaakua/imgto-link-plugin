@@ -21,7 +21,7 @@ async function fillCnblogsContent(content, waitFor, setInputValue) {
     titleInput.value = title
     titleInput.dispatchEvent(new Event('input', { bubbles: true }))
     titleInput.dispatchEvent(new Event('change', { bubbles: true }))
-    console.log('[Imgto.link Publisher] 博客园标题填充成功')
+    console.log('[FaFaFa-全部发] 博客园标题填充成功')
   }
 
   // 等待编辑器加载
@@ -32,14 +32,14 @@ async function fillCnblogsContent(content, waitFor, setInputValue) {
   const cmElement = document.querySelector('.CodeMirror')
   if (cmElement && cmElement.CodeMirror) {
     cmElement.CodeMirror.setValue(contentToFill)
-    console.log('[Imgto.link Publisher] 博客园 CodeMirror 填充成功')
+    console.log('[FaFaFa-全部发] 博客园 CodeMirror 填充成功')
     return
   }
 
   // 尝试 TinyMCE
   if (window.tinymce && window.tinymce.activeEditor) {
     window.tinymce.activeEditor.setContent(contentToFill)
-    console.log('[Imgto.link Publisher] 博客园 TinyMCE 填充成功')
+    console.log('[FaFaFa-全部发] 博客园 TinyMCE 填充成功')
     return
   }
 
@@ -49,9 +49,9 @@ async function fillCnblogsContent(content, waitFor, setInputValue) {
     textarea.focus()
     textarea.value = contentToFill
     textarea.dispatchEvent(new Event('input', { bubbles: true }))
-    console.log('[Imgto.link Publisher] 博客园 textarea 填充成功')
+    console.log('[FaFaFa-全部发] 博客园 textarea 填充成功')
   } else {
-    console.log('[Imgto.link Publisher] 博客园 未找到编辑器')
+    console.log('[FaFaFa-全部发] 博客园 未找到编辑器')
   }
 }
 
