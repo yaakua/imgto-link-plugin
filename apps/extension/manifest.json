@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "FaFaFa-全部发",
-  "description": "Official FaFaFa-全部发 extension for one-click multi-platform publishing.",
+  "default_locale": "en",
+  "name": "__MSG_extensionName__",
+  "description": "__MSG_extensionDescription__",
   "permissions": [
     "tabGroups",
     "activeTab",
@@ -63,7 +64,7 @@
       "48": "icons/imgtolink_publisher_48.png",
       "128": "icons/imgtolink_publisher_128.png"
     },
-    "default_title": "FaFaFa-全部发"
+    "default_title": "__MSG_extensionActionTitle__"
   },
   "background": {
     "service_worker": "bundles/background.js",

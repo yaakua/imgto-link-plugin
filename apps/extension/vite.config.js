@@ -42,6 +42,10 @@ export default defineConfig({
                     dest: '.',
                 },
                 {
+                    src: '_locales',
+                    dest: '.',
+                },
+                {
                     src: 'src/offscreen.html',
                     dest: '.',
                 },
