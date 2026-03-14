@@ -22,9 +22,9 @@ Do not upload the source directory `apps/extension/` directly.
 - `bundles/platforms/*`
 
 ### Icon assets
-- `icons/imgtolink_publisher_16.png`
-- `icons/imgtolink_publisher_48.png`
-- `icons/imgtolink_publisher_128.png`
+- `icons/fafafa_publisher_16.png`
+- `icons/fafafa_publisher_48.png`
+- `icons/fafafa_publisher_128.png`
 
 ### i18n resources
 - `_locales/en/messages.json`

@@ -22,9 +22,9 @@
 - `bundles/platforms/*`
 
 ### 3) 图标资源
-- `icons/imgtolink_publisher_16.png`
-- `icons/imgtolink_publisher_48.png`
-- `icons/imgtolink_publisher_128.png`
+- `icons/fafafa_publisher_16.png`
+- `icons/fafafa_publisher_48.png`
+- `icons/fafafa_publisher_128.png`
 
 ### 4) 多语言资源
 - `_locales/en/messages.json`

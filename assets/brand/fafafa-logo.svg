@@ -1,0 +1,25 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#09122B"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+    <filter id="blur" x="0" y="0" width="1024" height="1024" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="240" fill="url(#bg)"/>
+  <g filter="url(#blur)" opacity="0.55">
+    <circle cx="760" cy="200" r="220" fill="#60A5FA"/>
+    <circle cx="760" cy="780" r="220" fill="#16C47F"/>
+  </g>
+  <rect x="62" y="62" width="900" height="900" rx="220" fill="white" fill-opacity="0.06" stroke="white" stroke-opacity="0.12"/>
+  <rect x="308" y="205" width="132" height="594" rx="58" fill="#F5FAFF"/>
+  <rect x="308" y="225" width="348" height="102" rx="51" fill="#F5FAFF"/>
+  <rect x="326" y="430" width="246" height="92" rx="46" fill="#F5FAFF"/>
+  <circle cx="640" cy="576" r="165" stroke="#4DD0FF" stroke-width="62"/>
+  <rect x="672" y="492" width="88" height="318" rx="44" fill="#4DD0FF"/>
+  <path d="M420 513L505 451L577 469L470 591L420 513Z" fill="#4DD0FF"/>
+  <circle cx="750" cy="287" r="36" fill="#16C47F"/>
+  <rect x="616" y="820" width="205" height="42" rx="21" fill="white" fill-opacity="0.22"/>
+</svg>
