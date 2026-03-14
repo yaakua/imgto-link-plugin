@@ -327,10 +327,16 @@
     },
   }
 
+  window.$fafafaPublisher = publisherBridge
   window.$imgtoLinkPublisher = publisherBridge
 
   // 通知页面插件已加载
   console.log('[FaFaFa-全部发] Bridge loaded')
+  window.dispatchEvent(
+    new CustomEvent('fafafa-publisher-ready', {
+      detail: { version: BRIDGE_VERSION },
+    })
+  )
   window.dispatchEvent(
     new CustomEvent('imgtolink-publisher-ready', {
       detail: { version: BRIDGE_VERSION },

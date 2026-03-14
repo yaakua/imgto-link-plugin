@@ -4,7 +4,7 @@
 FaFaFa-全部发
 
 ## Store Summary (Short Description)
-Publish from fafafa.ai mdeditor to multiple platforms with one click, while checking login state and preserving formatting where possible.
+Publish from imgto.link or fafafa.ai mdeditor to multiple platforms with one click, while checking login state and preserving formatting where possible.
 
 ## Optional Taglines
 - Write once, publish to multiple platforms
@@ -15,9 +15,9 @@ Publish from fafafa.ai mdeditor to multiple platforms with one click, while chec
 markdown, publishing, cross-posting, multiposting, browser extension, creators, fafafa.ai, WeChat, Xiaohongshu, Juejin, CSDN
 
 ## Long Description
-FaFaFa-全部发 is the official browser extension for fafafa.ai, built for creators who need to distribute one Markdown article across multiple publishing platforms.
+FaFaFa-全部发 is the official browser extension for imgto.link and fafafa.ai, built for creators who need to distribute one Markdown article across multiple publishing platforms.
 
-After installation, open fafafa.ai mdeditor, click **Publish**, detect signed-in platform accounts, choose your targets, and let the extension open platform editors and fill content automatically.
+After installation, open the mdeditor on imgto.link or fafafa.ai, click **Publish**, detect signed-in platform accounts, choose your targets, and let the extension open platform editors and fill content automatically.
 
 Key capabilities:
 - Write once, distribute to multiple platforms

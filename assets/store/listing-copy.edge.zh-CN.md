@@ -4,12 +4,12 @@
 FaFaFa-全部发
 
 ## 简短描述
-从 fafafa.ai mdeditor 一键发布到多个内容平台，自动检测登录状态并尽可能保留排版。
+从 imgto.link 或 fafafa.ai 的 mdeditor 一键发布到多个内容平台，自动检测登录状态并尽可能保留排版。
 
 ## 详细描述
-FaFaFa-全部发 是 fafafa.ai 官方浏览器扩展，帮助创作者把同一篇 Markdown 内容快速同步到多个内容平台。
+FaFaFa-全部发 是 imgto.link 与 fafafa.ai 的官方浏览器扩展，帮助创作者把同一篇 Markdown 内容快速同步到多个内容平台。
 
-安装后，用户可直接在 fafafa.ai 的 mdeditor 中点击“发布”，检测当前浏览器中已登录的平台账号，选择目标平台后由插件自动打开目标编辑器并填充内容。
+安装后，用户可直接在 imgto.link 或 fafafa.ai 的 mdeditor 中点击“发布”，检测当前浏览器中已登录的平台账号，选择目标平台后由插件自动打开目标编辑器并填充内容。
 
 ### 核心能力
 - 一次编辑，多平台分发

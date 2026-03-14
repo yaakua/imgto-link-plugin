@@ -20,7 +20,6 @@
     "https://*.jianshu.com/*",
     "https://*.segmentfault.com/*",
     "https://*.toutiao.com/*",
-    "https://*.douban.com/*",
     "https://*.bilibili.com/*",
     "https://*.weibo.com/*",
     "https://*.sinaimg.cn/*",
@@ -28,11 +27,6 @@
     "https://*.zhihu.com/*",
     "https://*.sspai.com/*",
     "https://cdnfile.sspai.com/*",
-    "https://*.xueqiu.com/*",
-    "https://*.eastmoney.com/*",
-    "https://*.wordpress.com/*",
-    "https://*.wordpress.org/*",
-    "https://md.doocs.org/*",
     "https://*.cnblogs.com/*",
     "https://*.oschina.net/*",
     "https://*.51cto.com/*",
@@ -45,15 +39,11 @@
     "https://*.aliyun.com/*",
     "https://*.huaweicloud.com/*",
     "https://*.huawei.com/*",
-    "https://*.hicloud.com/*",
     "https://*.x.com/*",
-    "https://*.twitter.com/*",
     "https://qianfan.cloud.baidu.com/*",
     "https://*.alipay.com/*",
     "https://*.modelscope.cn/*",
-    "https://*.alicdn.com/*",
     "https://*.volcengine.com/*",
-    "https://*.byteacctimg.com/*",
     "https://*.douyin.com/*",
     "https://*.xiaohongshu.com/*",
     "https://*.elecfans.com/*"
@@ -73,6 +63,8 @@
   "content_scripts": [
     {
       "matches": [
+        "https://imgto.link/*",
+        "https://*.imgto.link/*",
         "https://fafafa.ai/*",
         "https://*.fafafa.ai/*",
         "https://md.doocs.org/*",
@@ -101,6 +93,8 @@
         "bundles/platforms/*.js"
       ],
       "matches": [
+        "https://imgto.link/*",
+        "https://*.imgto.link/*",
         "https://fafafa.ai/*",
         "https://*.fafafa.ai/*",
         "https://md.doocs.org/*",
