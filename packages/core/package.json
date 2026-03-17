@@ -10,6 +10,7 @@
         "./utils": "./src/utils.js"
     },
     "dependencies": {
-        "@fafafa/publisher-detection": "workspace:*"
+        "@fafafa/publisher-detection": "workspace:*",
+        "marked": "^15.0.12"
     }
 }

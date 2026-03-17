@@ -1,5 +1,6 @@
 // Twitter Articles 平台配置
 // 使用 marked 进行 Markdown 解析，并转换为 Twitter Articles 支持的格式
+import { marked } from 'marked'
 
 const TwitterPlatform = {
   id: 'twitter',
@@ -190,27 +191,6 @@ async function fillTwitterContent(content, waitFor, setInputValue) {
 
   // 等待编辑器加载
   await new Promise(resolve => setTimeout(resolve, 3000))
-
-  // 动态加载 marked 库
-  let marked
-  try {
-    // 尝试从 CDN 加载 marked
-    if (!window.marked) {
-      const script = document.createElement('script')
-      script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js'
-      document.head.appendChild(script)
-      await new Promise((resolve, reject) => {
-        script.onload = resolve
-        script.onerror = reject
-        setTimeout(reject, 5000) // 5秒超时
-      })
-    }
-    marked = window.marked
-  } catch (e) {
-    console.error('[FaFaFa-全部发] 加载 marked 库失败:', e)
-    // 降级处理：直接使用原始内容
-    marked = null
-  }
 
   // 转换 Markdown 为 Twitter Articles HTML
   let htmlContent

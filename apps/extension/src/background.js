@@ -3262,76 +3262,60 @@ function fillContentOnPage(content, platformId) {
         console.log('[FaFaFa-全部发] InfoQ 未找到标题输入框')
       }
 
-      // InfoQ 使用 Vue 编辑器，需要在主世界执行才能访问 __vue__
-      // 通过注入 script 标签的方式在主世界执行
-      // 使用 ProseMirror view + 剪贴板粘贴方式填充内容
-      const script = document.createElement('script')
-      script.textContent = `
-        (async function() {
-          const content = ${JSON.stringify(contentToFill)};
-          
-          // 等待编辑器完全初始化的函数
-          const waitForEditor = () => {
-            return new Promise((resolve) => {
-              let attempts = 0;
-              const maxAttempts = 30; // 最多等待 15 秒
-              
-              const check = () => {
-                attempts++;
-                const gkEditor = document.querySelector('.gk-editor');
-                if (gkEditor && gkEditor.__vue__) {
-                  const vm = gkEditor.__vue__;
-                  const api = vm.editorAPI;
-                  // 检查 ProseMirror view 是否就绪
-                  if (api && api.editor && api.editor.view) {
-                    resolve(api.editor.view);
-                    return;
-                  }
-                }
-                if (attempts < maxAttempts) {
-                  setTimeout(check, 500);
-                } else {
-                  resolve(null);
-                }
-              };
-              check();
-            });
-          };
-          
-          const view = await waitForEditor();
-          if (!view) {
-            console.log('[FaFaFa-全部发] InfoQ 编辑器初始化超时');
-            return;
+      // fillContentOnPage 已在 MAIN world 执行，可直接访问页面上的 Vue/ProseMirror 实例
+      const waitForEditor = () => {
+        return new Promise((resolve) => {
+          let attempts = 0
+          const maxAttempts = 30
+
+          const check = () => {
+            attempts++
+            const gkEditor = document.querySelector('.gk-editor')
+            const vm = gkEditor?.__vue__
+            const view = vm?.editorAPI?.editor?.view
+
+            if (view) {
+              resolve(view)
+              return
+            }
+
+            if (attempts < maxAttempts) {
+              setTimeout(check, 500)
+            } else {
+              resolve(null)
+            }
           }
-          
-          try {
-            // 清空编辑器现有内容
-            const state = view.state;
-            const tr = state.tr.delete(0, state.doc.content.size);
-            view.dispatch(tr);
-            
-            // 聚焦编辑器
-            view.focus();
-            
-            // 使用剪贴板粘贴方式插入内容（会自动解析 Markdown）
-            const clipboardData = new DataTransfer();
-            clipboardData.setData('text/plain', content);
-            
-            const pasteEvent = new ClipboardEvent('paste', {
-              bubbles: true,
-              cancelable: true,
-              clipboardData: clipboardData
-            });
-            
-            view.dom.dispatchEvent(pasteEvent);
-            console.log('[FaFaFa-全部发] InfoQ 内容填充成功');
-          } catch (e) {
-            console.log('[FaFaFa-全部发] InfoQ 内容填充失败:', e.message);
-          }
-        })();
-      `
-      document.head.appendChild(script)
-      script.remove()
+
+          check()
+        })
+      }
+
+      const view = await waitForEditor()
+      if (!view) {
+        console.log('[FaFaFa-全部发] InfoQ 编辑器初始化超时')
+        return
+      }
+
+      try {
+        const state = view.state
+        const tr = state.tr.delete(0, state.doc.content.size)
+        view.dispatch(tr)
+        view.focus()
+
+        const clipboardData = new DataTransfer()
+        clipboardData.setData('text/plain', contentToFill)
+
+        const pasteEvent = new ClipboardEvent('paste', {
+          bubbles: true,
+          cancelable: true,
+          clipboardData
+        })
+
+        view.dom.dispatchEvent(pasteEvent)
+        console.log('[FaFaFa-全部发] InfoQ 内容填充成功')
+      } catch (e) {
+        console.log('[FaFaFa-全部发] InfoQ 内容填充失败:', e.message)
+      }
     }
     // 简书
     else if (host.includes('jianshu.com')) {
