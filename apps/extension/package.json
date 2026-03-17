@@ -8,6 +8,7 @@
     "dev:chrome": "mkdir -p /tmp/chrome-debug-profile && '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222 --user-data-dir=/tmp/chrome-debug-profile --load-extension=$(pwd)/dist",
     "dev:watch": "bun scripts/reload-extension.mjs",
     "build": "bun scripts/cli.ts build",
+    "package:release": "bun scripts/package-release.ts",
     "build:firefox": "bun scripts/cli.ts build --target firefox",
     "build:safari": "bun scripts/cli.ts build --target safari",
     "build:release": "bun scripts/cli.ts build --release",

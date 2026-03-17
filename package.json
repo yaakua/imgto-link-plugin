@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "cd apps/extension && bun run build",
+    "package:release": "cd apps/extension && bun run package:release",
     "build:firefox": "cd apps/extension && bun run build:firefox",
     "build:safari": "cd apps/extension && bun run build:safari",
     "dev": "cd apps/extension && bun run dev",
