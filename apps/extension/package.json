@@ -1,7 +1,7 @@
 {
   "name": "imgto-link-publisher-extension",
-  "version": "1.3.1",
-  "description": "Official FaFaFa-全部发 extension for one-click multi-platform publishing.",
+  "version": "1.3.2",
+  "description": "fafafa.ai FaFaFa-全部发 extension for one-click multi-platform publishing.",
   "type": "module",
   "scripts": {
     "dev": "mkdir -p /tmp/chrome-debug-profile && web-ext run --source-dir ./dist --target=chromium --chromium-binary \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --chromium-profile /tmp/chrome-debug-profile --keep-profile-changes",

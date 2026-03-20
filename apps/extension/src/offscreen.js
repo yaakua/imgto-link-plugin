@@ -1,3 +1,56 @@
+import { LOGIN_CHECK_CONFIG } from '@fafafa/publisher-detection/src/configs.js'
+import { checkLoginByCookie, detectByApi } from '@fafafa/publisher-detection/src/utils.js'
+
+const DETECTOR_LOADERS = {
+  csdn: () => import('@fafafa/publisher-detection/src/platforms/csdn.js'),
+  oschina: () => import('@fafafa/publisher-detection/src/platforms/oschina.js'),
+  alipayopen: () => import('@fafafa/publisher-detection/src/platforms/alipay.js'),
+  weibo: () => import('@fafafa/publisher-detection/src/platforms/weibo.js'),
+  wechat: () => import('@fafafa/publisher-detection/src/platforms/wechat.js'),
+  elecfans: () => import('@fafafa/publisher-detection/src/platforms/elecfans.js'),
+  huaweicloud: () => import('@fafafa/publisher-detection/src/platforms/huaweicloud.js'),
+  huaweidev: () => import('@fafafa/publisher-detection/src/platforms/huaweidev.js'),
+  sspai: () => import('@fafafa/publisher-detection/src/platforms/sspai.js'),
+  aliyun: () => import('@fafafa/publisher-detection/src/platforms/aliyun.js'),
+  sohu: () => import('@fafafa/publisher-detection/src/platforms/sohu.js'),
+  medium: () => import('@fafafa/publisher-detection/src/platforms/medium.js'),
+  tencentcloud: () => import('@fafafa/publisher-detection/src/platforms/tencentcloud.js'),
+  qianfan: () => import('@fafafa/publisher-detection/src/platforms/qianfan.js'),
+  twitter: () => import('@fafafa/publisher-detection/src/platforms/twitter.js'),
+  bilibili: () => import('@fafafa/publisher-detection/src/platforms/bilibili.js'),
+  jianshu: () => import('@fafafa/publisher-detection/src/platforms/jianshu.js'),
+  segmentfault: () => import('@fafafa/publisher-detection/src/platforms/segmentfault.js'),
+  infoq: () => import('@fafafa/publisher-detection/src/platforms/infoq.js'),
+  modelscope: () => import('@fafafa/publisher-detection/src/platforms/modelscope.js'),
+  volcengine: () => import('@fafafa/publisher-detection/src/platforms/volcengine.js'),
+  wangyihao: () => import('@fafafa/publisher-detection/src/platforms/wangyihao.js'),
+}
+
+const DETECTOR_EXPORTS = {
+  csdn: 'detectCSDNUser',
+  oschina: 'detectOSChinaUser',
+  alipayopen: 'detectAlipayUser',
+  weibo: 'detectWeiboUser',
+  wechat: 'detectWechatUser',
+  elecfans: 'detectElecfansUser',
+  huaweicloud: 'detectHuaweiCloudUser',
+  huaweidev: 'detectHuaweiDevUser',
+  sspai: 'detectSspaiUser',
+  aliyun: 'detectAliyunUser',
+  sohu: 'detectSohuUser',
+  medium: 'detectMediumUser',
+  tencentcloud: 'detectTencentCloudUser',
+  qianfan: 'detectQianfanUser',
+  twitter: 'detectTwitterUser',
+  bilibili: 'detectBilibiliUser',
+  jianshu: 'detectJianshuUser',
+  segmentfault: 'detectSegmentFaultUser',
+  infoq: 'detectInfoQUser',
+  modelscope: 'detectModelScopeUser',
+  volcengine: 'detectVolcengineUser',
+  wangyihao: 'detectWangyihaoUser',
+}
+
 // Offscreen document for making fetch requests with cookies
 // This runs in a document context where credentials: 'include' actually works
 // (unlike the service worker where cookies are not sent/received automatically)
@@ -48,7 +101,46 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       .catch(err => sendResponse({ success: false, error: err.message }))
     return true
   }
+
+  if (message.type === 'OFFSCREEN_DETECT_PLATFORM') {
+    handleDetectPlatform(message.payload?.platformId)
+      .then(result => sendResponse({ success: true, data: result }))
+      .catch(err => sendResponse({ success: false, error: err.message }))
+    return true
+  }
 })
+
+async function handleDetectPlatform(platformId) {
+  if (!platformId) return { loggedIn: false, error: 'Missing platformId' }
+
+  if (platformId === 'cto51') return await handleDetectCto51()
+  if (platformId === 'cnblogs') return await handleDetectCnblogs()
+  if (platformId === 'xiaohongshu') return await handleDetectXiaohongshu()
+
+  const config = LOGIN_CHECK_CONFIG[platformId]
+  if (config) {
+    if (config.useCookie || (config.cookieNames && config.cookieNames.length > 0)) {
+      return await checkLoginByCookie(platformId, config)
+    }
+    if (config.api) {
+      return await detectByApi(platformId, config)
+    }
+  }
+
+  const load = DETECTOR_LOADERS[platformId]
+  const exportName = DETECTOR_EXPORTS[platformId]
+  if (!load || !exportName) {
+    return { loggedIn: false, error: `No detection available for ${platformId}` }
+  }
+
+  const mod = await load()
+  const detector = mod?.[exportName]
+  if (typeof detector !== 'function') {
+    return { loggedIn: false, error: `Detector export missing for ${platformId}` }
+  }
+
+  return await detector()
+}
 
 async function handleFetch(payload) {
   const { url, method, headers, body } = payload
