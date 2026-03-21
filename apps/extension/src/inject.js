@@ -245,7 +245,7 @@
         // 开始新的同步批次，将所有 tab 放入一个 group
         await sendMessage('START_SYNC_BATCH', {})
 
-        // 检查是否需要同步到微信公众号或百家号或网易号或 Medium 或少数派或B站专栏或微博头条或小红书（需要使用剪贴板 HTML）
+        // 检查是否需要同步到使用“复制富文本”剪贴板 HTML 的平台
         const hasWechat = selectedAccounts.some(a => (a.uid || a.type) === 'wechat')
         const hasBaijiahao = selectedAccounts.some(a => (a.uid || a.type) === 'baijiahao')
         const hasWangyihao = selectedAccounts.some(a => (a.uid || a.type) === 'wangyihao')
@@ -254,8 +254,9 @@
         const hasBilibili = selectedAccounts.some(a => (a.uid || a.type) === 'bilibili')
         const hasWeibo = selectedAccounts.some(a => (a.uid || a.type) === 'weibo')
         const hasXiaohongshu = selectedAccounts.some(a => (a.uid || a.type) === 'xiaohongshu')
+        const hasZhihu = selectedAccounts.some(a => (a.uid || a.type) === 'zhihu')
         let clipboardHtmlContent = post.wechatHtml || null
-        if (!clipboardHtmlContent && (hasWechat || hasBaijiahao || hasWangyihao || hasMedium || hasSspai || hasBilibili || hasWeibo || hasXiaohongshu)) {
+        if (!clipboardHtmlContent && (hasWechat || hasBaijiahao || hasWangyihao || hasMedium || hasSspai || hasBilibili || hasWeibo || hasXiaohongshu || hasZhihu)) {
           // 先点击复制按钮，将带样式的内容复制到剪贴板
           const copyBtn = document.querySelector('.copy-btn') ||
             document.querySelector('button[class*="copy"]') ||
@@ -299,8 +300,8 @@
                 markdown: post.markdown,
                 thumb: post.thumb,
                 desc: post.desc,
-                // 微信公众号、百家号、网易号、Medium、少数派、B站专栏、微博头条和小红书使用剪贴板中带样式的 HTML
-                wechatHtml: (platformId === 'wechat' || platformId === 'baijiahao' || platformId === 'wangyihao' || platformId === 'medium' || platformId === 'sspai' || platformId === 'bilibili' || platformId === 'weibo' || platformId === 'xiaohongshu') ? clipboardHtmlContent : null,
+                // 这些平台优先使用“复制富文本”按钮产出的剪贴板 HTML
+                wechatHtml: (platformId === 'wechat' || platformId === 'baijiahao' || platformId === 'wangyihao' || platformId === 'medium' || platformId === 'sspai' || platformId === 'bilibili' || platformId === 'weibo' || platformId === 'xiaohongshu' || platformId === 'zhihu') ? clipboardHtmlContent : null,
               },
             })
 

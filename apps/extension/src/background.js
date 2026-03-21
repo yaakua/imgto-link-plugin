@@ -345,9 +345,9 @@ async function initDynamicRules() {
 // 扩展启动时初始化规则
 initDynamicRules()
 
-// 点击扩展图标时打开 FaFaFa mdeditor
+// 点击扩展图标时打开插件介绍页
 chrome.action.onClicked.addListener(() => {
-  chrome.tabs.create({ url: 'https://fafafa.ai/mdeditor' })
+  chrome.tabs.create({ url: 'https://fafafa.ai/zh-CN/publish-extension' })
 })
 
 // 当前同步任务的 Tab Group ID
