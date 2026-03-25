@@ -35,13 +35,12 @@ Typical use cases:
 - The extension runs only after the user explicitly clicks Publish
 - Article content is processed locally in the browser by default
 - Site access is limited to fafafa.ai and supported publishing platforms for sign-in checks, opening editors, and filling content
-- If requested during review, clarify that `debugger` and `clipboardRead` are used to preserve formatting and support richer editor automation on some sites
+- If requested during review, clarify that `clipboardRead` is used to read HTML content that the user explicitly copies so formatting can be preserved on supported editors
 
 ## Permission Notes
 - `scripting`: inject content into target editors
 - `cookies`: check platform login status
 - `tabGroups` / `activeTab`: manage tabs opened during automated publishing
-- `debugger`: simulate paste behavior on platforms that require richer editor automation
 - `clipboardRead`: read rich HTML from the clipboard for publishing flows
 - `storage`: cache required local state
 - `offscreen` / `declarativeNetRequest`: support platform-specific login detection and compatibility logic

@@ -33,7 +33,6 @@ After installation, users can open the mdeditor on imgto.link or fafafa.ai, clic
 - `scripting`: inject content into target editors
 - `cookies`: check login state on supported platforms
 - `tabGroups` / `activeTab`: organize tabs opened during publishing
-- `debugger`: simulate paste behavior where richer editor automation is required
 - `clipboardRead`: read rich HTML used in publishing flows
 - `storage`: cache required local state
 - `offscreen` / `declarativeNetRequest`: support compatibility and sign-in checks

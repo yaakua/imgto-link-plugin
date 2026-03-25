@@ -36,7 +36,6 @@
 6. Submit for review
 
 ## 4. If Reviewers Ask About Permissions
-- `debugger`: used to simulate paste behavior on some rich-text editors so formatting can be preserved
 - `cookies`: used to detect whether the user is already signed in on supported platforms
 - `clipboardRead`: used to read rich HTML content for publishing flows
 

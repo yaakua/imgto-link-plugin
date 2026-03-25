@@ -34,7 +34,6 @@ All data processed by FaFaFa-全部发 remains on your local device:
 | `activeTab` | Temporarily access the current tab when you initiate a sync |
 | `scripting` | Fill article content into platform editors |
 | `cookies` | Check platform login status |
-| `debugger` | Simulate paste events for WeChat editor |
 | `clipboardRead` | Read formatted content (HTML) from the clipboard for syncing |
 
 ## Third-Party Services

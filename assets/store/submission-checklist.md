@@ -18,7 +18,7 @@
 - The extension runs only on explicit website + target platform matches
 - It does not upload article content to extension-owned servers
 - Permissions are used for login detection, opening target editors, and filling content
-- `debugger` / clipboard-related permissions should be justified in listing notes if still retained
+- Clipboard-related permissions should be justified in listing notes if still retained
 
 ## Store copy consistency
 - Landing page: `https://fafafa.ai/publish-extension`

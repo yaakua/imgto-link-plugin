@@ -1,6 +1,6 @@
 {
   "name": "imgto-link-publisher-extension",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "fafafa.ai FaFaFa-全部发 extension for one-click multi-platform publishing.",
   "type": "module",
   "scripts": {

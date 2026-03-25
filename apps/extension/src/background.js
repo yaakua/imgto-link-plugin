@@ -591,68 +591,6 @@ async function checkPlatformLogin(platform) {
   }
   return await detectUser(platform.id)
 }
-async function pasteWithDebugger(tabId) {
-  const debuggee = { tabId }
-
-  try {
-    // 附加调试器
-    await chrome.debugger.attach(debuggee, '1.3')
-    console.log('[FaFaFa-全部发] Debugger attached')
-
-    // 发送 Ctrl/Cmd 按下
-    await chrome.debugger.sendCommand(debuggee, 'Input.dispatchKeyEvent', {
-      type: 'keyDown',
-      modifiers: 2, // Ctrl
-      windowsVirtualKeyCode: 17,
-      code: 'ControlLeft',
-      key: 'Control'
-    })
-
-    // 发送 V 按下（带 Ctrl 修饰符）
-    await chrome.debugger.sendCommand(debuggee, 'Input.dispatchKeyEvent', {
-      type: 'keyDown',
-      modifiers: 2, // Ctrl
-      windowsVirtualKeyCode: 86,
-      code: 'KeyV',
-      key: 'v'
-    })
-
-    // 发送 V 释放
-    await chrome.debugger.sendCommand(debuggee, 'Input.dispatchKeyEvent', {
-      type: 'keyUp',
-      modifiers: 2,
-      windowsVirtualKeyCode: 86,
-      code: 'KeyV',
-      key: 'v'
-    })
-
-    // 发送 Ctrl 释放
-    await chrome.debugger.sendCommand(debuggee, 'Input.dispatchKeyEvent', {
-      type: 'keyUp',
-      modifiers: 0,
-      windowsVirtualKeyCode: 17,
-      code: 'ControlLeft',
-      key: 'Control'
-    })
-
-    console.log('[FaFaFa-全部发] Paste command sent via debugger')
-
-    // 等待粘贴完成
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
-  } catch (error) {
-    console.error('[FaFaFa-全部发] Debugger paste failed:', error)
-  } finally {
-    // 分离调试器
-    try {
-      await chrome.debugger.detach(debuggee)
-      console.log('[FaFaFa-全部发] Debugger detached')
-    } catch (e) {
-      // 忽略分离错误
-    }
-  }
-}
-
 // 同步到平台
 async function syncToPlatform(platformId, content) {
   const platform = PLATFORMS.find(p => p && p.id === platformId)
